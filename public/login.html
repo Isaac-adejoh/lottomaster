@@ -2,21 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>LottoMaster - Login & Win Big</title>
 <style>
 /* ============ RESET & BASE ============ */
-* {
+*,
+*::before,
+*::after {
 margin: 0;
 padding: 0;
 box-sizing: border-box;
 }
 
-html, body {
+html {
 overflow-x: hidden;
 width: 100%;
-max-width: 100%;
-position: relative;
 }
 
 body {
@@ -26,7 +26,7 @@ min-height: 100vh;
 color: white;
 overflow-x: hidden;
 width: 100%;
-max-width: 100%;
+position: relative;
 }
 
 /* ============ ANIMATED BACKGROUND ============ */
@@ -65,7 +65,7 @@ opacity: 0;
 /* Floating Dice */
 .floating-dice {
 position: fixed;
-font-size: clamp(20px, 5vw, 40px);
+font-size: 2.5rem;
 pointer-events: none;
 z-index: 0;
 animation: floatDice 8s ease-in-out infinite;
@@ -73,7 +73,11 @@ animation: floatDice 8s ease-in-out infinite;
 
 @keyframes floatDice {
 0%, 100% { transform: translateY(0) rotate(0deg); }
-50% { transform: translateY(-30px) rotate(180deg); }
+50% { transform: translateY(-5vh) rotate(180deg); }
+}
+
+@media (max-width: 768px) {
+.floating-dice { font-size: 1.5rem; }
 }
 
 /* ============ MAIN CONTAINER ============ */
@@ -83,33 +87,29 @@ z-index: 1;
 min-height: 100vh;
 display: flex;
 flex-direction: column;
-padding: clamp(10px, 3vw, 20px);
+padding: 2vh 5vw;
 width: 100%;
 max-width: 100%;
-overflow-x: hidden;
 }
 
 .login-wrapper {
-max-width: 1400px;
 width: 100%;
+max-width: 1400px;
 margin: 0 auto;
 flex: 1;
 display: flex;
 flex-direction: column;
-padding: 0 clamp(10px, 2vw, 20px);
 }
 
 /* ============ HEADER SECTION ============ */
 .main-header {
-margin-bottom: clamp(20px, 5vw, 40px);
-padding: clamp(15px, 3vw, 25px) clamp(15px, 4vw, 30px);
+margin-bottom: 5vh;
+padding: 3vh 4vw;
 background: rgba(255, 255, 255, 0.03);
 backdrop-filter: blur(10px);
-border-radius: 20px;
+border-radius: 1.5rem;
 border: 1px solid rgba(245, 158, 11, 0.2);
 width: 100%;
-max-width: 100%;
-box-sizing: border-box;
 }
 
 .header-content {
@@ -117,64 +117,67 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 flex-wrap: wrap;
-gap: clamp(10px, 3vw, 20px);
+gap: 2rem;
 width: 100%;
 }
 
 .logo-area {
 text-align: left;
 flex: 1;
-min-width: 200px;
 }
 
 .logo-area h1 {
-font-size: clamp(20px, 5vw, 32px);
+font-size: clamp(1.5rem, 6vw, 2.5rem);
 background: linear-gradient(135deg, #FFFFFF, #F59E0B);
 -webkit-background-clip: text;
 background-clip: text;
 color: transparent;
-margin-bottom: 5px;
-white-space: nowrap;
+margin-bottom: 0.25rem;
+letter-spacing: -0.02em;
 }
 
 .logo-area p {
-font-size: clamp(9px, 2.5vw, 12px);
+font-size: 0.75rem;
 opacity: 0.7;
-letter-spacing: 1px;
-white-space: nowrap;
+letter-spacing: 0.1em;
 }
 
 .live-stats {
 display: flex;
-gap: clamp(15px, 4vw, 40px);
+gap: clamp(1rem, 4vw, 3rem);
 flex-wrap: wrap;
-justify-content: flex-end;
 }
 
 .stat {
 text-align: center;
-min-width: 70px;
 }
 
 .stat-value {
-font-size: clamp(16px, 4vw, 28px);
+font-size: clamp(1.25rem, 5vw, 2rem);
 font-weight: bold;
 color: #F59E0B;
+line-height: 1.2;
 }
 
 .stat-label {
-font-size: clamp(9px, 2.5vw, 12px);
+font-size: 0.7rem;
 opacity: 0.7;
 white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+.stat-label { white-space: normal; }
+.logo-area { text-align: center; }
+.header-content { flex-direction: column; text-align: center; }
 }
 
 /* ============ MAIN SECTION ============ */
 .main-section {
 flex: 1;
 display: grid;
-grid-template-columns: 1fr 1fr;
-gap: clamp(20px, 4vw, 40px);
-margin-bottom: clamp(20px, 5vw, 40px);
+grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr));
+gap: 2rem;
+margin-bottom: 5vh;
 width: 100%;
 }
 
@@ -182,56 +185,54 @@ width: 100%;
 .login-card {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
-border-radius: clamp(20px, 4vw, 30px);
-padding: clamp(20px, 4vw, 40px);
+border-radius: 2rem;
+padding: 2rem;
 border: 1px solid rgba(245, 158, 11, 0.3);
-box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 transition: transform 0.3s, box-shadow 0.3s;
 width: 100%;
-box-sizing: border-box;
 }
 
 .login-card:hover {
-transform: translateY(-5px);
-box-shadow: 0 30px 60px -12px rgba(245, 158, 11, 0.2);
+transform: translateY(-0.5rem);
+box-shadow: 0 2rem 4rem -1rem rgba(245, 158, 11, 0.2);
 }
 
 .card-header {
 text-align: center;
-margin-bottom: clamp(20px, 5vw, 30px);
+margin-bottom: 2rem;
 }
 
 .card-header h2 {
-font-size: clamp(20px, 5vw, 28px);
-margin-bottom: 10px;
+font-size: clamp(1.5rem, 5vw, 2rem);
+margin-bottom: 0.5rem;
 }
 
 .card-header p {
 opacity: 0.6;
-font-size: clamp(12px, 3vw, 14px);
+font-size: 0.85rem;
 }
 
 /* Animated Dice */
 .dice-animation {
 display: flex;
 justify-content: center;
-gap: clamp(15px, 4vw, 20px);
-margin-bottom: 20px;
+gap: 1.5rem;
+margin-bottom: 1.5rem;
 }
 
 .animated-dice {
-width: clamp(45px, 10vw, 60px);
-height: clamp(45px, 10vw, 60px);
+width: clamp(3rem, 10vw, 5rem);
+height: clamp(3rem, 10vw, 5rem);
 background: white;
-border-radius: clamp(12px, 3vw, 15px);
+border-radius: 1rem;
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: clamp(22px, 5vw, 30px);
+font-size: clamp(1.5rem, 5vw, 2.5rem);
 font-weight: bold;
 color: #0F172A;
 animation: diceRoll 0.5s ease-out;
-box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.3);
 }
 
 @keyframes diceRoll {
@@ -244,33 +245,33 @@ box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 
 /* Form Styles */
 .input-group {
-margin-bottom: clamp(15px, 4vw, 20px);
+margin-bottom: 1.25rem;
+width: 100%;
 }
 
 .input-group label {
 display: block;
-margin-bottom: 8px;
-font-size: clamp(12px, 3vw, 14px);
+margin-bottom: 0.5rem;
+font-size: 0.85rem;
 opacity: 0.8;
 }
 
 .input-group input {
 width: 100%;
-padding: clamp(12px, 3vw, 15px) clamp(15px, 4vw, 18px);
+padding: 0.9rem 1rem;
 background: rgba(255, 255, 255, 0.1);
 border: 1px solid rgba(255, 255, 255, 0.2);
-border-radius: clamp(12px, 3vw, 15px);
+border-radius: 1rem;
 color: white;
-font-size: clamp(14px, 3.5vw, 16px);
+font-size: 1rem;
 transition: all 0.3s;
-box-sizing: border-box;
 }
 
 .input-group input:focus {
 outline: none;
 border-color: #F59E0B;
 background: rgba(255, 255, 255, 0.15);
-box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+box-shadow: 0 0 1rem rgba(245, 158, 11, 0.3);
 }
 
 .input-group input::placeholder {
@@ -282,22 +283,22 @@ color: rgba(255, 255, 255, 0.4);
 display: flex;
 justify-content: space-between;
 align-items: center;
-margin-bottom: 25px;
-font-size: clamp(12px, 3vw, 14px);
+margin-bottom: 1.5rem;
+font-size: 0.85rem;
 flex-wrap: wrap;
-gap: 10px;
+gap: 0.75rem;
 }
 
 .checkbox {
 display: flex;
 align-items: center;
-gap: 8px;
+gap: 0.5rem;
 cursor: pointer;
 }
 
 .checkbox input {
-width: 18px;
-height: 18px;
+width: 1rem;
+height: 1rem;
 cursor: pointer;
 accent-color: #F59E0B;
 }
@@ -315,21 +316,21 @@ opacity: 0.8;
 /* Buttons */
 .login-btn {
 width: 100%;
-padding: clamp(12px, 3vw, 15px);
+padding: 0.9rem;
 background: linear-gradient(135deg, #F59E0B, #D97706);
 border: none;
-border-radius: clamp(12px, 3vw, 15px);
+border-radius: 1rem;
 color: #0F172A;
-font-size: clamp(14px, 3.5vw, 18px);
+font-size: 1rem;
 font-weight: bold;
 cursor: pointer;
 transition: all 0.3s;
-margin-bottom: 20px;
+margin-bottom: 1.25rem;
 }
 
 .login-btn:hover {
 transform: scale(1.02);
-box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.5);
+box-shadow: 0 0.5rem 1.5rem -0.5rem rgba(245, 158, 11, 0.5);
 }
 
 .login-btn:active {
@@ -338,12 +339,12 @@ transform: scale(0.98);
 
 .create-btn {
 width: 100%;
-padding: clamp(12px, 3vw, 15px);
+padding: 0.9rem;
 background: transparent;
 border: 2px solid rgba(245, 158, 11, 0.5);
-border-radius: clamp(12px, 3vw, 15px);
+border-radius: 1rem;
 color: #F59E0B;
-font-size: clamp(14px, 3.5vw, 16px);
+font-size: 1rem;
 font-weight: bold;
 cursor: pointer;
 transition: all 0.3s;
@@ -356,7 +357,7 @@ border-color: #F59E0B;
 
 .divider {
 text-align: center;
-margin: 25px 0;
+margin: 1.5rem 0;
 position: relative;
 }
 
@@ -375,8 +376,8 @@ background: rgba(255, 255, 255, 0.2);
 
 .divider span {
 background: rgba(255, 255, 255, 0.05);
-padding: 0 15px;
-font-size: 12px;
+padding: 0 1rem;
+font-size: 0.75rem;
 opacity: 0.6;
 }
 
@@ -384,68 +385,66 @@ opacity: 0.6;
 .security-badges {
 display: flex;
 justify-content: center;
-gap: clamp(8px, 2.5vw, 15px);
-margin-top: 25px;
+gap: 0.75rem;
+margin-top: 1.5rem;
 flex-wrap: wrap;
 }
 
 .badge {
-padding: 5px clamp(8px, 2vw, 12px);
+padding: 0.4rem 0.8rem;
 background: rgba(255, 255, 255, 0.05);
-border-radius: 20px;
-font-size: clamp(9px, 2.5vw, 11px);
-display: flex;
+border-radius: 2rem;
+font-size: 0.7rem;
+display: inline-flex;
 align-items: center;
-gap: 5px;
-white-space: nowrap;
+gap: 0.3rem;
 }
 
 /* ============ RIGHT SIDE CONTENT ============ */
 .right-side {
 display: flex;
 flex-direction: column;
-gap: clamp(20px, 4vw, 30px);
+gap: 1.5rem;
 width: 100%;
 }
 
 /* Daily Bonus Banner */
 .daily-bonus {
 background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.05));
-border-radius: clamp(16px, 3vw, 20px);
-padding: clamp(15px, 3vw, 20px);
+border-radius: 1.25rem;
+padding: 1.25rem;
 display: flex;
 justify-content: space-between;
 align-items: center;
 flex-wrap: wrap;
-gap: 15px;
+gap: 1rem;
 border: 1px solid rgba(245, 158, 11, 0.3);
 width: 100%;
-box-sizing: border-box;
 }
 
 .bonus-info {
 display: flex;
 align-items: center;
-gap: clamp(10px, 3vw, 15px);
+gap: 1rem;
 flex-wrap: wrap;
 }
 
 .bonus-icon {
-font-size: clamp(30px, 8vw, 40px);
+font-size: 2.5rem;
 }
 
 .bonus-text h4 {
-font-size: clamp(14px, 3.5vw, 16px);
-margin-bottom: 5px;
+font-size: 1rem;
+margin-bottom: 0.25rem;
 }
 
 .bonus-text p {
-font-size: clamp(10px, 2.5vw, 12px);
+font-size: 0.75rem;
 opacity: 0.7;
 }
 
 .bonus-timer {
-font-size: clamp(18px, 4.5vw, 24px);
+font-size: 1.25rem;
 font-weight: bold;
 color: #F59E0B;
 font-family: monospace;
@@ -455,25 +454,24 @@ font-family: monospace;
 .recent-wins {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
-border-radius: clamp(20px, 4vw, 30px);
-padding: clamp(15px, 3vw, 25px);
+border-radius: 1.5rem;
+padding: 1.25rem;
 border: 1px solid rgba(245, 158, 11, 0.2);
 width: 100%;
-box-sizing: border-box;
 }
 
 .section-header {
 display: flex;
 align-items: center;
-gap: 10px;
-margin-bottom: 20px;
-padding-bottom: 15px;
+gap: 0.75rem;
+margin-bottom: 1.25rem;
+padding-bottom: 0.75rem;
 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 flex-wrap: wrap;
 }
 
 .section-header h3 {
-font-size: clamp(16px, 4vw, 18px);
+font-size: 1.1rem;
 }
 
 .wins-feed {
@@ -485,19 +483,19 @@ overflow-y: auto;
 display: flex;
 justify-content: space-between;
 align-items: center;
-padding: clamp(10px, 2.5vw, 12px);
+padding: 0.75rem;
 background: rgba(255, 255, 255, 0.03);
-border-radius: 12px;
-margin-bottom: 10px;
+border-radius: 0.75rem;
+margin-bottom: 0.75rem;
 animation: slideIn 0.3s ease-out;
 flex-wrap: wrap;
-gap: 10px;
+gap: 0.75rem;
 }
 
 @keyframes slideIn {
 from {
 opacity: 0;
-transform: translateX(-20px);
+transform: translateX(-5%);
 }
 to {
 opacity: 1;
@@ -508,52 +506,51 @@ transform: translateX(0);
 .win-user {
 display: flex;
 align-items: center;
-gap: 10px;
+gap: 0.75rem;
 flex-wrap: wrap;
 }
 
 .win-avatar {
-width: clamp(35px, 8vw, 40px);
-height: clamp(35px, 8vw, 40px);
+width: 2.5rem;
+height: 2.5rem;
 background: linear-gradient(135deg, #F59E0B, #D97706);
 border-radius: 50%;
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: clamp(16px, 4vw, 18px);
+font-size: 1.1rem;
 }
 
 .win-name {
 font-weight: bold;
-font-size: clamp(12px, 3vw, 14px);
+font-size: 0.85rem;
 }
 
 .win-game {
-font-size: clamp(10px, 2.5vw, 11px);
+font-size: 0.7rem;
 opacity: 0.6;
 }
 
 .win-amount {
 color: #F59E0B;
 font-weight: bold;
-font-size: clamp(14px, 3.5vw, 16px);
+font-size: 1rem;
 }
 
 /* Testimonials Section */
 .testimonials {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
-border-radius: clamp(20px, 4vw, 30px);
-padding: clamp(15px, 3vw, 25px);
+border-radius: 1.5rem;
+padding: 1.25rem;
 border: 1px solid rgba(245, 158, 11, 0.2);
 width: 100%;
-box-sizing: border-box;
 }
 
 .testimonials-carousel {
 position: relative;
 overflow: hidden;
-min-height: 200px;
+min-height: 220px;
 }
 
 .testimonial-slide {
@@ -566,55 +563,55 @@ display: block;
 }
 
 @keyframes fadeIn {
-from { opacity: 0; transform: translateX(20px); }
+from { opacity: 0; transform: translateX(5%); }
 to { opacity: 1; transform: translateX(0); }
 }
 
 .testimonial-text {
-font-size: clamp(12px, 3vw, 14px);
-line-height: 1.6;
-margin-bottom: 15px;
+font-size: 0.85rem;
+line-height: 1.5;
+margin-bottom: 1rem;
 font-style: italic;
 }
 
 .testimonial-author {
 display: flex;
 align-items: center;
-gap: 12px;
+gap: 0.75rem;
 flex-wrap: wrap;
 }
 
 .author-avatar {
-width: clamp(40px, 10vw, 50px);
-height: clamp(40px, 10vw, 50px);
+width: 3rem;
+height: 3rem;
 background: linear-gradient(135deg, #F59E0B, #D97706);
 border-radius: 50%;
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: clamp(20px, 5vw, 24px);
+font-size: 1.2rem;
 }
 
 .author-info h4 {
-font-size: clamp(12px, 3vw, 14px);
-margin-bottom: 3px;
+font-size: 0.85rem;
+margin-bottom: 0.2rem;
 }
 
 .author-info p {
-font-size: clamp(10px, 2.5vw, 11px);
+font-size: 0.7rem;
 opacity: 0.6;
 }
 
 .carousel-dots {
 display: flex;
 justify-content: center;
-gap: 10px;
-margin-top: 20px;
+gap: 0.75rem;
+margin-top: 1.25rem;
 }
 
 .dot {
-width: 8px;
-height: 8px;
+width: 0.5rem;
+height: 0.5rem;
 background: rgba(255, 255, 255, 0.3);
 border-radius: 50%;
 cursor: pointer;
@@ -622,21 +619,20 @@ transition: all 0.3s;
 }
 
 .dot.active {
-width: 25px;
+width: 1.5rem;
 background: #F59E0B;
-border-radius: 10px;
+border-radius: 1rem;
 }
 
 /* ============ FOOTER SECTION ============ */
 .main-footer {
 margin-top: auto;
-padding: clamp(15px, 3vw, 25px) clamp(15px, 4vw, 30px);
+padding: 1.5rem 2rem;
 background: rgba(255, 255, 255, 0.03);
 backdrop-filter: blur(10px);
-border-radius: 20px;
+border-radius: 1.25rem;
 border: 1px solid rgba(255, 255, 255, 0.1);
 width: 100%;
-box-sizing: border-box;
 }
 
 .footer-content {
@@ -644,8 +640,8 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 flex-wrap: wrap;
-gap: clamp(10px, 3vw, 20px);
-font-size: clamp(10px, 2.5vw, 12px);
+gap: 1rem;
+font-size: 0.75rem;
 width: 100%;
 }
 
@@ -655,7 +651,7 @@ opacity: 0.6;
 
 .footer-links {
 display: flex;
-gap: clamp(15px, 3vw, 25px);
+gap: 1.5rem;
 flex-wrap: wrap;
 justify-content: center;
 }
@@ -673,99 +669,38 @@ opacity: 1;
 }
 
 .footer-badge {
-padding: 5px clamp(8px, 2vw, 12px);
+padding: 0.3rem 0.8rem;
 background: rgba(245, 158, 11, 0.15);
-border-radius: 20px;
+border-radius: 2rem;
 color: #F59E0B;
 font-weight: bold;
-font-size: clamp(10px, 2.5vw, 12px);
-white-space: nowrap;
+font-size: 0.7rem;
 }
 
 /* ============ ERROR/SUCCESS MESSAGES ============ */
 .error-message {
 color: #ef4444;
-font-size: clamp(11px, 3vw, 13px);
-margin-top: 10px;
+font-size: 0.8rem;
+margin-top: 0.75rem;
 text-align: center;
 }
 
 .success-message {
 color: #10b981;
-font-size: clamp(11px, 3vw, 13px);
-margin-top: 10px;
+font-size: 0.8rem;
+margin-top: 0.75rem;
 text-align: center;
 }
 
-/* ============ RESPONSIVE DESIGN ============ */
-/* Tablet (768px - 1024px) */
+/* ============ RESPONSIVE BEHAVIOR ============ */
 @media (max-width: 1024px) {
 .main-section {
 grid-template-columns: 1fr;
-gap: 30px;
-}
-
-.header-content {
-flex-direction: column;
-text-align: center;
-}
-
-.logo-area {
-text-align: center;
-}
-
-.logo-area h1 {
-white-space: normal;
-}
-
-.logo-area p {
-white-space: normal;
-}
-
-.live-stats {
-justify-content: center;
 }
 
 .footer-content {
 flex-direction: column;
 text-align: center;
-}
-
-.stat-label {
-white-space: normal;
-}
-
-.badge {
-white-space: normal;
-}
-}
-
-/* Mobile (481px - 767px) */
-@media (max-width: 768px) {
-.login-container {
-padding: 10px;
-}
-
-.login-wrapper {
-padding: 0 10px;
-}
-
-.main-header {
-padding: 15px;
-margin-bottom: 20px;
-}
-
-.live-stats {
-width: 100%;
-justify-content: space-around;
-}
-
-.stat {
-min-width: 60px;
-}
-
-.login-card {
-padding: 20px;
 }
 
 .daily-bonus {
@@ -777,40 +712,30 @@ text-align: center;
 flex-direction: column;
 text-align: center;
 }
+}
+
+@media (max-width: 768px) {
+.login-container {
+padding: 1rem;
+}
+
+.login-card {
+padding: 1.25rem;
+}
 
 .security-badges {
-gap: 8px;
+gap: 0.5rem;
+}
+
+.badge {
+font-size: 0.65rem;
+padding: 0.3rem 0.6rem;
 }
 
 .footer-links {
 flex-direction: column;
 align-items: center;
-gap: 10px;
-}
-
-.footer-badge {
-white-space: normal;
-text-align: center;
-}
-}
-
-/* Small Mobile (up to 480px) */
-@media (max-width: 480px) {
-.login-card {
-padding: 15px;
-}
-
-.input-group input {
-padding: 10px 12px;
-}
-
-.login-btn, .create-btn {
-padding: 10px;
-}
-
-.form-options {
-flex-direction: column;
-align-items: flex-start;
+gap: 0.75rem;
 }
 
 .win-item {
@@ -823,10 +748,6 @@ flex-direction: column;
 text-align: center;
 }
 
-.section-header {
-justify-content: center;
-}
-
 .testimonial-author {
 flex-direction: column;
 text-align: center;
@@ -835,17 +756,17 @@ text-align: center;
 
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
-width: 6px;
+width: 0.4rem;
 }
 
 ::-webkit-scrollbar-track {
 background: rgba(255, 255, 255, 0.1);
-border-radius: 10px;
+border-radius: 1rem;
 }
 
 ::-webkit-scrollbar-thumb {
 background: #F59E0B;
-border-radius: 10px;
+border-radius: 1rem;
 }
 </style>
 </head>
@@ -854,11 +775,11 @@ border-radius: 10px;
 <div class="particles" id="particles"></div>
 
 <!-- Floating Dice -->
-<div class="floating-dice" style="top: 10%; left: 5%; animation-delay: 0s;">🎲</div>
-<div class="floating-dice" style="top: 70%; left: 85%; animation-delay: 2s;">🎲</div>
-<div class="floating-dice" style="top: 40%; left: 90%; animation-delay: 4s;">🎰</div>
-<div class="floating-dice" style="top: 80%; left: 10%; animation-delay: 1s;">🎲</div>
-<div class="floating-dice" style="top: 20%; left: 92%; animation-delay: 3s;">🎯</div>
+<div class="floating-dice" style="top: 10%; left: 3%; animation-delay: 0s;">🎲</div>
+<div class="floating-dice" style="top: 70%; left: 90%; animation-delay: 2s;">🎲</div>
+<div class="floating-dice" style="top: 40%; left: 95%; animation-delay: 4s;">🎰</div>
+<div class="floating-dice" style="top: 80%; left: 5%; animation-delay: 1s;">🎲</div>
+<div class="floating-dice" style="top: 20%; left: 95%; animation-delay: 3s;">🎯</div>
 
 <!-- Main Container -->
 <div class="login-container">
@@ -992,7 +913,7 @@ border-radius: 10px;
 <div class="section-header">
 <span>🔥</span>
 <h3>Recent Big Wins</h3>
-<span style="margin-left: auto; font-size: 11px;">Live feed</span>
+<span style="margin-left: auto; font-size: 0.7rem;">Live feed</span>
 </div>
 <div class="wins-feed" id="winsFeed"></div>
 </div>
@@ -1002,7 +923,7 @@ border-radius: 10px;
 <div class="section-header">
 <span>⭐</span>
 <h3>What Our Players Say</h3>
-<span style="margin-left: auto; font-size: 11px;">30+ reviews</span>
+<span style="margin-left: auto; font-size: 0.7rem;">30+ reviews</span>
 </div>
 <div class="testimonials-carousel" id="testimonialCarousel"></div>
 <div class="carousel-dots" id="carouselDots"></div>
@@ -1128,7 +1049,7 @@ winItem.innerHTML = `
 <div>
 <div class="win-name">${win.user}</div>
 <div class="win-game">${win.game}</div>
-<small style="font-size: 10px; opacity: 0.5;">${win.time}</small>
+<small style="font-size: 0.6rem; opacity: 0.5;">${win.time}</small>
 </div>
 </div>
 <div class="win-amount">+$${win.amount.toLocaleString()}</div>
@@ -1193,7 +1114,7 @@ slide.innerHTML = `
 <p>${t.location} • Verified Player</p>
 </div>
 </div>
-<div style="margin-top: 8px;">${'⭐'.repeat(t.rating)}</div>
+<div style="margin-top: 0.5rem;">${'⭐'.repeat(t.rating)}</div>
 `;
 container.appendChild(slide);
 
