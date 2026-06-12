@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
  <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Admin Panel | LottoMaster</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+ <title>LottoMaster - Admin Panel</title>
  <style>
  * {
  margin: 0;
@@ -11,26 +11,81 @@
  box-sizing: border-box;
  }
 
- body {
- font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
- background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
- min-height: 100vh;
- color: white;
+ html, body {
+ overflow-x: hidden;
+ width: 100%;
+ max-width: 100%;
  }
 
- .main-header {
- background: rgba(0, 0, 0, 0.3);
- backdrop-filter: blur(10px);
- padding: 15px 30px;
- border-bottom: 1px solid rgba(255, 255, 255, 0.1);
- position: sticky;
+ body {
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
+ min-height: 100vh;
+ color: white;
+ overflow-x: hidden;
+ width: 100%;
+ }
+
+ /* Particles Background */
+ .particles {
+ position: fixed;
  top: 0;
- z-index: 100;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: 0;
+ overflow: hidden;
+ pointer-events: none;
+ }
+
+ .particle {
+ position: absolute;
+ background: rgba(245, 158, 11, 0.1);
+ border-radius: 50%;
+ pointer-events: none;
+ animation: floatParticle linear infinite;
+ }
+
+ @keyframes floatParticle {
+ 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+ 10% { opacity: 1; }
+ 90% { opacity: 1; }
+ 100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+ }
+
+ /* Main Container */
+ .admin-container {
+ position: relative;
+ z-index: 1;
+ min-height: 100vh;
+ display: flex;
+ flex-direction: column;
+ padding: 15px;
+ width: 100%;
+ max-width: 100%;
+ }
+
+ .admin-wrapper {
+ width: 100%;
+ max-width: 1400px;
+ margin: 0 auto;
+ flex: 1;
+ display: flex;
+ flex-direction: column;
+ }
+
+ /* Header */
+ .main-header {
+ background: rgba(255, 255, 255, 0.03);
+ backdrop-filter: blur(10px);
+ border-radius: 20px;
+ padding: 15px 20px;
+ margin-bottom: 20px;
+ border: 1px solid rgba(245, 158, 11, 0.2);
+ width: 100%;
  }
 
  .header-content {
- max-width: 1400px;
- margin: 0 auto;
  display: flex;
  justify-content: space-between;
  align-items: center;
@@ -38,153 +93,37 @@
  gap: 15px;
  }
 
- .logo h1 {
- font-size: 24px;
- background: linear-gradient(90deg, #f7971e, #ffd200);
+ .logo-area h1 {
+ font-size: 1.5rem;
+ background: linear-gradient(135deg, #FFFFFF, #F59E0B);
  -webkit-background-clip: text;
  background-clip: text;
  color: transparent;
  }
 
+ .logo-area p {
+ font-size: 0.6rem;
+ opacity: 0.6;
+ }
+
+ .admin-badge {
+ background: rgba(245, 158, 11, 0.2);
+ padding: 5px 12px;
+ border-radius: 20px;
+ font-size: 0.8rem;
+ color: #F59E0B;
+ }
+
  .logout-btn {
- background: #e74c3c;
- padding: 8px 20px;
+ background: rgba(231, 76, 60, 0.8);
+ padding: 8px 16px;
  border: none;
- border-radius: 8px;
+ border-radius: 10px;
  color: white;
  cursor: pointer;
  }
 
- .container {
- max-width: 1400px;
- margin: 0 auto;
- padding: 20px;
- }
-
- .dashboard-header {
- background: rgba(255, 255, 255, 0.1);
- backdrop-filter: blur(10px);
- border-radius: 15px;
- padding: 15px 20px;
- margin-bottom: 20px;
- }
-
- .admin-tabs {
- display: flex;
- flex-wrap: wrap;
- gap: 5px;
- margin-bottom: 20px;
- background: rgba(0, 0, 0, 0.3);
- padding: 10px;
- border-radius: 12px;
- }
-
- .admin-tab-btn {
- padding: 10px 18px;
- background: none;
- border: none;
- color: white;
- cursor: pointer;
- border-radius: 8px;
- font-size: 14px;
- transition: all 0.3s;
- }
-
- .admin-tab-btn:hover {
- background: rgba(255, 255, 255, 0.1);
- }
-
- .admin-tab-btn.active {
- background: #f7971e;
- color: #333;
- }
-
- .admin-tab-content {
- display: none;
- background: rgba(255, 255, 255, 0.1);
- backdrop-filter: blur(10px);
- border-radius: 15px;
- padding: 20px;
- }
-
- .admin-tab-content.active {
- display: block;
- }
-
- table {
- width: 100%;
- border-collapse: collapse;
- overflow-x: auto;
- display: block;
- }
-
- th, td {
- padding: 10px;
- text-align: left;
- border-bottom: 1px solid rgba(255, 255, 255, 0.1);
- font-size: 13px;
- }
-
- th {
- color: #f7971e;
- }
-
- button {
- cursor: pointer;
- padding: 5px 10px;
- margin: 2px;
- border: none;
- border-radius: 5px;
- font-size: 12px;
- }
-
- .approve-btn { background: #2ecc71; color: white; }
- .disable-btn { background: #e74c3c; color: white; }
- .enable-btn { background: #3498db; color: white; }
- .boost-btn { background: #f39c12; color: white; }
- .delete-btn { background: #c0392b; color: white; }
- .save-btn { background: #27ae60; color: white; }
-
- input, select, textarea {
- padding: 8px 12px;
- margin: 5px;
- border-radius: 8px;
- border: none;
- background: rgba(255, 255, 255, 0.9);
- }
-
- .form-group {
- margin-bottom: 15px;
- }
-
- .form-group label {
- display: block;
- margin-bottom: 5px;
- font-size: 13px;
- opacity: 0.8;
- }
-
- .codes-grid, .rewards-grid {
- display: grid;
- grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
- gap: 15px;
- margin-top: 15px;
- }
-
- .code-card, .reward-card {
- background: rgba(0, 0, 0, 0.3);
- padding: 15px;
- border-radius: 12px;
- text-align: center;
- }
-
- .code-number {
- font-size: 22px;
- font-weight: bold;
- color: #f7971e;
- font-family: monospace;
- }
-
+ /* Stats Cards */
  .stats-grid {
  display: grid;
  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -192,368 +131,552 @@
  margin-bottom: 20px;
  }
 
- .stats-card {
- background: rgba(0, 0, 0, 0.3);
+ .stat-card {
+ background: rgba(255, 255, 255, 0.05);
+ backdrop-filter: blur(10px);
+ border-radius: 16px;
  padding: 15px;
- border-radius: 12px;
  text-align: center;
+ border: 1px solid rgba(245, 158, 11, 0.2);
  }
 
- .stats-card .value {
- font-size: 28px;
+ .stat-card .icon {
+ font-size: 2rem;
+ margin-bottom: 8px;
+ }
+
+ .stat-card .value {
+ font-size: 1.8rem;
  font-weight: bold;
- color: #f7971e;
+ color: #F59E0B;
  }
 
- .modal {
- display: none;
- position: fixed;
- top: 0;
- left: 0;
+ .stat-card .label {
+ font-size: 0.7rem;
+ opacity: 0.7;
+ }
+
+ /* Main Layout */
+ .admin-main {
+ display: flex;
+ gap: 20px;
+ flex: 1;
  width: 100%;
- height: 100%;
- background: rgba(0, 0, 0, 0.8);
- justify-content: center;
+ }
+
+ /* Sidebar */
+ .sidebar {
+ width: 260px;
+ flex-shrink: 0;
+ background: rgba(255, 255, 255, 0.03);
+ backdrop-filter: blur(10px);
+ border-radius: 20px;
+ padding: 15px;
+ border: 1px solid rgba(245, 158, 11, 0.2);
+ height: fit-content;
+ }
+
+ .menu-item {
+ display: flex;
  align-items: center;
- z-index: 1000;
+ gap: 12px;
+ padding: 12px 15px;
+ margin: 5px 0;
+ border-radius: 12px;
+ cursor: pointer;
+ transition: all 0.3s;
+ color: rgba(255, 255, 255, 0.8);
  }
 
- .modal-content {
- background: #1a1a2e;
- padding: 25px;
- border-radius: 15px;
- max-width: 500px;
- width: 90%;
+ .menu-item:hover {
+ background: rgba(245, 158, 11, 0.1);
+ color: white;
  }
 
- .modal-content h3 {
+ .menu-item.active {
+ background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
+ border-left: 3px solid #F59E0B;
+ color: #F59E0B;
+ }
+
+ /* Main Content */
+ .main-content {
+ flex: 1;
+ display: flex;
+ flex-direction: column;
+ gap: 20px;
+ }
+
+ .content-card {
+ background: rgba(255, 255, 255, 0.05);
+ backdrop-filter: blur(20px);
+ border-radius: 20px;
+ padding: 20px;
+ border: 1px solid rgba(245, 158, 11, 0.2);
+ width: 100%;
+ }
+
+ .card-header {
+ border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+ padding-bottom: 15px;
+ margin-bottom: 20px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ flex-wrap: wrap;
+ }
+
+ .card-header h3 {
+ font-size: 1.2rem;
+ }
+
+ /* Tables */
+ .data-table {
+ width: 100%;
+ border-collapse: collapse;
+ overflow-x: auto;
+ display: block;
+ }
+
+ .data-table th, .data-table td {
+ padding: 12px;
+ text-align: left;
+ border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+ font-size: 0.85rem;
+ }
+
+ .data-table th {
+ color: #F59E0B;
+ }
+
+ /* Forms */
+ .form-group {
  margin-bottom: 15px;
  }
 
- .modal-content input,
- .modal-content textarea {
- width: 100%;
- margin: 8px 0;
+ .form-group label {
+ display: block;
+ margin-bottom: 5px;
+ font-size: 0.8rem;
+ opacity: 0.8;
  }
 
- .modal-buttons {
- display: flex;
- gap: 10px;
+ .form-group input, .form-group select, .form-group textarea {
+ width: 100%;
+ padding: 10px;
+ background: rgba(0, 0, 0, 0.3);
+ border: 1px solid rgba(255, 255, 255, 0.2);
+ border-radius: 10px;
+ color: white;
+ font-size: 0.9rem;
+ }
+
+ .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+ outline: none;
+ border-color: #F59E0B;
+ }
+
+ /* Buttons */
+ .btn-primary {
+ background: linear-gradient(135deg, #F59E0B, #D97706);
+ padding: 10px 20px;
+ border: none;
+ border-radius: 10px;
+ color: #0F172A;
+ font-weight: bold;
+ cursor: pointer;
+ }
+
+ .btn-success {
+ background: #2ecc71;
+ padding: 6px 12px;
+ border: none;
+ border-radius: 6px;
+ color: white;
+ cursor: pointer;
+ }
+
+ .btn-danger {
+ background: #e74c3c;
+ padding: 6px 12px;
+ border: none;
+ border-radius: 6px;
+ color: white;
+ cursor: pointer;
+ }
+
+ .btn-warning {
+ background: #f39c12;
+ padding: 6px 12px;
+ border: none;
+ border-radius: 6px;
+ color: white;
+ cursor: pointer;
+ }
+
+ /* Rewards Grid */
+ .rewards-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+ gap: 15px;
  margin-top: 15px;
  }
 
- .modal-buttons button {
- flex: 1;
- padding: 10px;
+ .reward-card {
+ background: rgba(0, 0, 0, 0.3);
+ border-radius: 12px;
+ padding: 15px;
+ }
+
+ .reward-card h4 {
+ margin-bottom: 10px;
+ color: #F59E0B;
+ }
+
+ /* Winning Codes Grid */
+ .codes-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+ gap: 15px;
+ margin-top: 15px;
+ }
+
+ .code-card {
+ background: rgba(0, 0, 0, 0.3);
+ border-radius: 12px;
+ padding: 15px;
+ text-align: center;
+ }
+
+ .code-number {
+ font-size: 1.5rem;
+ font-weight: bold;
+ color: #F59E0B;
+ font-family: monospace;
+ }
+
+ /* Toast */
+ .toast {
+ position: fixed;
+ bottom: 20px;
+ right: 20px;
+ background: rgba(0, 0, 0, 0.9);
+ padding: 12px 20px;
+ border-radius: 10px;
+ border-left: 4px solid #F59E0B;
+ z-index: 1000;
+ animation: slideIn 0.3s ease;
+ }
+
+ @keyframes slideIn {
+ from { transform: translateX(100%); opacity: 0; }
+ to { transform: translateX(0); opacity: 1; }
  }
 
  .success { color: #2ecc71; }
  .error { color: #e74c3c; }
- .warning { color: #f39c12; }
 
- hr {
- margin: 15px 0;
- border-color: rgba(255, 255, 255, 0.1);
+ /* Responsive */
+ @media (max-width: 1024px) {
+ .admin-main {
+ flex-direction: column;
  }
-
- .checkbox-label {
+ .sidebar {
+ width: 100%;
  display: flex;
- align-items: center;
- gap: 10px;
- cursor: pointer;
+ flex-wrap: wrap;
+ gap: 5px;
  }
-
- .checkbox-label input {
- width: 20px;
- height: 20px;
- margin: 0;
+ .menu-item {
+ flex: 1;
+ min-width: 120px;
+ justify-content: center;
+ }
  }
 
  @media (max-width: 768px) {
- .admin-tab-btn {
- padding: 8px 12px;
- font-size: 12px;
+ .header-content {
+ flex-direction: column;
+ text-align: center;
  }
- th, td {
- font-size: 11px;
- padding: 6px;
+ .stats-grid {
+ grid-template-columns: repeat(2, 1fr);
+ }
+ .data-table th, .data-table td {
+ font-size: 0.7rem;
+ padding: 8px;
+ }
+ }
+
+ @media (max-width: 480px) {
+ .admin-container {
+ padding: 10px;
+ }
+ .stats-grid {
+ grid-template-columns: 1fr;
+ }
+ .rewards-grid {
+ grid-template-columns: 1fr;
  }
  }
  </style>
 </head>
 <body>
+ <div class="particles" id="particles"></div>
+
+ <div class="admin-container">
+ <div class="admin-wrapper">
+ <!-- HEADER -->
  <header class="main-header">
  <div class="header-content">
- <div class="logo">
+ <div class="logo-area">
  <h1> LottoMaster Admin</h1>
  <p>Complete Control Panel</p>
  </div>
+ <div class="admin-badge"> Admin Access</div>
  <button class="logout-btn" onclick="logout()"> Logout</button>
  </div>
  </header>
 
- <div class="container">
- <div class="dashboard-header">
- <h2> Admin Control Panel</h2>
- <p>Manage users, games, payments, and platform settings</p>
- </div>
-
- <div class="admin-tabs">
- <button class="admin-tab-btn active" onclick="showTab('users')"> Users</button>
- <button class="admin-tab-btn" onclick="showTab('verification')"> Verification</button>
- <button class="admin-tab-btn" onclick="showTab('analytics')"> Analytics</button>
- <button class="admin-tab-btn" onclick="showTab('randomrewards')"> Random Rewards</button>
- <button class="admin-tab-btn" onclick="showTab('announcements')"> Announcements</button>
- <button class="admin-tab-btn" onclick="showTab('deposits')"> Deposits</button>
- <button class="admin-tab-btn" onclick="showTab('withdrawals')"> Withdrawals</button>
- <button class="admin-tab-btn" onclick="showTab('bonus')"> Bonus Settings</button>
- <button class="admin-tab-btn" onclick="showTab('codes')"> Winning Codes</button>
- <button class="admin-tab-btn" onclick="showTab('paymentsettings')"> Payment Settings</button>
- <button class="admin-tab-btn" onclick="showTab('entries')"> Entries</button>
- <button class="admin-tab-btn" onclick="showTab('settings')"> Settings</button>
- </div>
-
- <!-- ==================== USERS TAB ==================== -->
- <div id="usersTab" class="admin-tab-content active">
- <h3> Pending Approvals</h3>
- <div style="overflow-x: auto;">
- <table id="pendingUsersTable">
- <thead><tr><th>Name</th><th>Username</th><th>Email</th><th>Age</th><th>Registered</th><th>Action</th></tr></thead>
- <tbody></tbody>
- </table>
- </div>
- <h3 style="margin-top:20px;"> All Users</h3>
- <div style="overflow-x: auto;">
- <table id="allUsersTable">
- <thead><tr><th>Name</th><th>Username</th><th>Balance</th><th>Wins</th><th>Verified</th><th>VIP</th><th>Status</th><th>Actions</th></tr></thead>
- <tbody></tbody>
- </table>
- </div>
- </div>
-
- <!-- ==================== VERIFICATION TAB ==================== -->
- <div id="verificationTab" class="admin-tab-content">
- <h3> Identity Verification</h3>
- <p>Users awaiting identity verification. Send them email to submit ID proof.</p>
- <div style="overflow-x: auto;">
- <table id="unverifiedUsersTable">
- <thead><tr><th>Legal Name</th><th>Username</th><th>Email</th><th>Age</th><th>Address</th><th>Action</th></tr></thead>
- <tbody></tbody>
- </table>
- </div>
- </div>
-
- <!-- ==================== ANALYTICS TAB ==================== -->
- <div id="analyticsTab" class="admin-tab-content">
- <h3> Platform Analytics</h3>
+ <!-- STATS CARDS -->
  <div class="stats-grid">
- <div class="stats-card"><div class="label"> Total Users</div><div class="value" id="totalUsers">-</div></div>
- <div class="stats-card"><div class="label"> Total Deposits</div><div class="value">$<span id="totalDeposits">-</span></div></div>
- <div class="stats-card"><div class="label"> Total Withdrawals</div><div class="value">$<span id="totalWithdrawals">-</span></div></div>
- <div class="stats-card"><div class="label"> Net Revenue</div><div class="value">$<span id="netRevenue">-</span></div></div>
- <div class="stats-card"><div class="label"> Daily Revenue</div><div class="value">$<span id="dailyRevenue">-</span></div></div>
+ <div class="stat-card">
+ <div class="icon"> </div>
+ <div class="value" id="totalUsers">0</div>
+ <div class="label">Total Users</div>
  </div>
- <h4> Most Active Users</h4>
- <div id="activeUsersList"></div>
- <h4> Popular Games</h4>
- <div id="popularGamesList"></div>
+ <div class="stat-card">
+ <div class="icon"> </div>
+ <div class="value" id="totalDeposits">$0</div>
+ <div class="label">Total Deposits</div>
+ </div>
+ <div class="stat-card">
+ <div class="icon"> </div>
+ <div class="value" id="totalWithdrawals">$0</div>
+ <div class="label">Total Withdrawals</div>
+ </div>
+ <div class="stat-card">
+ <div class="icon"> </div>
+ <div class="value" id="netRevenue">$0</div>
+ <div class="label">Net Revenue</div>
+ </div>
  </div>
 
- <!-- ==================== RANDOM ROLL REWARDS TAB ==================== -->
- <div id="randomrewardsTab" class="admin-tab-content">
- <h3> Random Roll Rewards</h3>
- <p>Set multipliers for non-double dice combinations to make the game more exciting!</p>
- 
+ <!-- MAIN CONTENT -->
+ <div class="admin-main">
+ <!-- SIDEBAR -->
+ <aside class="sidebar">
+ <div class="menu-item active" data-section="users"> Users</div>
+ <div class="menu-item" data-section="deposits"> Deposits</div>
+ <div class="menu-item" data-section="withdrawals"> Withdrawals</div>
+ <div class="menu-item" data-section="winning-codes"> Winning Codes</div>
+ <div class="menu-item" data-section="game-controls"> Game Controls</div>
+ <div class="menu-item" data-section="bonus-settings"> Bonus Settings</div>
+ <div class="menu-item" data-section="announcements"> Announcements</div>
+ <div class="menu-item" data-section="settings"> Settings</div>
+ </aside>
+
+ <!-- MAIN CONTENT AREA -->
+ <div class="main-content">
+ <!-- USERS SECTION -->
+ <div id="usersSection" class="content-card">
+ <div class="card-header">
+ <h3> User Management</h3>
+ <input type="text" id="userSearch" placeholder="Search users..." style="padding:8px 12px; border-radius:8px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.2); color:white;">
+ </div>
+ <div style="overflow-x: auto;">
+ <table class="data-table">
+ <thead>
+ <tr><th>Username</th><th>Balance</th><th>Wins</th><th>Status</th><th>VIP</th><th>Actions</th>
+ </thead>
+ <tbody id="usersTableBody"></tbody>
+ </table>
+ </div>
+ </div>
+
+ <!-- DEPOSITS SECTION -->
+ <div id="depositsSection" class="content-card" style="display:none;">
+ <div class="card-header">
+ <h3> Pending Deposits</h3>
+ </div>
+ <div style="overflow-x: auto;">
+ <table class="data-table">
+ <thead><tr><th>User</th><th>Amount</th><th>Method</th><th>Date</th><th>Transaction ID</th><th>Action</th></tr></thead>
+ <tbody id="pendingDepositsBody"></tbody>
+ </table>
+ </div>
+ <div class="card-header" style="margin-top:20px;">
+ <h3> All Deposits</h3>
+ </div>
+ <div style="overflow-x: auto;">
+ <table class="data-table">
+ <thead><tr><th>User</th><th>Amount</th><th>Method</th><th>Status</th><th>Date</th></tr></thead>
+ <tbody id="allDepositsBody"></tbody>
+ </table>
+ </div>
+ </div>
+
+ <!-- WITHDRAWALS SECTION -->
+ <div id="withdrawalsSection" class="content-card" style="display:none;">
+ <div class="card-header">
+ <h3> Withdrawal Requests</h3>
+ </div>
+ <div style="overflow-x: auto;">
+ <table class="data-table">
+ <thead><tr><th>User</th><th>Amount</th><th>Fee</th><th>Method</th><th>Speed</th><th>Status</th><th>Action</th></tr></thead>
+ <tbody id="withdrawalsBody"></tbody>
+ </table>
+ </div>
+ </div>
+
+ <!-- WINNING CODES SECTION -->
+ <div id="winningCodesSection" class="content-card" style="display:none;">
+ <div class="card-header">
+ <h3> Add Winning Code</h3>
+ </div>
  <div class="form-group">
- <label class="checkbox-label">
- <input type="checkbox" id="randomRewardsEnabled"> Enable Random Roll Rewards
- </label>
+ <label>6-Digit Code</label>
+ <input type="text" id="newCode" maxlength="6" placeholder="123456">
+ </div>
+ <div class="form-group">
+ <label>Reward Amount ($)</label>
+ <input type="number" id="newReward" placeholder="100">
+ </div>
+ <div class="form-group">
+ <label>Expiry (days, optional)</label>
+ <input type="number" id="expiryDays" placeholder="30">
+ </div>
+ <button class="btn-primary" onclick="addWinningCode()">Add Winning Code</button>
+ 
+ <div class="card-header" style="margin-top:20px;">
+ <h3> Active Winning Codes</h3>
+ </div>
+ <div id="winningCodesList" class="codes-grid"></div>
+ </div>
+
+ <!-- GAME CONTROLS SECTION -->
+ <div id="gameControlsSection" class="content-card" style="display:none;">
+ <div class="card-header">
+ <h3> Slot Dice Random Rewards</h3>
+ <p style="font-size:0.7rem; opacity:0.7;">Configure rewards for non-double dice combinations</p>
  </div>
  
  <div class="rewards-grid">
  <div class="reward-card">
  <h4> Sum-Based Rewards</h4>
- <div class="form-group"><label>Sum = 3 (1+2):</label><input type="number" id="reward_sum3" value="1.5" step="0.5" min="0"></div>
- <div class="form-group"><label>Sum = 4 (1+3,2+2):</label><input type="number" id="reward_sum4" value="1.5" step="0.5" min="0"></div>
- <div class="form-group"><label>Sum = 5 (1+4,2+3):</label><input type="number" id="reward_sum5" value="2" step="0.5" min="0"></div>
- <div class="form-group"><label>Sum = 6 (1+5,2+4,3+3):</label><input type="number" id="reward_sum6" value="2" step="0.5" min="0"></div>
- <div class="form-group"><label>Sum = 7 (1+6,2+5,3+4):</label><input type="number" id="reward_sum7" value="2.5" step="0.5" min="0"></div>
- <div class="form-group"><label>Sum = 8 (2+6,3+5,4+4):</label><input type="number" id="reward_sum8" value="2.5" step="0.5" min="0"></div>
- <div class="form-group"><label>Sum = 9 (3+6,4+5):</label><input type="number" id="reward_sum9" value="3" step="0.5" min="0"></div>
- <div class="form-group"><label>Sum = 10 (4+6,5+5):</label><input type="number" id="reward_sum10" value="3" step="0.5" min="0"></div>
- <div class="form-group"><label>Sum = 11 (5+6):</label><input type="number" id="reward_sum11" value="3.5" step="0.5" min="0"></div>
+ <div class="form-group"><label>Sum = 3 (1+2):</label><input type="number" id="reward_sum3" value="1.5" step="0.5"></div>
+ <div class="form-group"><label>Sum = 4 (1+3,2+2):</label><input type="number" id="reward_sum4" value="1.5" step="0.5"></div>
+ <div class="form-group"><label>Sum = 5 (1+4,2+3):</label><input type="number" id="reward_sum5" value="2" step="0.5"></div>
+ <div class="form-group"><label>Sum = 6 (1+5,2+4,3+3):</label><input type="number" id="reward_sum6" value="2" step="0.5"></div>
+ <div class="form-group"><label>Sum = 7 (1+6,2+5,3+4):</label><input type="number" id="reward_sum7" value="2.5" step="0.5"></div>
+ <div class="form-group"><label>Sum = 8 (2+6,3+5,4+4):</label><input type="number" id="reward_sum8" value="2.5" step="0.5"></div>
+ <div class="form-group"><label>Sum = 9 (3+6,4+5):</label><input type="number" id="reward_sum9" value="3" step="0.5"></div>
+ <div class="form-group"><label>Sum = 10 (4+6,5+5):</label><input type="number" id="reward_sum10" value="3" step="0.5"></div>
+ <div class="form-group"><label>Sum = 11 (5+6):</label><input type="number" id="reward_sum11" value="3.5" step="0.5"></div>
  </div>
- 
  <div class="reward-card">
  <h4> Special Combinations</h4>
- <div class="form-group"><label>Consecutive Numbers (1-2,2-3,3-4,4-5,5-6):</label><input type="number" id="reward_consecutives" value="2" step="0.5" min="0"></div>
- <div class="form-group"><label>Same Parity (Both Even or Both Odd):</label><input type="number" id="reward_sameParity" value="1.5" step="0.5" min="0"></div>
+ <div class="form-group"><label>Consecutive Numbers (1-2,2-3,3-4,4-5,5-6):</label><input type="number" id="reward_consecutives" value="2" step="0.5"></div>
+ <div class="form-group"><label>Same Parity (Both Even or Both Odd):</label><input type="number" id="reward_sameParity" value="1.5" step="0.5"></div>
+ <div class="info-box" style="background:rgba(0,0,0,0.3); padding:12px; border-radius:10px; margin-top:15px;">
+ <p><strong> Note:</strong> Only double numbers (1-1,2-2,3-3,4-4,5-5,6-6) have guaranteed wins.<br>
+ Non-double combinations only win if they match the above conditions.<br>
+ Set to 0 to disable specific rewards.</p>
+ </div>
  </div>
  </div>
  
- <div class="info-box" style="background:rgba(0,0,0,0.3); padding:15px; border-radius:10px; margin-top:15px">
- <p><strong> How it works:</strong> When a player rolls non-double dice, they can still win if their roll matches these conditions!</p>
- <p>Example: Rolling a 3 and 4 (sum=7) gives 2.5x multiplier on top of the stake!</p>
- <p>Multiple conditions can stack for even bigger wins!</p>
- </div>
- 
- <button onclick="saveRandomRewards()" class="save-btn" style="margin-top:15px; padding:10px 20px;"> Save Random Rewards Settings</button>
- <div id="randomRewardsResult" style="margin-top:10px"></div>
+ <button class="btn-primary" onclick="saveRandomRewards()" style="margin-top:15px;"> Save Random Rewards Settings</button>
+ <div id="randomRewardsResult" style="margin-top:10px;"></div>
  </div>
 
- <!-- ==================== ANNOUNCEMENTS TAB ==================== -->
- <div id="announcementsTab" class="admin-tab-content">
- <h3> Send Announcement</h3>
- <div class="form-group">
- <label>Send To:</label>
- <select id="announcementUser" style="width:100%"></select>
- </div>
- <div class="form-group">
- <label>Title:</label>
- <input type="text" id="announcementTitle" placeholder="Announcement Title" style="width:100%">
- </div>
- <div class="form-group">
- <label>Message:</label>
- <textarea id="announcementMessage" rows="4" placeholder="Your message here..." style="width:100%"></textarea>
- </div>
- <div class="form-group">
- <label>Expires In (days, optional):</label>
- <input type="number" id="announcementExpiry" placeholder="7">
- </div>
- <button onclick="sendAnnouncement()" class="approve-btn"> Send Announcement</button>
- 
- <h3 style="margin-top:20px"> Previous Announcements</h3>
- <div id="announcementsList"></div>
- </div>
-
- <!-- ==================== DEPOSITS TAB ==================== -->
- <div id="depositsTab" class="admin-tab-content">
- <h3> Pending Deposits</h3>
- <div style="overflow-x: auto;">
- <table id="pendingDepositsTable">
- <thead><tr><th>User</th><th>Amount</th><th>Method</th><th>Date</th><th>Transaction ID</th><th>Action</th></tr></thead>
- <tbody></tbody>
- </table>
- </div>
- <h3 style="margin-top:20px;"> All Deposits</h3>
- <div style="overflow-x: auto;">
- <table id="allDepositsTable">
- <thead><tr><th>User</th><th>Amount</th><th>Method</th><th>Status</th><th>Date</th></tr></thead>
- <tbody></tbody>
- </table>
- </div>
- </div>
-
- <!-- ==================== WITHDRAWALS TAB ==================== -->
- <div id="withdrawalsTab" class="admin-tab-content">
- <div style="overflow-x: auto;">
- <table id="withdrawalsTable">
- <thead><tr><th>User</th><th>Amount</th><th>Fee</th><th>Method</th><th>Address</th><th>Speed</th><th>Status</th><th>Action</th></tr></thead>
- <tbody></tbody>
- </table>
- </div>
- </div>
-
- <!-- ==================== BONUS SETTINGS TAB ==================== -->
- <div id="bonusTab" class="admin-tab-content">
+ <!-- BONUS SETTINGS SECTION -->
+ <div id="bonusSettingsSection" class="content-card" style="display:none;">
+ <div class="card-header">
  <h3> Progressive Bonus System</h3>
- <p>Set how many rolls are needed to trigger each bonus. When triggered, the multiplier DOUBLES!</p>
- 
+ </div>
+ <div class="rewards-grid">
+ <div class="reward-card">
  <h4> Rolls Required for Bonus</h4>
- <div class="form-group"><label>Double 1 (Snake Eyes):</label><input type="number" id="bonusRolls_11" value="30" min="5" max="200"></div>
- <div class="form-group"><label>Double 2:</label><input type="number" id="bonusRolls_22" value="25" min="5" max="200"></div>
- <div class="form-group"><label>Double 3:</label><input type="number" id="bonusRolls_33" value="25" min="5" max="200"></div>
- <div class="form-group"><label>Double 4:</label><input type="number" id="bonusRolls_44" value="20" min="5" max="200"></div>
- <div class="form-group"><label>Double 5:</label><input type="number" id="bonusRolls_55" value="15" min="5" max="200"></div>
- <div class="form-group"><label>Double 6 (JACKPOT):</label><input type="number" id="bonusRolls_66" value="50" min="10" max="200"></div>
- 
- <h4> Base Multipliers</h4>
+ <div class="form-group"><label>Double 1 (Snake Eyes):</label><input type="number" id="bonusRolls_11" value="30"></div>
+ <div class="form-group"><label>Double 2:</label><input type="number" id="bonusRolls_22" value="25"></div>
+ <div class="form-group"><label>Double 3:</label><input type="number" id="bonusRolls_33" value="25"></div>
+ <div class="form-group"><label>Double 4:</label><input type="number" id="bonusRolls_44" value="20"></div>
+ <div class="form-group"><label>Double 5:</label><input type="number" id="bonusRolls_55" value="15"></div>
+ <div class="form-group"><label>Double 6 (JACKPOT):</label><input type="number" id="bonusRolls_66" value="50"></div>
+ </div>
+ <div class="reward-card">
+ <h4> Base Multipliers (Doubles)</h4>
  <div class="form-group"><label>Double 1 Multiplier:</label><input type="number" id="bonusMult_11" value="8" step="0.5"></div>
  <div class="form-group"><label>Double 2 Multiplier:</label><input type="number" id="bonusMult_22" value="6" step="0.5"></div>
  <div class="form-group"><label>Double 3 Multiplier:</label><input type="number" id="bonusMult_33" value="6" step="0.5"></div>
  <div class="form-group"><label>Double 4 Multiplier:</label><input type="number" id="bonusMult_44" value="8" step="0.5"></div>
  <div class="form-group"><label>Double 5 Multiplier:</label><input type="number" id="bonusMult_55" value="10" step="0.5"></div>
  <div class="form-group"><label>Double 6 Multiplier:</label><input type="number" id="bonusMult_66" value="25" step="0.5"></div>
- 
- <button onclick="saveBonusSettings()" class="save-btn"> Save Bonus Settings</button>
- <div id="bonusResult" style="margin-top: 10px;"></div>
+ </div>
+ </div>
+ <button class="btn-primary" onclick="saveBonusSettings()"> Save Bonus Settings</button>
+ <div id="bonusResult" style="margin-top:10px;"></div>
  </div>
 
- <!-- ==================== WINNING CODES TAB ==================== -->
- <div id="codesTab" class="admin-tab-content">
- <h3> Set New Winning Code</h3>
- <div class="form-group"><label>6-Digit Code:</label><input type="text" id="newCode" maxlength="6" placeholder="123456"></div>
- <div class="form-group"><label>Prize Amount ($):</label><input type="number" id="newReward" placeholder="100"></div>
- <div class="form-group"><label>Expiry (days, optional):</label><input type="number" id="expiryDays" placeholder="30"></div>
- <button onclick="setWinningCode()" class="approve-btn">Set Winner</button>
- 
- <h3 style="margin-top:20px;"> Active Winning Codes</h3>
- <div id="winningCodesList" class="codes-grid"></div>
+ <!-- ANNOUNCEMENTS SECTION -->
+ <div id="announcementsSection" class="content-card" style="display:none;">
+ <div class="card-header">
+ <h3> Send Announcement</h3>
+ </div>
+ <div class="form-group">
+ <label>Title</label>
+ <input type="text" id="announcementTitle" placeholder="Announcement Title">
+ </div>
+ <div class="form-group">
+ <label>Message</label>
+ <textarea id="announcementMessage" rows="3" placeholder="Your message here..."></textarea>
+ </div>
+ <button class="btn-primary" onclick="sendAnnouncement()">Send to All Users</button>
+ <div id="announcementResult" style="margin-top:10px;"></div>
  </div>
 
- <!-- ==================== PAYMENT SETTINGS TAB ==================== -->
- <div id="paymentsettingsTab" class="admin-tab-content">
- <h3> Cryptocurrency Wallets</h3>
- <div class="form-group"><label>USDT (TRC20) Wallet Address:</label><input type="text" id="usdtWallet" style="width:100%"></div>
- <div class="form-group"><label>Bitcoin (BTC) Wallet Address:</label><input type="text" id="btcWallet" style="width:100%"></div>
- 
- <h3> Withdrawal Fees</h3>
- <div class="form-group"><label>Standard (3-5 days):</label><input type="number" id="feeStandard" value="0" step="0.5">%</div>
- <div class="form-group"><label>Express (24 hours):</label><input type="number" id="feeExpress" value="5" step="0.5">%</div>
- <div class="form-group"><label>Instant (Crypto):</label><input type="number" id="feeInstant" value="2" step="0.5">%</div>
- 
- <h3> Bank Transfer Details</h3>
- <div class="form-group"><label>Bank Name:</label><input type="text" id="bankName" style="width:100%"></div>
- <div class="form-group"><label>Account Name:</label><input type="text" id="accountName" style="width:100%"></div>
- <div class="form-group"><label>Account Number:</label><input type="text" id="accountNumber" style="width:100%"></div>
- <div class="form-group"><label>Routing Number:</label><input type="text" id="routingNumber" style="width:100%"></div>
- <div class="form-group"><label>SWIFT Code:</label><input type="text" id="swiftCode" style="width:100%"></div>
- 
- <button onclick="savePaymentSettings()" class="save-btn"> Save Payment Settings</button>
- <div id="paymentSettingsResult" style="margin-top: 10px;"></div>
+ <!-- SETTINGS SECTION -->
+ <div id="settingsSection" class="content-card" style="display:none;">
+ <div class="card-header">
+ <h3> Payment Settings</h3>
  </div>
-
- <!-- ==================== ENTRIES TAB ==================== -->
- <div id="entriesTab" class="admin-tab-content">
- <div style="overflow-x: auto;">
- <table id="entriesTable">
- <thead><tr><th>User</th><th>Game</th><th>Code</th><th>Matches</th><th>Won</th><th>Stake</th><th>Date</th></tr></thead>
- <tbody></tbody>
- </table>
+ <div class="form-group">
+ <label>USDT (TRC20) Wallet Address</label>
+ <input type="text" id="usdtWallet" placeholder="USDT wallet address">
  </div>
+ <div class="form-group">
+ <label>Bitcoin (BTC) Wallet Address</label>
+ <input type="text" id="btcWallet" placeholder="BTC wallet address">
  </div>
-
- <!-- ==================== SETTINGS TAB ==================== -->
- <div id="settingsTab" class="admin-tab-content">
- <h3> Admin Settings</h3>
- <div class="form-group"><label>New Admin Username:</label><input type="text" id="newAdminUsername" placeholder="admin"></div>
- <div class="form-group"><label>New Admin Email:</label><input type="email" id="newAdminEmail" placeholder="admin@lotto.com"></div>
- <div class="form-group"><label>New Password:</label><input type="password" id="newAdminPassword" placeholder="******"></div>
- <button onclick="updateAdminCredentials()" class="approve-btn">Update Credentials</button>
- 
- <hr>
- <h3> Manual Award</h3>
- <div class="form-group"><label>Select User:</label><select id="awardUserSelect" style="width:100%"></select></div>
- <div class="form-group"><label>Amount ($):</label><input type="number" id="awardAmount" placeholder="100"></div>
- <button onclick="manualAward()" class="boost-btn">Award User</button>
- 
- <hr>
- <h3> Force Logout User</h3>
- <div class="form-group"><label>Select User:</label><select id="logoutUserSelect" style="width:100%"></select></div>
- <button onclick="forceLogout()" class="disable-btn">Force Logout</button>
+ <div class="form-group">
+ <label>Bank Name</label>
+ <input type="text" id="bankName" placeholder="Bank Name">
+ </div>
+ <div class="form-group">
+ <label>Account Name</label>
+ <input type="text" id="accountName" placeholder="Account Name">
+ </div>
+ <div class="form-group">
+ <label>Account Number</label>
+ <input type="text" id="accountNumber" placeholder="Account Number">
+ </div>
+ <div class="form-group">
+ <label>Routing Number</label>
+ <input type="text" id="routingNumber" placeholder="Routing Number">
+ </div>
+ <button class="btn-primary" onclick="savePaymentSettings()"> Save Payment Settings</button>
+ <div id="paymentResult" style="margin-top:10px;"></div>
+ </div>
  </div>
  </div>
 
- <!-- Email Modal -->
- <div id="emailModal" class="modal">
- <div class="modal-content">
- <h3> Send Verification Email</h3>
- <div class="form-group"><label>Subject:</label><input type="text" id="emailSubject" value="Identity Verification Required"></div>
- <div class="form-group"><label>Message:</label><textarea id="emailMessage" rows="5"></textarea></div>
- <div class="modal-buttons">
- <button onclick="sendVerificationEmail()" style="background:#2ecc71;">Send Email</button>
- <button onclick="closeEmailModal()" style="background:#666;">Cancel</button>
+ <!-- FOOTER -->
+ <footer class="main-footer" style="margin-top:20px; padding:15px; background:rgba(255,255,255,0.03); border-radius:16px; text-align:center; font-size:0.7rem;">
+ <div class="footer-content">
+ <div class="copyright">© 2024 LottoMaster Admin Panel | Version 1.0</div>
  </div>
+ </footer>
  </div>
  </div>
 
@@ -561,129 +684,214 @@
  const API_URL = window.location.origin;
  let token = localStorage.getItem('token');
  let role = localStorage.getItem('role');
- let currentUserId = null;
 
  if (!token || role !== 'admin') {
  window.location.href = '/login';
  }
 
- // ============ USER MANAGEMENT ============
- async function loadPendingUsers() {
- try {
- const res = await fetch(`${API_URL}/api/admin/pending-users`, { headers: { 'Authorization': token } });
- const users = await res.json();
- const body = document.querySelector('#pendingUsersTable tbody');
- if (!users.length) { body.innerHTML = '<tr><td colspan="6">No pending users</td></tr>'; return; }
- body.innerHTML = '';
- users.forEach(user => {
- body.innerHTML += `<tr>
- <td>${user.legalName || user.name}</td>
- <td>${user.username}</td>
- <td>${user.email}</td>
- <td>${user.age || 'N/A'}</td>
- <td>${new Date(user.createdAt).toLocaleDateString()}</td>
- <td><button class="approve-btn" onclick="approveUser('${user._id}')">Approve</button></td>
- </tr>`;
- });
- } catch(e) { console.error(e); }
+ function showToast(message, type) {
+ const toast = document.createElement('div');
+ toast.className = 'toast';
+ toast.innerHTML = message;
+ toast.style.borderLeftColor = type === 'success' ? '#2ecc71' : '#e74c3c';
+ document.body.appendChild(toast);
+ setTimeout(() => toast.remove(), 3000);
  }
 
- async function loadAllUsers() {
+ // Navigation
+ document.querySelectorAll('.menu-item').forEach(item => {
+ item.addEventListener('click', () => {
+ document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+ item.classList.add('active');
+ const section = item.dataset.section;
+ document.querySelectorAll('.content-card').forEach(card => card.style.display = 'none');
+ document.getElementById(`${section}Section`).style.display = 'block';
+ 
+ if (section === 'users') loadUsers();
+ if (section === 'deposits') { loadPendingDeposits(); loadAllDeposits(); }
+ if (section === 'withdrawals') loadWithdrawals();
+ if (section === 'winning-codes') loadWinningCodes();
+ if (section === 'announcements') {}
+ if (section === 'settings') loadPaymentSettings();
+ });
+ });
+
+ // Load Users
+ async function loadUsers() {
  try {
  const res = await fetch(`${API_URL}/api/admin/users`, { headers: { 'Authorization': token } });
  const users = await res.json();
- const body = document.querySelector('#allUsersTable tbody');
+ document.getElementById('totalUsers').innerText = users.length;
+ const body = document.getElementById('usersTableBody');
  body.innerHTML = '';
  users.forEach(user => {
  body.innerHTML += `<tr>
- <td>${user.name}</td>
  <td>${user.username}</td>
  <td>$${user.balance.toFixed(2)}</td>
  <td>${user.totalWins}</td>
- <td>${user.verified ? ' ' : ' '}</td>
+ <td><span style="color:${user.status === 'approved' ? '#2ecc71' : '#f39c12'}">${user.status}</span></td>
  <td>${user.vipTier || 'Bronze'}</td>
- <td>${user.status}</td>
  <td>
- <button class="boost-btn" onclick="boostBalance('${user._id}')">+$100</button>
- ${user.status === 'disabled' ? 
- `<button class="enable-btn" onclick="toggleDisable('${user._id}', false)">Enable</button>` : 
- `<button class="disable-btn" onclick="toggleDisable('${user._id}', true)">Disable</button>`}
+ <button class="btn-success" onclick="boostBalance('${user._id}')">+$100</button>
+ <button class="btn-danger" onclick="disableUser('${user._id}')">Disable</button>
  </td>
  </tr>`;
  });
  } catch(e) { console.error(e); }
- }
-
- async function loadUnverifiedUsers() {
- try {
- const res = await fetch(`${API_URL}/api/admin/unverified-users`, { headers: { 'Authorization': token } });
- const users = await res.json();
- const body = document.querySelector('#unverifiedUsersTable tbody');
- if (!users.length) { body.innerHTML = '<tr><td colspan="6">No unverified users</td></tr>'; return; }
- body.innerHTML = '';
- users.forEach(user => {
- body.innerHTML += `<tr>
- <td>${user.legalName || user.name}</td>
- <td>${user.username}</td>
- <td>${user.email}</td>
- <td>${user.age || 'N/A'}</td>
- <td><small>${user.homeAddress || 'N/A'}</small></td>
- <td>
- <button class="approve-btn" onclick="openEmailModal('${user._id}', '${user.username}')"> Send Email</button>
- <button class="enable-btn" onclick="markAsVerified('${user._id}')"> Mark Verified</button>
- </td>
- </tr>`;
- });
- } catch(e) { console.error(e); }
- }
-
- async function approveUser(userId) {
- await fetch(`${API_URL}/api/admin/approve-user`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ userId }) });
- loadPendingUsers(); loadAllUsers(); loadUnverifiedUsers();
  }
 
  async function boostBalance(userId) {
  const amount = prompt("Enter amount to add:", "100");
  if (!amount) return;
- await fetch(`${API_URL}/api/admin/boost-balance`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ userId, amount: parseFloat(amount) }) });
- loadAllUsers();
+ await fetch(`${API_URL}/api/admin/boost-balance`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ userId, amount: parseFloat(amount) })
+ });
+ loadUsers();
+ showToast('Balance boosted!', 'success');
  }
 
- async function toggleDisable(userId, disable) {
- await fetch(`${API_URL}/api/admin/disable-user`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ userId, disabled: disable }) });
- loadAllUsers();
+ async function disableUser(userId) {
+ if (!confirm('Disable this user?')) return;
+ await fetch(`${API_URL}/api/admin/disable-user`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ userId, disabled: true })
+ });
+ loadUsers();
+ showToast('User disabled', 'success');
  }
 
- async function markAsVerified(userId) {
- if (!confirm('Mark this user as verified?')) return;
- await fetch(`${API_URL}/api/admin/verify-user`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ userId }) });
- alert('User verified!'); loadUnverifiedUsers(); loadAllUsers();
+ // Deposits
+ async function loadPendingDeposits() {
+ const res = await fetch(`${API_URL}/api/admin/pending-deposits`, { headers: { 'Authorization': token } });
+ const deposits = await res.json();
+ const body = document.getElementById('pendingDepositsBody');
+ if (!deposits.length) { body.innerHTML = '<tr><td colspan="6">No pending deposits</td></tr>'; return; }
+ body.innerHTML = '';
+ deposits.forEach(d => {
+ body.innerHTML += `<tr>
+ <td>${d.username}</td>
+ <td>$${d.amount}</td>
+ <td>${d.method}</td>
+ <td>${new Date(d.requestedAt).toLocaleString()}</td>
+ <td><input type="text" id="txid_${d._id}" placeholder="Transaction ID" style="padding:5px; width:120px;"></td>
+ <td><button class="btn-success" onclick="approveDeposit('${d._id}')">Approve</button> <button class="btn-danger" onclick="rejectDeposit('${d._id}')">Reject</button></td>
+ </tr>`;
+ });
  }
 
- // ============ RANDOM ROLL REWARDS ============
- async function loadRandomRewards() {
- try {
- const res = await fetch(`${API_URL}/api/admin/random-roll-rewards`, { headers: { 'Authorization': token } });
- const settings = await res.json();
- document.getElementById('randomRewardsEnabled').checked = settings.enabled !== false;
- if (settings.rewards) {
- document.getElementById('reward_sum3').value = settings.rewards.sum3 || 1.5;
- document.getElementById('reward_sum4').value = settings.rewards.sum4 || 1.5;
- document.getElementById('reward_sum5').value = settings.rewards.sum5 || 2;
- document.getElementById('reward_sum6').value = settings.rewards.sum6 || 2;
- document.getElementById('reward_sum7').value = settings.rewards.sum7 || 2.5;
- document.getElementById('reward_sum8').value = settings.rewards.sum8 || 2.5;
- document.getElementById('reward_sum9').value = settings.rewards.sum9 || 3;
- document.getElementById('reward_sum10').value = settings.rewards.sum10 || 3;
- document.getElementById('reward_sum11').value = settings.rewards.sum11 || 3.5;
- document.getElementById('reward_consecutives').value = settings.rewards.consecutives || 2;
- document.getElementById('reward_sameParity').value = settings.rewards.sameParity || 1.5;
- }
- } catch(e) { console.error(e); }
+ async function loadAllDeposits() {
+ const res = await fetch(`${API_URL}/api/admin/all-deposits`, { headers: { 'Authorization': token } });
+ const deposits = await res.json();
+ const body = document.getElementById('allDepositsBody');
+ if (!deposits.length) { body.innerHTML = '<tr><td colspan="5">No deposits</td></tr>'; return; }
+ body.innerHTML = '';
+ deposits.forEach(d => {
+ body.innerHTML += `<tr><td>${d.username}</td><td>$${d.amount}</td><td>${d.method}</td><td>${d.status}</td><td>${new Date(d.requestedAt).toLocaleString()}</td></tr>`;
+ });
  }
 
+ async function approveDeposit(id) {
+ const txid = document.getElementById(`txid_${id}`).value;
+ if (!txid) { alert('Enter transaction ID'); return; }
+ await fetch(`${API_URL}/api/admin/approve-deposit`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ depositId: id, transactionId: txid })
+ });
+ loadPendingDeposits();
+ loadAllDeposits();
+ showToast('Deposit approved', 'success');
+ }
+
+ async function rejectDeposit(id) {
+ if (!confirm('Reject this deposit?')) return;
+ await fetch(`${API_URL}/api/admin/reject-deposit`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ depositId: id })
+ });
+ loadPendingDeposits();
+ loadAllDeposits();
+ showToast('Deposit rejected', 'success');
+ }
+
+ // Withdrawals
+ async function loadWithdrawals() {
+ const res = await fetch(`${API_URL}/api/admin/withdrawals`, { headers: { 'Authorization': token } });
+ const withdrawals = await res.json();
+ const body = document.getElementById('withdrawalsBody');
+ if (!withdrawals.length) { body.innerHTML = '<tr><td colspan="7">No withdrawals</td></tr>'; return; }
+ body.innerHTML = '';
+ withdrawals.forEach(w => {
+ body.innerHTML += `<tr>
+ <td>${w.username}</td>
+ <td>$${w.amount}</td>
+ <td>$${w.fee || 0}</td>
+ <td>${w.method || 'N/A'}</td>
+ <td>${w.speed || 'standard'}</td>
+ <td>${w.status}</td>
+ <td>${w.status === 'pending' ? `<button class="btn-success" onclick="approveWithdrawal('${w._id}')">Approve</button> <button class="btn-danger" onclick="rejectWithdrawal('${w._id}')">Reject</button>` : '-'}</td>
+ </tr>`;
+ });
+ }
+
+ async function approveWithdrawal(id) {
+ await fetch(`${API_URL}/api/admin/approve-withdrawal`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ withdrawalId: id })
+ });
+ loadWithdrawals();
+ showToast('Withdrawal approved', 'success');
+ }
+
+ async function rejectWithdrawal(id) {
+ await fetch(`${API_URL}/api/admin/reject-withdrawal`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ withdrawalId: id })
+ });
+ loadWithdrawals();
+ showToast('Withdrawal rejected', 'success');
+ }
+
+ // Winning Codes
+ async function loadWinningCodes() {
+ const res = await fetch(`${API_URL}/api/admin/winning-codes`, { headers: { 'Authorization': token } });
+ const codes = await res.json();
+ const container = document.getElementById('winningCodesList');
+ if (!codes.length) { container.innerHTML = '<div>No winning codes</div>'; return; }
+ container.innerHTML = codes.map(c => `
+ <div class="code-card">
+ <div class="code-number">${c.code}</div>
+ <div> $${c.reward}</div>
+ <small>${c.expiry ? 'Expires: ' + new Date(c.expiry).toLocaleDateString() : 'No expiry'}</small>
+ <div><button class="btn-danger" onclick="deleteWinningCode('${c._id}')">Delete</button></div>
+ </div>
+ `).join('');
+ }
+
+ async function addWinningCode() {
+ const code = document.getElementById('newCode').value;
+ const reward = parseFloat(document.getElementById('newReward').value);
+ const expiryDays = parseInt(document.getElementById('expiryDays').value);
+ if (!code || code.length !== 6 || !reward) { alert("Valid 6-digit code and reward required"); return; }
+ await fetch(`${API_URL}/api/admin/set-winner`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ code, reward, expiryDays: expiryDays || null })
+ });
+ document.getElementById('newCode').value = '';
+ document.getElementById('newReward').value = '';
+ loadWinningCodes();
+ showToast('Winning code added', 'success');
+ }
+
+ async function deleteWinningCode(id) {
+ if (!confirm('Delete this code?')) return;
+ await fetch(`${API_URL}/api/admin/winning-code/${id}`, { method: 'DELETE', headers: { 'Authorization': token } });
+ loadWinningCodes();
+ showToast('Code deleted', 'success');
+ }
+
+ // Random Rewards
  async function saveRandomRewards() {
- const enabled = document.getElementById('randomRewardsEnabled').checked;
  const rewards = {
  sum3: parseFloat(document.getElementById('reward_sum3').value),
  sum4: parseFloat(document.getElementById('reward_sum4').value),
@@ -700,232 +908,17 @@
  
  const res = await fetch(`${API_URL}/api/admin/update-random-roll-rewards`, {
  method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
- body: JSON.stringify({ enabled, rewards })
+ body: JSON.stringify({ enabled: true, rewards })
  });
  
  if (res.ok) {
  document.getElementById('randomRewardsResult').innerHTML = '<span class="success"> Random rewards saved!</span>';
- setTimeout(() => { document.getElementById('randomRewardsResult').innerHTML = ''; }, 3000);
- } else {
- document.getElementById('randomRewardsResult').innerHTML = '<span class="error"> Error saving</span>';
+ setTimeout(() => document.getElementById('randomRewardsResult').innerHTML = '', 3000);
+ showToast('Random rewards saved', 'success');
  }
  }
 
- // ============ ANNOUNCEMENTS ============
- async function loadAnnouncementUsers() {
- const res = await fetch(`${API_URL}/api/admin/users`, { headers: { 'Authorization': token } });
- const users = await res.json();
- const select = document.getElementById('announcementUser');
- select.innerHTML = '<option value="all">All Users</option>';
- users.forEach(u => {
- select.innerHTML += `<option value="${u._id}">${u.username} (${u.name})</option>`;
- });
- }
-
- async function loadAdminAnnouncements() {
- const res = await fetch(`${API_URL}/api/admin/announcements`, { headers: { 'Authorization': token } });
- const announcements = await res.json();
- const container = document.getElementById('announcementsList');
- if (!announcements.length) { container.innerHTML = '<div>No announcements yet</div>'; return; }
- container.innerHTML = announcements.map(a => `
- <div class="code-card">
- <strong> ${a.title}</strong><br>
- To: ${a.username || 'All Users'}<br>
- ${a.message}<br>
- <small>${new Date(a.createdAt).toLocaleString()}</small><br>
- <button class="delete-btn" onclick="deleteAnnouncement('${a._id}')">Delete</button>
- </div>
- `).join('');
- }
-
- async function sendAnnouncement() {
- const userId = document.getElementById('announcementUser').value;
- const title = document.getElementById('announcementTitle').value;
- const message = document.getElementById('announcementMessage').value;
- const expiresInDays = parseInt(document.getElementById('announcementExpiry').value);
- 
- if (!title || !message) { alert("Fill all fields"); return; }
- 
- const res = await fetch(`${API_URL}/api/admin/send-announcement`, {
- method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
- body: JSON.stringify({ userId, title, message, expiresInDays: expiresInDays || null })
- });
- 
- if (res.ok) {
- alert('Announcement sent!');
- document.getElementById('announcementTitle').value = '';
- document.getElementById('announcementMessage').value = '';
- document.getElementById('announcementExpiry').value = '';
- loadAdminAnnouncements();
- } else {
- alert('Error sending announcement');
- }
- }
-
- async function deleteAnnouncement(id) {
- if (!confirm('Delete this announcement?')) return;
- await fetch(`${API_URL}/api/admin/announcement/${id}`, { method: 'DELETE', headers: { 'Authorization': token } });
- loadAdminAnnouncements();
- }
-
- // ============ DEPOSITS ============
- async function loadPendingDeposits() {
- try {
- const res = await fetch(`${API_URL}/api/admin/pending-deposits`, { headers: { 'Authorization': token } });
- const deposits = await res.json();
- const body = document.querySelector('#pendingDepositsTable tbody');
- if (!deposits.length) { body.innerHTML = '<table><td colspan="6">No pending deposits</td></tr>'; return; }
- body.innerHTML = '';
- deposits.forEach(d => {
- body.innerHTML += `<tr>
- <td>${d.username}</td>
- <td>$${d.amount}</td>
- <td>${d.method}</td>
- <td>${new Date(d.requestedAt).toLocaleString()}</td>
- <td><input type="text" id="txid_${d._id}" placeholder="Transaction ID" style="width:120px"></td>
- <td><button class="approve-btn" onclick="approveDeposit('${d._id}')">Approve</button><button class="disable-btn" onclick="rejectDeposit('${d._id}')">Reject</button></td>
- </tr>`;
- });
- } catch(e) { console.error(e); }
- }
-
- async function loadAllDeposits() {
- try {
- const res = await fetch(`${API_URL}/api/admin/all-deposits`, { headers: { 'Authorization': token } });
- const deposits = await res.json();
- const body = document.querySelector('#allDepositsTable tbody');
- if (!deposits.length) { body.innerHTML = '</table><td colspan="5">No deposits</td></tr>'; return; }
- body.innerHTML = '';
- deposits.forEach(d => {
- body.innerHTML += `<tr>
- <td>${d.username}</td>
- <td>$${d.amount}</td>
- <td>${d.method}</td>
- <td>${d.status}</td>
- <td>${new Date(d.requestedAt).toLocaleString()}</td>
- </tr>`;
- });
- } catch(e) { console.error(e); }
- }
-
- async function approveDeposit(depositId) {
- const transactionId = document.getElementById(`txid_${depositId}`).value;
- if (!transactionId) { alert('Please enter transaction ID'); return; }
- await fetch(`${API_URL}/api/admin/approve-deposit`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ depositId, transactionId }) });
- alert('Deposit approved!'); loadPendingDeposits(); loadAllDeposits();
- }
-
- async function rejectDeposit(depositId) {
- if (!confirm('Reject this deposit?')) return;
- await fetch(`${API_URL}/api/admin/reject-deposit`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ depositId }) });
- alert('Deposit rejected'); loadPendingDeposits(); loadAllDeposits();
- }
-
- // ============ WITHDRAWALS ============
- async function loadWithdrawals() {
- try {
- const res = await fetch(`${API_URL}/api/admin/withdrawals`, { headers: { 'Authorization': token } });
- const withdrawals = await res.json();
- const body = document.querySelector('#withdrawalsTable tbody');
- if (!withdrawals.length) { body.innerHTML = '<tr><td colspan="8">No withdrawals</div>'; return; }
- body.innerHTML = '';
- withdrawals.forEach(w => {
- body.innerHTML += `<tr>
- <td>${w.username}</td>
- <td>$${w.amount}</td>
- <td>$${w.fee || 0}</td>
- <td>${w.method || 'N/A'}</td>
- <td><small>${w.address || 'N/A'}</small></td>
- <td>${w.speed || 'standard'}</td>
- <td>${w.status}</td>
- <td>${w.status === 'pending' ? `<button class="approve-btn" onclick="approveWithdrawal('${w._id}')">Approve</button><button class="disable-btn" onclick="rejectWithdrawal('${w._id}')">Reject</button>` : '-'}</td>
- </tr>`;
- });
- } catch(e) { console.error(e); }
- }
-
- async function approveWithdrawal(id) {
- await fetch(`${API_URL}/api/admin/approve-withdrawal`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ withdrawalId: id }) });
- loadWithdrawals(); loadAllUsers();
- }
-
- async function rejectWithdrawal(id) {
- await fetch(`${API_URL}/api/admin/reject-withdrawal`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ withdrawalId: id }) });
- loadWithdrawals();
- }
-
- // ============ ANALYTICS ============
- async function loadAnalytics() {
- try {
- const res = await fetch(`${API_URL}/api/admin/analytics`, { headers: { 'Authorization': token } });
- const data = await res.json();
- document.getElementById('totalUsers').innerText = data.totalUsers;
- document.getElementById('totalDeposits').innerText = data.totalDeposits.toFixed(2);
- document.getElementById('totalWithdrawals').innerText = data.totalWithdrawals.toFixed(2);
- document.getElementById('netRevenue').innerText = data.netRevenue.toFixed(2);
- document.getElementById('dailyRevenue').innerText = data.dailyRevenue.toFixed(2);
- document.getElementById('activeUsersList').innerHTML = '<ul>' + (data.mostActiveUsers || []).map(u => `<li>${u.username} - ${u.count} plays</li>`).join('') + '</ul>';
- document.getElementById('popularGamesList').innerHTML = '<ul>' + (data.popularGames || []).map(g => `<li>${g._id} - ${g.count} plays</li>`).join('') + '</ul>';
- } catch(e) { console.error(e); }
- }
-
- // ============ WINNING CODES ============
- async function loadWinningCodes() {
- try {
- const res = await fetch(`${API_URL}/api/admin/winning-codes`, { headers: { 'Authorization': token } });
- const codes = await res.json();
- const container = document.getElementById('winningCodesList');
- if (!codes.length) { container.innerHTML = '<div>No winning codes</div>'; return; }
- container.innerHTML = codes.map(c => `
- <div class="code-card">
- <div class="code-number">${c.code}</div>
- <div> $${c.reward}</div>
- <small>${c.expiry ? 'Expires: ' + new Date(c.expiry).toLocaleDateString() : 'No expiry'}</small>
- <div><button class="delete-btn" onclick="deleteWinningCode('${c._id}')">Delete</button></div>
- </div>
- `).join('');
- } catch(e) { console.error(e); }
- }
-
- async function setWinningCode() {
- const code = document.getElementById('newCode').value;
- const reward = parseFloat(document.getElementById('newReward').value);
- const expiryDays = parseInt(document.getElementById('expiryDays').value);
- if (!code || code.length !== 6 || !reward) { alert("Valid 6-digit code and reward required"); return; }
- await fetch(`${API_URL}/api/admin/set-winner`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ code, reward, expiryDays: expiryDays || null }) });
- alert('Winning code set!'); document.getElementById('newCode').value = ''; document.getElementById('newReward').value = ''; document.getElementById('expiryDays').value = ''; loadWinningCodes();
- }
-
- async function deleteWinningCode(id) {
- if (!confirm("Delete this code?")) return;
- await fetch(`${API_URL}/api/admin/winning-code/${id}`, { method: 'DELETE', headers: { 'Authorization': token } });
- loadWinningCodes();
- }
-
- // ============ BONUS SETTINGS ============
- async function loadBonusSettings() {
- try {
- const res = await fetch(`${API_URL}/api/admin/bonus-settings`, { headers: { 'Authorization': token } });
- const settings = await res.json();
- if (settings.rollsRequired) {
- document.getElementById('bonusRolls_11').value = settings.rollsRequired.double1 || 30;
- document.getElementById('bonusRolls_22').value = settings.rollsRequired.double2 || 25;
- document.getElementById('bonusRolls_33').value = settings.rollsRequired.double3 || 25;
- document.getElementById('bonusRolls_44').value = settings.rollsRequired.double4 || 20;
- document.getElementById('bonusRolls_55').value = settings.rollsRequired.double5 || 15;
- document.getElementById('bonusRolls_66').value = settings.rollsRequired.double6 || 50;
- }
- if (settings.bonusMultipliers) {
- document.getElementById('bonusMult_11').value = settings.bonusMultipliers.double1 || 8;
- document.getElementById('bonusMult_22').value = settings.bonusMultipliers.double2 || 6;
- document.getElementById('bonusMult_33').value = settings.bonusMultipliers.double3 || 6;
- document.getElementById('bonusMult_44').value = settings.bonusMultipliers.double4 || 8;
- document.getElementById('bonusMult_55').value = settings.bonusMultipliers.double5 || 10;
- document.getElementById('bonusMult_66').value = settings.bonusMultipliers.double6 || 25;
- }
- } catch(e) { console.error(e); }
- }
-
+ // Bonus Settings
  async function saveBonusSettings() {
  const rollsRequired = {
  double1: parseInt(document.getElementById('bonusRolls_11').value),
@@ -943,168 +936,88 @@
  double5: parseFloat(document.getElementById('bonusMult_55').value),
  double6: parseFloat(document.getElementById('bonusMult_66').value)
  };
- const res = await fetch(`${API_URL}/api/admin/update-bonus-settings`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ rollsRequired, bonusMultipliers }) });
- if (res.ok) { document.getElementById('bonusResult').innerHTML = '<span class="success"> Bonus settings saved!</span>'; setTimeout(() => { document.getElementById('bonusResult').innerHTML = ''; }, 3000); }
- else { document.getElementById('bonusResult').innerHTML = '<span class="error"> Error saving</span>'; }
+ 
+ const res = await fetch(`${API_URL}/api/admin/update-bonus-settings`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ rollsRequired, bonusMultipliers })
+ });
+ 
+ if (res.ok) {
+ document.getElementById('bonusResult').innerHTML = '<span class="success"> Bonus settings saved!</span>';
+ setTimeout(() => document.getElementById('bonusResult').innerHTML = '', 3000);
+ showToast('Bonus settings saved', 'success');
+ }
  }
 
- // ============ PAYMENT SETTINGS ============
+ // Payment Settings
  async function loadPaymentSettings() {
- try {
  const res = await fetch(`${API_URL}/api/admin/payment-settings`, { headers: { 'Authorization': token } });
  const settings = await res.json();
  if (settings.cryptoWallets) {
  document.getElementById('usdtWallet').value = settings.cryptoWallets.usdt || '';
  document.getElementById('btcWallet').value = settings.cryptoWallets.btc || '';
  }
- if (settings.withdrawalFees) {
- document.getElementById('feeStandard').value = settings.withdrawalFees.standard || 0;
- document.getElementById('feeExpress').value = settings.withdrawalFees.express || 5;
- document.getElementById('feeInstant').value = settings.withdrawalFees.instant || 2;
- }
  if (settings.bankDetails) {
  document.getElementById('bankName').value = settings.bankDetails.bankName || '';
  document.getElementById('accountName').value = settings.bankDetails.accountName || '';
  document.getElementById('accountNumber').value = settings.bankDetails.accountNumber || '';
  document.getElementById('routingNumber').value = settings.bankDetails.routingNumber || '';
- document.getElementById('swiftCode').value = settings.bankDetails.swiftCode || '';
  }
- } catch(e) { console.error(e); }
  }
 
  async function savePaymentSettings() {
- const cryptoWallets = { usdt: document.getElementById('usdtWallet').value, btc: document.getElementById('btcWallet').value };
- const withdrawalFees = { standard: parseFloat(document.getElementById('feeStandard').value), express: parseFloat(document.getElementById('feeExpress').value), instant: parseFloat(document.getElementById('feeInstant').value) };
+ const cryptoWallets = {
+ usdt: document.getElementById('usdtWallet').value,
+ btc: document.getElementById('btcWallet').value
+ };
  const bankDetails = {
  bankName: document.getElementById('bankName').value,
  accountName: document.getElementById('accountName').value,
  accountNumber: document.getElementById('accountNumber').value,
- routingNumber: document.getElementById('routingNumber').value,
- swiftCode: document.getElementById('swiftCode').value
+ routingNumber: document.getElementById('routingNumber').value
  };
- const res = await fetch(`${API_URL}/api/admin/update-payment-settings`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ cryptoWallets, withdrawalFees, bankDetails }) });
- if (res.ok) { document.getElementById('paymentSettingsResult').innerHTML = '<span class="success"> Payment settings saved!</span>'; setTimeout(() => { document.getElementById('paymentSettingsResult').innerHTML = ''; }, 3000); }
- else { document.getElementById('paymentSettingsResult').innerHTML = '<span class="error"> Error saving</span>'; }
- }
-
- // ============ ENTRIES ============
- async function loadEntries() {
- try {
- const res = await fetch(`${API_URL}/api/admin/entries`, { headers: { 'Authorization': token } });
- const entries = await res.json();
- const body = document.querySelector('#entriesTable tbody');
- if (!entries.length) { body.innerHTML = '<tr><td colspan="7">No entries yet</div>'; return; }
- body.innerHTML = '';
- entries.slice(0, 100).forEach(e => {
- body.innerHTML += `<tr>
- <td>${e.username}</td>
- <td>${e.game || 'Lotto'}</td>
- <td>${e.code || '-'}</td>
- <td>${e.matches || '-'}/6</div>
- <td>$${e.rewardWon.toFixed(2)}</div>
- <td>$${e.stake || 0}</div>
- <td>${new Date(e.date).toLocaleString()}</div>
- </tr>`;
- });
- } catch(e) { console.error(e); }
- }
-
- // ============ SETTINGS ============
- async function loadAwardUserSelect() {
- try {
- const res = await fetch(`${API_URL}/api/admin/users`, { headers: { 'Authorization': token } });
- const users = await res.json();
- const select = document.getElementById('awardUserSelect');
- const logoutSelect = document.getElementById('logoutUserSelect');
- select.innerHTML = '<option value="">Select user</option>';
- logoutSelect.innerHTML = '<option value="">Select user</option>';
- users.forEach(u => {
- select.innerHTML += `<option value="${u._id}">${u.username} ($${u.balance})</option>`;
- logoutSelect.innerHTML += `<option value="${u._id}">${u.username}</option>`;
- });
- } catch(e) { console.error(e); }
- }
-
- async function manualAward() {
- const userId = document.getElementById('awardUserSelect').value;
- const amount = parseFloat(document.getElementById('awardAmount').value);
- if (!userId || !amount) { alert("Select user and enter amount"); return; }
- await fetch(`${API_URL}/api/admin/manual-award`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ userId, amount }) });
- alert('User awarded!'); document.getElementById('awardAmount').value = ''; loadAllUsers();
- }
-
- async function forceLogout() {
- const userId = document.getElementById('logoutUserSelect').value;
- if (!userId) { alert("Select user"); return; }
- if (!confirm('Force logout this user from all devices?')) return;
- await fetch(`${API_URL}/api/admin/force-logout`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ userId }) });
- alert('User logged out from all devices');
- }
-
- async function updateAdminCredentials() {
- const username = document.getElementById('newAdminUsername').value;
- const email = document.getElementById('newAdminEmail').value;
- const password = document.getElementById('newAdminPassword').value;
- await fetch(`${API_URL}/api/admin/update-credentials`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ username, email, password: password || undefined }) });
- alert("Credentials updated! Please re-login."); if (username || password) logout();
- }
-
- // ============ EMAIL MODAL ============
- function openEmailModal(userId, username) {
- currentUserId = userId;
- document.getElementById('emailMessage').value = `Dear ${username},\n\nPlease submit your government-issued ID and proof of address for identity verification.\n\nYou can reply to this email with attached images of your:\n- Driver's License OR Passport OR State ID\n- Recent Utility Bill OR Bank Statement\n\nOnce verified, your account will be fully activated.\n\nThank you,\nLottoMaster Team`;
- document.getElementById('emailModal').style.display = 'flex';
- }
-
- function closeEmailModal() { document.getElementById('emailModal').style.display = 'none'; currentUserId = null; }
-
- async function sendVerificationEmail() {
- if (!currentUserId) return;
- const subject = document.getElementById('emailSubject').value;
- const message = document.getElementById('emailMessage').value;
- await fetch(`${API_URL}/api/admin/send-verification-email`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ userId: currentUserId, subject, message }) });
- alert('Email sent!'); closeEmailModal();
- }
-
- // ============ TAB NAVIGATION ============
- function showTab(tab) {
- document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
- document.querySelectorAll('.admin-tab-content').forEach(content => content.classList.remove('active'));
- event.target.classList.add('active');
- document.getElementById(`${tab}Tab`).classList.add('active');
  
- if (tab === 'users') { loadPendingUsers(); loadAllUsers(); }
- if (tab === 'verification') loadUnverifiedUsers();
- if (tab === 'analytics') loadAnalytics();
- if (tab === 'randomrewards') loadRandomRewards();
- if (tab === 'announcements') { loadAnnouncementUsers(); loadAdminAnnouncements(); }
- if (tab === 'deposits') { loadPendingDeposits(); loadAllDeposits(); }
- if (tab === 'withdrawals') loadWithdrawals();
- if (tab === 'bonus') loadBonusSettings();
- if (tab === 'codes') loadWinningCodes();
- if (tab === 'paymentsettings') loadPaymentSettings();
- if (tab === 'entries') loadEntries();
- if (tab === 'settings') loadAwardUserSelect();
+ const res = await fetch(`${API_URL}/api/admin/update-payment-settings`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ cryptoWallets, bankDetails })
+ });
+ 
+ if (res.ok) {
+ document.getElementById('paymentResult').innerHTML = '<span class="success"> Payment settings saved!</span>';
+ setTimeout(() => document.getElementById('paymentResult').innerHTML = '', 3000);
+ showToast('Payment settings saved', 'success');
+ }
  }
 
- function logout() { localStorage.removeItem('token'); localStorage.removeItem('role'); window.location.href = '/login'; }
+ // Announcements
+ async function sendAnnouncement() {
+ const title = document.getElementById('announcementTitle').value;
+ const message = document.getElementById('announcementMessage').value;
+ if (!title || !message) { alert('Fill all fields'); return; }
+ 
+ const res = await fetch(`${API_URL}/api/admin/send-announcement`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ userId: 'all', title, message })
+ });
+ 
+ if (res.ok) {
+ document.getElementById('announcementTitle').value = '';
+ document.getElementById('announcementMessage').value = '';
+ document.getElementById('announcementResult').innerHTML = '<span class="success"> Announcement sent!</span>';
+ setTimeout(() => document.getElementById('announcementResult').innerHTML = '', 3000);
+ showToast('Announcement sent to all users', 'success');
+ }
+ }
 
- // Initial loads
- loadPendingUsers();
- loadAllUsers();
- loadUnverifiedUsers();
- loadAnalytics();
- loadRandomRewards();
- loadAnnouncementUsers();
- loadAdminAnnouncements();
+ function logout() { localStorage.clear(); window.location.href = '/login'; }
+
+ // Initial Load
+ loadUsers();
  loadPendingDeposits();
  loadAllDeposits();
  loadWithdrawals();
- loadBonusSettings();
  loadWinningCodes();
  loadPaymentSettings();
- loadEntries();
- loadAwardUserSelect();
  </script>
 </body>
 </html>
