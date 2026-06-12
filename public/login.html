@@ -85,7 +85,7 @@ display: none;
 50% { transform: translateY(-5vh) rotate(180deg); }
 }
 
-/* ============ MAIN CONTAINER - CRITICAL FIX ============ */
+/* ============ MAIN CONTAINER ============ */
 .login-container {
 position: relative;
 z-index: 1;
@@ -108,7 +108,7 @@ flex-direction: column;
 overflow-x: hidden;
 }
 
-/* ============ HEADER SECTION - FIXED ============ */
+/* ============ HEADER SECTION ============ */
 .main-header {
 margin-bottom: 20px;
 padding: 20px 15px;
@@ -178,7 +178,7 @@ opacity: 0.7;
 word-break: keep-all;
 }
 
-/* ============ MAIN SECTION - FIXED ============ */
+/* ============ MAIN SECTION ============ */
 .main-section {
 flex: 1;
 display: flex;
@@ -190,7 +190,7 @@ max-width: 100%;
 overflow-x: hidden;
 }
 
-/* ============ LOGIN CARD - CRITICAL FIX ============ */
+/* ============ LOGIN CARD ============ */
 .login-card {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
@@ -220,7 +220,30 @@ font-size: 0.75rem;
 word-break: break-word;
 }
 
-/* Animated Dice - FIXED for mobile */
+/* Verification Notice */
+.verification-notice {
+background: rgba(245, 158, 11, 0.1);
+border-left: 3px solid #F59E0B;
+padding: 12px;
+margin-bottom: 20px;
+border-radius: 10px;
+font-size: 0.7rem;
+}
+
+.verification-notice p {
+margin-bottom: 5px;
+}
+
+.verification-notice ul {
+margin-left: 20px;
+margin-top: 5px;
+}
+
+.verification-notice li {
+margin-bottom: 3px;
+}
+
+/* Animated Dice */
 .dice-animation {
 display: flex;
 justify-content: center;
@@ -259,7 +282,7 @@ font-size: 2rem;
 100% { transform: rotate(360deg); }
 }
 
-/* Form Styles - FIXED for mobile */
+/* Form Styles */
 .input-group {
 margin-bottom: 15px;
 width: 100%;
@@ -271,6 +294,10 @@ display: block;
 margin-bottom: 5px;
 font-size: 0.8rem;
 opacity: 0.8;
+}
+
+.input-group label .required {
+color: #F59E0B;
 }
 
 .input-group input {
@@ -296,7 +323,14 @@ box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
 color: rgba(255, 255, 255, 0.4);
 }
 
-/* Form Options - FIXED */
+.input-group small {
+display: block;
+margin-top: 5px;
+font-size: 0.65rem;
+opacity: 0.6;
+}
+
+/* Form Options */
 .form-options {
 display: flex;
 justify-content: space-between;
@@ -328,7 +362,7 @@ text-decoration: none;
 transition: opacity 0.3s;
 }
 
-/* Buttons - CRITICAL FIX */
+/* Buttons */
 .login-btn {
 width: 100%;
 max-width: 100%;
@@ -384,7 +418,7 @@ font-size: 0.7rem;
 opacity: 0.6;
 }
 
-/* Security Badges - FIXED */
+/* Security Badges */
 .security-badges {
 display: flex;
 justify-content: center;
@@ -412,7 +446,7 @@ text-align: center;
 }
 }
 
-/* ============ RIGHT SIDE CONTENT - FIXED ============ */
+/* ============ RIGHT SIDE CONTENT ============ */
 .right-side {
 display: flex;
 flex-direction: column;
@@ -422,7 +456,7 @@ max-width: 100%;
 overflow-x: hidden;
 }
 
-/* Daily Bonus Banner - FIXED */
+/* Daily Bonus Banner */
 .daily-bonus {
 background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.05));
 border-radius: 16px;
@@ -472,7 +506,7 @@ color: #F59E0B;
 font-family: monospace;
 }
 
-/* Recent Wins Section - FIXED */
+/* Recent Wins Section */
 .recent-wins {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
@@ -557,7 +591,7 @@ font-weight: bold;
 font-size: 0.9rem;
 }
 
-/* Testimonials Section - FIXED */
+/* Testimonials Section */
 .testimonials {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
@@ -652,7 +686,7 @@ background: #F59E0B;
 border-radius: 10px;
 }
 
-/* ============ FOOTER SECTION - FIXED ============ */
+/* ============ FOOTER SECTION ============ */
 .main-footer {
 margin-top: auto;
 padding: 15px;
@@ -830,21 +864,43 @@ border-radius: 10px;
 
 <!-- Signup Form (Hidden) -->
 <div id="signupSection" style="display: none;">
+<!-- Verification Notice - Added -->
+<div class="verification-notice">
+<p><strong>📋 Important Verification Information</strong></p>
+<p>To comply with regulations and ensure a safe gaming environment, all players must complete identity verification.</p>
+<ul>
+<li>🔞 You must be <strong>18 years or older</strong> to play</li>
+<li>📄 Government-issued ID (Driver's License, Passport, or State ID)</li>
+<li>🏠 Proof of Address (Utility bill or bank statement)</li>
+<li>🔒 SSN may be required for large withdrawals</li>
+</ul>
+<p style="margin-top: 8px;"><small>After registration, you will receive an email with instructions to submit your documents for verification.</small></p>
+</div>
+
 <div class="input-group">
-<label>👤 Full Name</label>
-<input type="text" id="signupName" placeholder="Enter your full name">
+<label>👤 Full Name <span class="required">*</span></label>
+<input type="text" id="signupName" placeholder="Enter your full legal name">
 </div>
 <div class="input-group">
-<label>👤 Username</label>
+<label>📅 Date of Birth <span class="required">*</span></label>
+<input type="date" id="signupDob">
+<small>Must be 18 years or older to register</small>
+</div>
+<div class="input-group">
+<label>👤 Username <span class="required">*</span></label>
 <input type="text" id="signupUsername" placeholder="Choose a username">
 </div>
 <div class="input-group">
-<label>📧 Email Address</label>
+<label>📧 Email Address <span class="required">*</span></label>
 <input type="email" id="signupEmail" placeholder="Enter your email">
 </div>
 <div class="input-group">
-<label>🔒 Password</label>
-<input type="password" id="signupPassword" placeholder="Create a password">
+<label>🔒 Password <span class="required">*</span></label>
+<input type="password" id="signupPassword" placeholder="Create a password (min 6 characters)">
+</div>
+<div class="input-group">
+<label>🔒 Confirm Password <span class="required">*</span></label>
+<input type="password" id="signupConfirmPassword" placeholder="Confirm your password">
 </div>
 
 <button class="login-btn" onclick="signup()">📝 CREATE ACCOUNT</button>
@@ -865,6 +921,7 @@ border-radius: 10px;
 <div class="badge">💰 Instant Withdrawals</div>
 <div class="badge">🎲 Provably Fair</div>
 <div class="badge">🛡️ 24/7 Support</div>
+<div class="badge">✅ ID Verification</div>
 </div>
 </div>
 
@@ -1166,14 +1223,45 @@ document.getElementById('signupError').innerHTML = '';
 document.getElementById('signupSuccess').innerHTML = '';
 }
 
+function calculateAge(dateOfBirth) {
+const today = new Date();
+const birthDate = new Date(dateOfBirth);
+let age = today.getFullYear() - birthDate.getFullYear();
+const monthDiff = today.getMonth() - birthDate.getMonth();
+if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+age--;
+}
+return age;
+}
+
 async function signup() {
 const name = document.getElementById('signupName').value;
+const dob = document.getElementById('signupDob').value;
 const username = document.getElementById('signupUsername').value;
 const email = document.getElementById('signupEmail').value;
 const password = document.getElementById('signupPassword').value;
+const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
-if (!name || !username || !email || !password) {
-document.getElementById('signupError').innerHTML = '❌ Please fill all fields';
+// Validation
+if (!name || !dob || !username || !email || !password) {
+document.getElementById('signupError').innerHTML = '❌ Please fill all required fields';
+return;
+}
+
+if (password !== confirmPassword) {
+document.getElementById('signupError').innerHTML = '❌ Passwords do not match';
+return;
+}
+
+if (password.length < 6) {
+document.getElementById('signupError').innerHTML = '❌ Password must be at least 6 characters';
+return;
+}
+
+// Check age
+const age = calculateAge(dob);
+if (age < 18) {
+document.getElementById('signupError').innerHTML = '❌ You must be 18 years or older to register';
 return;
 }
 
@@ -1181,16 +1269,25 @@ try {
 const res = await fetch(`${API_URL}/api/signup`, {
 method: 'POST',
 headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ name, username, email, password })
+body: JSON.stringify({
+name,
+username,
+email,
+password,
+dateOfBirth: dob,
+legalName: name
+})
 });
 
 const data = await res.json();
 if (res.ok) {
-document.getElementById('signupSuccess').innerHTML = '✅ Account created! Please wait for admin approval.';
+document.getElementById('signupSuccess').innerHTML = '✅ Account created! Please check your email for verification instructions.';
 document.getElementById('signupName').value = '';
+document.getElementById('signupDob').value = '';
 document.getElementById('signupUsername').value = '';
 document.getElementById('signupEmail').value = '';
 document.getElementById('signupPassword').value = '';
+document.getElementById('signupConfirmPassword').value = '';
 setTimeout(() => showLogin(), 3000);
 } else {
 document.getElementById('signupError').innerHTML = '❌ ' + data.error;
