@@ -72,8 +72,7 @@ position: relative;
 z-index: 1;
 min-height: 100vh;
 display: flex;
-align-items: center;
-justify-content: center;
+flex-direction: column;
 padding: 20px;
 }
 
@@ -81,12 +80,15 @@ padding: 20px;
 max-width: 1400px;
 width: 100%;
 margin: 0 auto;
+flex: 1;
+display: flex;
+flex-direction: column;
 }
 
 /* ============ HEADER SECTION ============ */
 .main-header {
 margin-bottom: 40px;
-padding: 20px 30px;
+padding: 25px 30px;
 background: rgba(255, 255, 255, 0.03);
 backdrop-filter: blur(10px);
 border-radius: 20px;
@@ -101,12 +103,17 @@ flex-wrap: wrap;
 gap: 20px;
 }
 
+.logo-area {
+text-align: left;
+}
+
 .logo-area h1 {
 font-size: 32px;
 background: linear-gradient(135deg, #FFFFFF, #F59E0B);
 -webkit-background-clip: text;
 background-clip: text;
 color: transparent;
+margin-bottom: 5px;
 }
 
 .logo-area p {
@@ -117,7 +124,7 @@ letter-spacing: 2px;
 
 .live-stats {
 display: flex;
-gap: 30px;
+gap: 40px;
 flex-wrap: wrap;
 }
 
@@ -136,15 +143,16 @@ font-size: 12px;
 opacity: 0.7;
 }
 
-/* ============ MAIN CONTENT SECTION ============ */
-.main-content {
+/* ============ MAIN SECTION (Login + Right Side) ============ */
+.main-section {
+flex: 1;
 display: grid;
 grid-template-columns: 1fr 1fr;
 gap: 40px;
 margin-bottom: 40px;
 }
 
-/* ============ LOGIN CARD SECTION ============ */
+/* ============ LOGIN CARD ============ */
 .login-card {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
@@ -362,7 +370,7 @@ align-items: center;
 gap: 5px;
 }
 
-/* ============ RIGHT SIDE SECTION ============ */
+/* ============ RIGHT SIDE CONTENT ============ */
 .right-side {
 display: flex;
 flex-direction: column;
@@ -578,10 +586,12 @@ border-radius: 10px;
 
 /* ============ FOOTER SECTION ============ */
 .main-footer {
-margin-top: 40px;
-padding: 20px;
-text-align: center;
-border-top: 1px solid rgba(255, 255, 255, 0.1);
+margin-top: auto;
+padding: 25px 30px;
+background: rgba(255, 255, 255, 0.03);
+backdrop-filter: blur(10px);
+border-radius: 20px;
+border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer-content {
@@ -589,14 +599,17 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 flex-wrap: wrap;
-gap: 15px;
+gap: 20px;
 font-size: 12px;
+}
+
+.copyright {
 opacity: 0.6;
 }
 
 .footer-links {
 display: flex;
-gap: 20px;
+gap: 25px;
 flex-wrap: wrap;
 }
 
@@ -604,10 +617,20 @@ flex-wrap: wrap;
 color: white;
 text-decoration: none;
 transition: color 0.3s;
+opacity: 0.7;
 }
 
 .footer-links a:hover {
 color: #F59E0B;
+opacity: 1;
+}
+
+.footer-badge {
+padding: 5px 12px;
+background: rgba(245, 158, 11, 0.15);
+border-radius: 20px;
+color: #F59E0B;
+font-weight: bold;
 }
 
 /* ============ ERROR/SUCCESS MESSAGES ============ */
@@ -628,13 +651,17 @@ text-align: center;
 /* ============ RESPONSIVE DESIGN ============ */
 /* Tablet (768px - 1024px) */
 @media (max-width: 1024px) {
-.main-content {
+.main-section {
 grid-template-columns: 1fr;
 gap: 30px;
 }
 
 .header-content {
 flex-direction: column;
+text-align: center;
+}
+
+.logo-area {
 text-align: center;
 }
 
@@ -655,7 +682,7 @@ padding: 15px;
 }
 
 .main-header {
-padding: 15px 20px;
+padding: 20px;
 margin-bottom: 30px;
 }
 
@@ -665,6 +692,14 @@ font-size: 24px;
 
 .stat-value {
 font-size: 20px;
+}
+
+.stat {
+min-width: 80px;
+}
+
+.live-stats {
+gap: 20px;
 }
 
 .login-card {
@@ -703,6 +738,15 @@ gap: 8px;
 font-size: 9px;
 padding: 4px 8px;
 }
+
+.main-footer {
+padding: 20px;
+}
+
+.footer-links {
+gap: 15px;
+justify-content: center;
+}
 }
 
 /* Small Mobile (up to 480px) */
@@ -728,14 +772,16 @@ align-items: flex-start;
 
 .live-stats {
 gap: 15px;
+width: 100%;
+justify-content: space-around;
 }
 
 .stat-value {
-font-size: 18px;
+font-size: 16px;
 }
 
 .stat-label {
-font-size: 10px;
+font-size: 9px;
 }
 
 .win-item {
@@ -746,6 +792,12 @@ gap: 8px;
 
 .win-user {
 flex-direction: column;
+}
+
+.footer-links {
+flex-direction: column;
+gap: 10px;
+align-items: center;
 }
 }
 
@@ -789,7 +841,7 @@ border-radius: 10px;
 </div>
 <div class="live-stats">
 <div class="stat">
-<div class="stat-value" id="activePlayers">1,234</div>
+<div class="stat-value" id="activePlayers">1,238</div>
 <div class="stat-label">🔥 Active Players</div>
 </div>
 <div class="stat">
@@ -804,11 +856,11 @@ border-radius: 10px;
 </div>
 </header>
 
-<!-- ============ MAIN CONTENT SECTION ============ -->
-<main class="main-content">
+<!-- ============ MAIN SECTION (Login + Right Side) ============ -->
+<section class="main-section">
 
-<!-- LEFT: LOGIN CARD SECTION -->
-<section class="login-card">
+<!-- LEFT: LOGIN CARD -->
+<div class="login-card">
 <div class="dice-animation">
 <div class="animated-dice" id="dice1">🎲</div>
 <div class="animated-dice" id="dice2">🎲</div>
@@ -819,7 +871,7 @@ border-radius: 10px;
 <p>Enter your credentials to access your account</p>
 </div>
 
-<!-- Login Form Section -->
+<!-- Login Form -->
 <div id="loginSection">
 <div class="input-group">
 <label>👤 Username</label>
@@ -848,7 +900,7 @@ border-radius: 10px;
 <div id="loginError" class="error-message"></div>
 </div>
 
-<!-- Signup Form Section (Hidden) -->
+<!-- Signup Form (Hidden) -->
 <div id="signupSection" style="display: none;">
 <div class="input-group">
 <label>👤 Full Name</label>
@@ -886,10 +938,10 @@ border-radius: 10px;
 <div class="badge">🎲 Provably Fair</div>
 <div class="badge">🛡️ 24/7 Support</div>
 </div>
-</section>
+</div>
 
-<!-- RIGHT SIDE SECTION -->
-<aside class="right-side">
+<!-- RIGHT SIDE CONTENT -->
+<div class="right-side">
 
 <!-- Daily Bonus Banner -->
 <div class="daily-bonus">
@@ -903,20 +955,18 @@ border-radius: 10px;
 <div class="bonus-timer" id="countdownTimer">24:00:00</div>
 </div>
 
-<!-- Recent Wins Section -->
-<section class="recent-wins">
+<!-- Recent Wins -->
+<div class="recent-wins">
 <div class="section-header">
 <span>🔥</span>
 <h3>Recent Big Wins</h3>
 <span style="margin-left: auto; font-size: 11px;">Live feed</span>
 </div>
-<div class="wins-feed" id="winsFeed">
-<!-- Dynamic wins will be inserted here -->
+<div class="wins-feed" id="winsFeed"></div>
 </div>
-</section>
 
-<!-- Testimonials Section -->
-<section class="testimonials">
+<!-- Testimonials -->
+<div class="testimonials">
 <div class="section-header">
 <span>⭐</span>
 <h3>What Our Players Say</h3>
@@ -924,9 +974,9 @@ border-radius: 10px;
 </div>
 <div class="testimonials-carousel" id="testimonialCarousel"></div>
 <div class="carousel-dots" id="carouselDots"></div>
+</div>
+</div>
 </section>
-</aside>
-</main>
 
 <!-- ============ FOOTER SECTION ============ -->
 <footer class="main-footer">
@@ -988,9 +1038,8 @@ dice2.innerHTML = diceFaces[Math.floor(Math.random() * 6)];
 animateDice();
 
 // ============ LIVE STATS COUNTER ============
-let activePlayers = 1234;
+let activePlayers = 1238;
 let jackpotsWon = 5678;
-let totalPaid = 2.5;
 
 setInterval(() => {
 activePlayers += Math.floor(Math.random() * 5) - 2;
