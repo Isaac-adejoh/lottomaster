@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
 <title>LottoMaster - Login & Win Big</title>
 <style>
 /* ============ RESET & BASE ============ */
@@ -12,12 +12,21 @@ padding: 0;
 box-sizing: border-box;
 }
 
+html, body {
+overflow-x: hidden;
+width: 100%;
+max-width: 100%;
+position: relative;
+}
+
 body {
 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
 min-height: 100vh;
 color: white;
 overflow-x: hidden;
+width: 100%;
+max-width: 100%;
 }
 
 /* ============ ANIMATED BACKGROUND ============ */
@@ -29,6 +38,7 @@ width: 100%;
 height: 100%;
 z-index: 0;
 overflow: hidden;
+pointer-events: none;
 }
 
 .particle {
@@ -55,7 +65,7 @@ opacity: 0;
 /* Floating Dice */
 .floating-dice {
 position: fixed;
-font-size: 40px;
+font-size: clamp(20px, 5vw, 40px);
 pointer-events: none;
 z-index: 0;
 animation: floatDice 8s ease-in-out infinite;
@@ -73,7 +83,10 @@ z-index: 1;
 min-height: 100vh;
 display: flex;
 flex-direction: column;
-padding: 20px;
+padding: clamp(10px, 3vw, 20px);
+width: 100%;
+max-width: 100%;
+overflow-x: hidden;
 }
 
 .login-wrapper {
@@ -83,16 +96,20 @@ margin: 0 auto;
 flex: 1;
 display: flex;
 flex-direction: column;
+padding: 0 clamp(10px, 2vw, 20px);
 }
 
 /* ============ HEADER SECTION ============ */
 .main-header {
-margin-bottom: 40px;
-padding: 25px 30px;
+margin-bottom: clamp(20px, 5vw, 40px);
+padding: clamp(15px, 3vw, 25px) clamp(15px, 4vw, 30px);
 background: rgba(255, 255, 255, 0.03);
 backdrop-filter: blur(10px);
 border-radius: 20px;
 border: 1px solid rgba(245, 158, 11, 0.2);
+width: 100%;
+max-width: 100%;
+box-sizing: border-box;
 }
 
 .header-content {
@@ -100,67 +117,78 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 flex-wrap: wrap;
-gap: 20px;
+gap: clamp(10px, 3vw, 20px);
+width: 100%;
 }
 
 .logo-area {
 text-align: left;
+flex: 1;
+min-width: 200px;
 }
 
 .logo-area h1 {
-font-size: 32px;
+font-size: clamp(20px, 5vw, 32px);
 background: linear-gradient(135deg, #FFFFFF, #F59E0B);
 -webkit-background-clip: text;
 background-clip: text;
 color: transparent;
 margin-bottom: 5px;
+white-space: nowrap;
 }
 
 .logo-area p {
-font-size: 12px;
+font-size: clamp(9px, 2.5vw, 12px);
 opacity: 0.7;
-letter-spacing: 2px;
+letter-spacing: 1px;
+white-space: nowrap;
 }
 
 .live-stats {
 display: flex;
-gap: 40px;
+gap: clamp(15px, 4vw, 40px);
 flex-wrap: wrap;
+justify-content: flex-end;
 }
 
 .stat {
 text-align: center;
+min-width: 70px;
 }
 
 .stat-value {
-font-size: 28px;
+font-size: clamp(16px, 4vw, 28px);
 font-weight: bold;
 color: #F59E0B;
 }
 
 .stat-label {
-font-size: 12px;
+font-size: clamp(9px, 2.5vw, 12px);
 opacity: 0.7;
+white-space: nowrap;
 }
 
-/* ============ MAIN SECTION (Login + Right Side) ============ */
+/* ============ MAIN SECTION ============ */
 .main-section {
 flex: 1;
 display: grid;
 grid-template-columns: 1fr 1fr;
-gap: 40px;
-margin-bottom: 40px;
+gap: clamp(20px, 4vw, 40px);
+margin-bottom: clamp(20px, 5vw, 40px);
+width: 100%;
 }
 
 /* ============ LOGIN CARD ============ */
 .login-card {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
-border-radius: 30px;
-padding: 40px;
+border-radius: clamp(20px, 4vw, 30px);
+padding: clamp(20px, 4vw, 40px);
 border: 1px solid rgba(245, 158, 11, 0.3);
 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 transition: transform 0.3s, box-shadow 0.3s;
+width: 100%;
+box-sizing: border-box;
 }
 
 .login-card:hover {
@@ -170,36 +198,36 @@ box-shadow: 0 30px 60px -12px rgba(245, 158, 11, 0.2);
 
 .card-header {
 text-align: center;
-margin-bottom: 30px;
+margin-bottom: clamp(20px, 5vw, 30px);
 }
 
 .card-header h2 {
-font-size: 28px;
+font-size: clamp(20px, 5vw, 28px);
 margin-bottom: 10px;
 }
 
 .card-header p {
 opacity: 0.6;
-font-size: 14px;
+font-size: clamp(12px, 3vw, 14px);
 }
 
 /* Animated Dice */
 .dice-animation {
 display: flex;
 justify-content: center;
-gap: 20px;
+gap: clamp(15px, 4vw, 20px);
 margin-bottom: 20px;
 }
 
 .animated-dice {
-width: 60px;
-height: 60px;
+width: clamp(45px, 10vw, 60px);
+height: clamp(45px, 10vw, 60px);
 background: white;
-border-radius: 15px;
+border-radius: clamp(12px, 3vw, 15px);
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: 30px;
+font-size: clamp(22px, 5vw, 30px);
 font-weight: bold;
 color: #0F172A;
 animation: diceRoll 0.5s ease-out;
@@ -216,25 +244,26 @@ box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 
 /* Form Styles */
 .input-group {
-margin-bottom: 20px;
+margin-bottom: clamp(15px, 4vw, 20px);
 }
 
 .input-group label {
 display: block;
 margin-bottom: 8px;
-font-size: 14px;
+font-size: clamp(12px, 3vw, 14px);
 opacity: 0.8;
 }
 
 .input-group input {
 width: 100%;
-padding: 15px 18px;
+padding: clamp(12px, 3vw, 15px) clamp(15px, 4vw, 18px);
 background: rgba(255, 255, 255, 0.1);
 border: 1px solid rgba(255, 255, 255, 0.2);
-border-radius: 15px;
+border-radius: clamp(12px, 3vw, 15px);
 color: white;
-font-size: 16px;
+font-size: clamp(14px, 3.5vw, 16px);
 transition: all 0.3s;
+box-sizing: border-box;
 }
 
 .input-group input:focus {
@@ -254,7 +283,7 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 margin-bottom: 25px;
-font-size: 14px;
+font-size: clamp(12px, 3vw, 14px);
 flex-wrap: wrap;
 gap: 10px;
 }
@@ -286,12 +315,12 @@ opacity: 0.8;
 /* Buttons */
 .login-btn {
 width: 100%;
-padding: 15px;
+padding: clamp(12px, 3vw, 15px);
 background: linear-gradient(135deg, #F59E0B, #D97706);
 border: none;
-border-radius: 15px;
+border-radius: clamp(12px, 3vw, 15px);
 color: #0F172A;
-font-size: 18px;
+font-size: clamp(14px, 3.5vw, 18px);
 font-weight: bold;
 cursor: pointer;
 transition: all 0.3s;
@@ -309,12 +338,12 @@ transform: scale(0.98);
 
 .create-btn {
 width: 100%;
-padding: 15px;
+padding: clamp(12px, 3vw, 15px);
 background: transparent;
 border: 2px solid rgba(245, 158, 11, 0.5);
-border-radius: 15px;
+border-radius: clamp(12px, 3vw, 15px);
 color: #F59E0B;
-font-size: 16px;
+font-size: clamp(14px, 3.5vw, 16px);
 font-weight: bold;
 cursor: pointer;
 transition: all 0.3s;
@@ -355,63 +384,68 @@ opacity: 0.6;
 .security-badges {
 display: flex;
 justify-content: center;
-gap: 15px;
+gap: clamp(8px, 2.5vw, 15px);
 margin-top: 25px;
 flex-wrap: wrap;
 }
 
 .badge {
-padding: 5px 12px;
+padding: 5px clamp(8px, 2vw, 12px);
 background: rgba(255, 255, 255, 0.05);
 border-radius: 20px;
-font-size: 11px;
+font-size: clamp(9px, 2.5vw, 11px);
 display: flex;
 align-items: center;
 gap: 5px;
+white-space: nowrap;
 }
 
 /* ============ RIGHT SIDE CONTENT ============ */
 .right-side {
 display: flex;
 flex-direction: column;
-gap: 30px;
+gap: clamp(20px, 4vw, 30px);
+width: 100%;
 }
 
 /* Daily Bonus Banner */
 .daily-bonus {
 background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.05));
-border-radius: 20px;
-padding: 20px;
+border-radius: clamp(16px, 3vw, 20px);
+padding: clamp(15px, 3vw, 20px);
 display: flex;
 justify-content: space-between;
 align-items: center;
 flex-wrap: wrap;
 gap: 15px;
 border: 1px solid rgba(245, 158, 11, 0.3);
+width: 100%;
+box-sizing: border-box;
 }
 
 .bonus-info {
 display: flex;
 align-items: center;
-gap: 15px;
+gap: clamp(10px, 3vw, 15px);
+flex-wrap: wrap;
 }
 
 .bonus-icon {
-font-size: 40px;
+font-size: clamp(30px, 8vw, 40px);
 }
 
 .bonus-text h4 {
-font-size: 16px;
+font-size: clamp(14px, 3.5vw, 16px);
 margin-bottom: 5px;
 }
 
 .bonus-text p {
-font-size: 12px;
+font-size: clamp(10px, 2.5vw, 12px);
 opacity: 0.7;
 }
 
 .bonus-timer {
-font-size: 24px;
+font-size: clamp(18px, 4.5vw, 24px);
 font-weight: bold;
 color: #F59E0B;
 font-family: monospace;
@@ -421,9 +455,11 @@ font-family: monospace;
 .recent-wins {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
-border-radius: 30px;
-padding: 25px;
+border-radius: clamp(20px, 4vw, 30px);
+padding: clamp(15px, 3vw, 25px);
 border: 1px solid rgba(245, 158, 11, 0.2);
+width: 100%;
+box-sizing: border-box;
 }
 
 .section-header {
@@ -433,10 +469,11 @@ gap: 10px;
 margin-bottom: 20px;
 padding-bottom: 15px;
 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+flex-wrap: wrap;
 }
 
 .section-header h3 {
-font-size: 18px;
+font-size: clamp(16px, 4vw, 18px);
 }
 
 .wins-feed {
@@ -448,11 +485,13 @@ overflow-y: auto;
 display: flex;
 justify-content: space-between;
 align-items: center;
-padding: 12px;
+padding: clamp(10px, 2.5vw, 12px);
 background: rgba(255, 255, 255, 0.03);
 border-radius: 12px;
 margin-bottom: 10px;
 animation: slideIn 0.3s ease-out;
+flex-wrap: wrap;
+gap: 10px;
 }
 
 @keyframes slideIn {
@@ -470,42 +509,45 @@ transform: translateX(0);
 display: flex;
 align-items: center;
 gap: 10px;
+flex-wrap: wrap;
 }
 
 .win-avatar {
-width: 40px;
-height: 40px;
+width: clamp(35px, 8vw, 40px);
+height: clamp(35px, 8vw, 40px);
 background: linear-gradient(135deg, #F59E0B, #D97706);
 border-radius: 50%;
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: 18px;
+font-size: clamp(16px, 4vw, 18px);
 }
 
 .win-name {
 font-weight: bold;
-font-size: 14px;
+font-size: clamp(12px, 3vw, 14px);
 }
 
 .win-game {
-font-size: 11px;
+font-size: clamp(10px, 2.5vw, 11px);
 opacity: 0.6;
 }
 
 .win-amount {
 color: #F59E0B;
 font-weight: bold;
-font-size: 16px;
+font-size: clamp(14px, 3.5vw, 16px);
 }
 
 /* Testimonials Section */
 .testimonials {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
-border-radius: 30px;
-padding: 25px;
+border-radius: clamp(20px, 4vw, 30px);
+padding: clamp(15px, 3vw, 25px);
 border: 1px solid rgba(245, 158, 11, 0.2);
+width: 100%;
+box-sizing: border-box;
 }
 
 .testimonials-carousel {
@@ -529,7 +571,7 @@ to { opacity: 1; transform: translateX(0); }
 }
 
 .testimonial-text {
-font-size: 14px;
+font-size: clamp(12px, 3vw, 14px);
 line-height: 1.6;
 margin-bottom: 15px;
 font-style: italic;
@@ -539,26 +581,27 @@ font-style: italic;
 display: flex;
 align-items: center;
 gap: 12px;
+flex-wrap: wrap;
 }
 
 .author-avatar {
-width: 50px;
-height: 50px;
+width: clamp(40px, 10vw, 50px);
+height: clamp(40px, 10vw, 50px);
 background: linear-gradient(135deg, #F59E0B, #D97706);
 border-radius: 50%;
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: 24px;
+font-size: clamp(20px, 5vw, 24px);
 }
 
 .author-info h4 {
-font-size: 14px;
+font-size: clamp(12px, 3vw, 14px);
 margin-bottom: 3px;
 }
 
 .author-info p {
-font-size: 11px;
+font-size: clamp(10px, 2.5vw, 11px);
 opacity: 0.6;
 }
 
@@ -587,11 +630,13 @@ border-radius: 10px;
 /* ============ FOOTER SECTION ============ */
 .main-footer {
 margin-top: auto;
-padding: 25px 30px;
+padding: clamp(15px, 3vw, 25px) clamp(15px, 4vw, 30px);
 background: rgba(255, 255, 255, 0.03);
 backdrop-filter: blur(10px);
 border-radius: 20px;
 border: 1px solid rgba(255, 255, 255, 0.1);
+width: 100%;
+box-sizing: border-box;
 }
 
 .footer-content {
@@ -599,8 +644,9 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 flex-wrap: wrap;
-gap: 20px;
-font-size: 12px;
+gap: clamp(10px, 3vw, 20px);
+font-size: clamp(10px, 2.5vw, 12px);
+width: 100%;
 }
 
 .copyright {
@@ -609,8 +655,9 @@ opacity: 0.6;
 
 .footer-links {
 display: flex;
-gap: 25px;
+gap: clamp(15px, 3vw, 25px);
 flex-wrap: wrap;
+justify-content: center;
 }
 
 .footer-links a {
@@ -626,24 +673,26 @@ opacity: 1;
 }
 
 .footer-badge {
-padding: 5px 12px;
+padding: 5px clamp(8px, 2vw, 12px);
 background: rgba(245, 158, 11, 0.15);
 border-radius: 20px;
 color: #F59E0B;
 font-weight: bold;
+font-size: clamp(10px, 2.5vw, 12px);
+white-space: nowrap;
 }
 
 /* ============ ERROR/SUCCESS MESSAGES ============ */
 .error-message {
 color: #ef4444;
-font-size: 13px;
+font-size: clamp(11px, 3vw, 13px);
 margin-top: 10px;
 text-align: center;
 }
 
 .success-message {
 color: #10b981;
-font-size: 13px;
+font-size: clamp(11px, 3vw, 13px);
 margin-top: 10px;
 text-align: center;
 }
@@ -665,6 +714,14 @@ text-align: center;
 text-align: center;
 }
 
+.logo-area h1 {
+white-space: normal;
+}
+
+.logo-area p {
+white-space: normal;
+}
+
 .live-stats {
 justify-content: center;
 }
@@ -673,47 +730,42 @@ justify-content: center;
 flex-direction: column;
 text-align: center;
 }
+
+.stat-label {
+white-space: normal;
+}
+
+.badge {
+white-space: normal;
+}
 }
 
 /* Mobile (481px - 767px) */
 @media (max-width: 768px) {
 .login-container {
-padding: 15px;
+padding: 10px;
+}
+
+.login-wrapper {
+padding: 0 10px;
 }
 
 .main-header {
-padding: 20px;
-margin-bottom: 30px;
-}
-
-.logo-area h1 {
-font-size: 24px;
-}
-
-.stat-value {
-font-size: 20px;
-}
-
-.stat {
-min-width: 80px;
+padding: 15px;
+margin-bottom: 20px;
 }
 
 .live-stats {
-gap: 20px;
+width: 100%;
+justify-content: space-around;
+}
+
+.stat {
+min-width: 60px;
 }
 
 .login-card {
-padding: 25px;
-}
-
-.card-header h2 {
-font-size: 24px;
-}
-
-.animated-dice {
-width: 45px;
-height: 45px;
-font-size: 22px;
+padding: 20px;
 }
 
 .daily-bonus {
@@ -726,43 +778,34 @@ flex-direction: column;
 text-align: center;
 }
 
-.bonus-timer {
-font-size: 20px;
-}
-
 .security-badges {
 gap: 8px;
 }
 
-.badge {
-font-size: 9px;
-padding: 4px 8px;
-}
-
-.main-footer {
-padding: 20px;
-}
-
 .footer-links {
-gap: 15px;
-justify-content: center;
+flex-direction: column;
+align-items: center;
+gap: 10px;
+}
+
+.footer-badge {
+white-space: normal;
+text-align: center;
 }
 }
 
 /* Small Mobile (up to 480px) */
 @media (max-width: 480px) {
 .login-card {
-padding: 20px;
+padding: 15px;
 }
 
 .input-group input {
-padding: 12px 15px;
-font-size: 14px;
+padding: 10px 12px;
 }
 
 .login-btn, .create-btn {
-padding: 12px;
-font-size: 16px;
+padding: 10px;
 }
 
 .form-options {
@@ -770,34 +813,23 @@ flex-direction: column;
 align-items: flex-start;
 }
 
-.live-stats {
-gap: 15px;
-width: 100%;
-justify-content: space-around;
-}
-
-.stat-value {
-font-size: 16px;
-}
-
-.stat-label {
-font-size: 9px;
-}
-
 .win-item {
 flex-direction: column;
 text-align: center;
-gap: 8px;
 }
 
 .win-user {
 flex-direction: column;
+text-align: center;
 }
 
-.footer-links {
+.section-header {
+justify-content: center;
+}
+
+.testimonial-author {
 flex-direction: column;
-gap: 10px;
-align-items: center;
+text-align: center;
 }
 }
 
@@ -856,7 +888,7 @@ border-radius: 10px;
 </div>
 </header>
 
-<!-- ============ MAIN SECTION (Login + Right Side) ============ -->
+<!-- ============ MAIN SECTION ============ -->
 <section class="main-section">
 
 <!-- LEFT: LOGIN CARD -->
