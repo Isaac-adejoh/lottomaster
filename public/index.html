@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
 <title>LottoMaster - Play & Win</title>
 <style>
-/* ============ RESET & BASE ============ */
 * {
 margin: 0;
 padding: 0;
@@ -27,7 +26,6 @@ overflow-x: hidden;
 width: 100%;
 }
 
-/* ============ ANIMATED BACKGROUND ============ */
 .particles {
 position: fixed;
 top: 0;
@@ -54,7 +52,6 @@ animation: floatParticle linear infinite;
 100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
 }
 
-/* ============ MAIN CONTAINER ============ */
 .dashboard-container {
 position: relative;
 z-index: 1;
@@ -75,7 +72,7 @@ display: flex;
 flex-direction: column;
 }
 
-/* ============ HEADER ============ */
+/* Header */
 .main-header {
 background: rgba(255, 255, 255, 0.03);
 backdrop-filter: blur(10px);
@@ -138,14 +135,9 @@ border: none;
 border-radius: 10px;
 color: white;
 cursor: pointer;
-transition: all 0.3s;
 }
 
-.logout-btn:hover {
-background: #e74c3c;
-}
-
-/* ============ DAILY BONUS BANNER ============ */
+/* Daily Bonus Banner */
 .daily-bonus-banner {
 background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.05));
 border-radius: 16px;
@@ -187,12 +179,11 @@ border-radius: 30px;
 color: #0F172A;
 font-weight: bold;
 cursor: pointer;
-transition: all 0.3s;
 }
 
-.claim-bonus-btn:hover {
-transform: scale(1.02);
-box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+.claim-bonus-btn.disabled {
+opacity: 0.5;
+cursor: not-allowed;
 }
 
 .bonus-timer {
@@ -202,7 +193,7 @@ color: #F59E0B;
 font-family: monospace;
 }
 
-/* ============ MAIN LAYOUT ============ */
+/* Main Layout */
 .dashboard-main {
 display: flex;
 gap: 20px;
@@ -210,7 +201,6 @@ flex: 1;
 width: 100%;
 }
 
-/* ============ SIDEBAR ============ */
 .sidebar {
 width: 260px;
 flex-shrink: 0;
@@ -249,7 +239,6 @@ color: #F59E0B;
 font-size: 1.3rem;
 }
 
-/* ============ MAIN CONTENT ============ */
 .main-content {
 flex: 1;
 display: flex;
@@ -277,11 +266,6 @@ align-items: center;
 flex-wrap: wrap;
 }
 
-.game-header h3 {
-font-size: 1.3rem;
-}
-
-/* Dice Container */
 .dice-container {
 display: flex;
 justify-content: center;
@@ -301,7 +285,6 @@ font-size: 3rem;
 font-weight: bold;
 color: #0F172A;
 box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-transition: transform 0.3s;
 }
 
 .dice.rolling {
@@ -316,7 +299,6 @@ animation: rollDice 0.5s ease-in-out;
 100% { transform: rotate(360deg); }
 }
 
-/* Stake Controls */
 .stake-controls {
 display: flex;
 align-items: center;
@@ -334,11 +316,6 @@ border: none;
 font-size: 1.3rem;
 font-weight: bold;
 cursor: pointer;
-transition: all 0.3s;
-}
-
-.stake-btn:hover {
-transform: scale(1.05);
 }
 
 .stake-amount {
@@ -348,7 +325,6 @@ min-width: 100px;
 text-align: center;
 }
 
-/* Roll Button */
 .roll-btn, .play-btn {
 background: linear-gradient(135deg, #F59E0B, #D97706);
 color: #0F172A;
@@ -358,16 +334,9 @@ font-weight: bold;
 border: none;
 border-radius: 40px;
 cursor: pointer;
-transition: all 0.3s;
 margin: 10px 0;
 }
 
-.roll-btn:hover, .play-btn:hover {
-transform: scale(1.02);
-box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4);
-}
-
-/* Prize Info */
 .prize-info {
 background: rgba(0, 0, 0, 0.3);
 border-radius: 12px;
@@ -377,16 +346,11 @@ text-align: center;
 font-size: 0.8rem;
 }
 
-.prize-info p {
-margin: 5px 0;
-}
-
 .prize-info .highlight {
 color: #F59E0B;
 font-weight: bold;
 }
 
-/* Lotto Input */
 .code-input {
 width: 100%;
 max-width: 300px;
@@ -403,7 +367,6 @@ margin: 20px auto;
 display: block;
 }
 
-/* Game Result */
 .game-result {
 margin-top: 15px;
 padding: 12px;
@@ -422,7 +385,7 @@ background: rgba(231, 76, 60, 0.2);
 color: #e74c3c;
 }
 
-/* ============ REFERRAL SECTION ============ */
+/* Referral */
 .referral-box {
 background: rgba(0, 0, 0, 0.3);
 padding: 15px;
@@ -455,7 +418,7 @@ color: white;
 cursor: pointer;
 }
 
-/* ============ ACHIEVEMENTS ============ */
+/* Achievements */
 .badges-container {
 display: flex;
 flex-wrap: wrap;
@@ -478,14 +441,13 @@ border: 1px solid #F59E0B;
 color: #F59E0B;
 }
 
-/* ============ LEADERBOARD ============ */
+/* Leaderboard */
 .leaderboard-table {
 width: 100%;
 border-collapse: collapse;
 }
 
-.leaderboard-table th,
-.leaderboard-table td {
+.leaderboard-table th, .leaderboard-table td {
 padding: 12px;
 text-align: left;
 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -493,14 +455,13 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
 .leaderboard-table th {
 color: #F59E0B;
-font-weight: bold;
 }
 
 .rank-1 { color: #ffd700; font-weight: bold; }
 .rank-2 { color: #c0c0c0; font-weight: bold; }
 .rank-3 { color: #cd7f32; font-weight: bold; }
 
-/* ============ TRANSACTIONS ============ */
+/* Transactions */
 .transaction-item {
 display: flex;
 justify-content: space-between;
@@ -515,7 +476,7 @@ gap: 10px;
 .transaction-lose { color: #e74c3c; }
 .transaction-deposit { color: #3498db; }
 
-/* ============ DEPOSIT/WITHDRAW ============ */
+/* Payment Methods */
 .payment-method {
 background: rgba(0, 0, 0, 0.3);
 border-radius: 12px;
@@ -523,7 +484,6 @@ padding: 15px;
 margin: 10px 0;
 cursor: pointer;
 border: 2px solid transparent;
-transition: all 0.3s;
 }
 
 .payment-method.selected {
@@ -553,7 +513,6 @@ border-color: #2ecc71;
 background: rgba(46, 204, 113, 0.1);
 }
 
-/* ============ QUICK DEPOSIT BUTTONS ============ */
 .quick-deposit {
 display: flex;
 gap: 10px;
@@ -568,14 +527,20 @@ border: 1px solid rgba(245, 158, 11, 0.5);
 padding: 8px 20px;
 border-radius: 30px;
 cursor: pointer;
-transition: all 0.3s;
 }
 
-.quick-deposit-btn:hover {
-background: rgba(245, 158, 11, 0.4);
+/* Deposit Instructions */
+.deposit-instructions {
+background: rgba(0, 0, 0, 0.3);
+padding: 15px;
+border-radius: 12px;
+margin-top: 15px;
+display: none;
+font-size: 0.8rem;
+word-break: break-all;
 }
 
-/* ============ FOOTER ============ */
+/* Footer */
 .main-footer {
 margin-top: 20px;
 padding: 15px 20px;
@@ -599,7 +564,6 @@ gap: 15px;
 display: flex;
 gap: 20px;
 flex-wrap: wrap;
-justify-content: center;
 }
 
 .footer-links a {
@@ -610,88 +574,9 @@ opacity: 0.6;
 
 .footer-links a:hover {
 color: #F59E0B;
-opacity: 1;
 }
 
-/* ============ RESPONSIVE ============ */
-@media (max-width: 1024px) {
-.dashboard-main {
-flex-direction: column;
-}
-
-.sidebar {
-width: 100%;
-display: flex;
-flex-wrap: wrap;
-gap: 5px;
-}
-
-.menu-item {
-flex: 1;
-min-width: 120px;
-justify-content: center;
-}
-}
-
-@media (max-width: 768px) {
-.header-content {
-flex-direction: column;
-text-align: center;
-}
-
-.user-stats {
-justify-content: center;
-}
-
-.daily-bonus-banner {
-flex-direction: column;
-text-align: center;
-}
-
-.bonus-info {
-flex-direction: column;
-text-align: center;
-}
-
-.dice {
-width: 70px;
-height: 70px;
-font-size: 2rem;
-}
-
-.code-input {
-font-size: 1.2rem;
-letter-spacing: 5px;
-}
-
-.footer-content {
-flex-direction: column;
-text-align: center;
-}
-}
-
-@media (max-width: 480px) {
-.dashboard-container {
-padding: 10px;
-}
-
-.dice {
-width: 60px;
-height: 60px;
-font-size: 1.5rem;
-}
-
-.stake-amount {
-font-size: 1.2rem;
-}
-
-.roll-btn, .play-btn {
-padding: 10px 25px;
-font-size: 1rem;
-}
-}
-
-/* Toast Notification */
+/* Toast */
 .toast {
 position: fixed;
 bottom: 20px;
@@ -711,6 +596,29 @@ to { transform: translateX(0); opacity: 1; }
 
 .error-message { color: #e74c3c; font-size: 0.8rem; margin-top: 10px; text-align: center; }
 .success-message { color: #2ecc71; font-size: 0.8rem; margin-top: 10px; text-align: center; }
+
+@media (max-width: 1024px) {
+.dashboard-main { flex-direction: column; }
+.sidebar { width: 100%; display: flex; flex-wrap: wrap; gap: 5px; }
+.menu-item { flex: 1; min-width: 120px; justify-content: center; }
+}
+
+@media (max-width: 768px) {
+.header-content { flex-direction: column; text-align: center; }
+.user-stats { justify-content: center; }
+.daily-bonus-banner { flex-direction: column; text-align: center; }
+.bonus-info { flex-direction: column; text-align: center; }
+.dice { width: 70px; height: 70px; font-size: 2rem; }
+.code-input { font-size: 1.2rem; letter-spacing: 5px; }
+.footer-content { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 480px) {
+.dashboard-container { padding: 10px; }
+.dice { width: 60px; height: 60px; font-size: 1.5rem; }
+.stake-amount { font-size: 1.2rem; }
+.roll-btn, .play-btn { padding: 10px 25px; font-size: 1rem; }
+}
 </style>
 </head>
 <body>
@@ -752,8 +660,8 @@ to { transform: translateX(0); opacity: 1; }
 <p>Claim your free $5 every day</p>
 </div>
 </div>
-<div class="bonus-timer" id="dailyBonusTimer">Claim Now</div>
-<button class="claim-bonus-btn" onclick="claimDailyBonus()">Claim Bonus</button>
+<div class="bonus-timer" id="dailyBonusTimer"></div>
+<button class="claim-bonus-btn" id="claimBonusBtn" onclick="claimDailyBonus()">Claim Bonus</button>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -816,7 +724,7 @@ to { transform: translateX(0); opacity: 1; }
 </div>
 <div class="prize-info">
 <p><span class="highlight">🎲 Double 1</span> → 8x | <span class="highlight">🎲 Double 2</span> → 6x | <span class="highlight">🎲 Double 3</span> → 6x</p>
-<p><span class="highlight">🎲 Double 4</span> → 8x | <span class="highlight">🎲 Double 5</span> → 10x | <span class="highlight">🎲 Double 6</span> → 25x <span style="color:#ffd200">JACKPOT!</span></p>
+<p><span class="highlight">🎲 Double 4</span> → 8x | <span class="highlight">🎲 Double 5</span> → 10x | <span class="highlight">🎲 Double 6</span> → 25x JACKPOT!</p>
 <p><span class="highlight">💰 10% Cashback</span> on losses over $100</p>
 </div>
 <div id="slotResult" class="game-result"></div>
@@ -878,9 +786,7 @@ to { transform: translateX(0); opacity: 1; }
 </div>
 <div style="overflow-x: auto;">
 <table class="leaderboard-table">
-<thead>
-<tr><th>Rank</th><th>Player</th><th>Wins</th><th>Balance</th>
-</thead>
+<thead><tr><th>Rank</th><th>Player</th><th>Wins</th><th>Balance</th></tr></thead>
 <tbody id="leaderboardBody"></tbody>
 </table>
 </div>
@@ -924,6 +830,7 @@ to { transform: translateX(0); opacity: 1; }
 <button class="roll-btn" onclick="requestDeposit()">💰 Request Deposit</button>
 </div>
 <div id="depositResult"></div>
+<div id="depositInstructions" class="deposit-instructions"></div>
 </div>
 
 <!-- WITHDRAW SECTION -->
@@ -998,22 +905,38 @@ let selectedWithdrawSpeed = 'standard';
 let isRolling = false;
 let soundEnabled = true;
 let currentUser = null;
+let lastClaimTime = localStorage.getItem('lastClaimTime') || 0;
 
 if (!token || role !== 'user') {
 window.location.href = '/login';
 }
 
-// Sound effects
-let rollSound = new Audio('https://www.soundjay.com/misc/sounds/dice-throw-01.mp3');
-let winSound = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
-let loseSound = new Audio('https://www.soundjay.com/misc/sounds/fail-buzzer-01.mp3');
+// Create audio context for sounds (browser requires user interaction)
+let rollSound, winSound, loseSound;
+
+function initSounds() {
+try {
+rollSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-dice-roll-2835.mp3');
+winSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3');
+loseSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.mp3');
+rollSound.load();
+winSound.load();
+loseSound.load();
+} catch(e) { console.log('Sound init error:', e); }
+}
 
 function playSound(sound) {
-if (soundEnabled) {
+if (soundEnabled && sound) {
 sound.currentTime = 0;
-sound.play().catch(e => console.log);
+sound.play().catch(e => console.log('Sound play error:', e));
 }
 }
+
+// Initialize sounds on first user interaction
+document.body.addEventListener('click', function initSoundsOnClick() {
+initSounds();
+document.body.removeEventListener('click', initSoundsOnClick);
+}, { once: true });
 
 // Toggle sound
 document.getElementById('soundToggle').onclick = () => {
@@ -1031,6 +954,27 @@ document.body.appendChild(toast);
 setTimeout(() => toast.remove(), 3000);
 }
 
+// Daily bonus timer
+function updateDailyBonusTimer() {
+const lastClaim = parseInt(localStorage.getItem('lastClaimTime') || '0');
+const now = Date.now();
+const hoursLeft = 24 - Math.floor((now - lastClaim) / (1000 * 60 * 60));
+
+if (!lastClaim || (now - lastClaim) >= 24 * 60 * 60 * 1000) {
+document.getElementById('dailyBonusTimer').innerHTML = 'Ready to claim!';
+document.getElementById('claimBonusBtn').disabled = false;
+document.getElementById('claimBonusBtn').classList.remove('disabled');
+} else {
+const h = Math.floor(hoursLeft);
+const m = Math.floor(((hoursLeft % 1) * 60));
+document.getElementById('dailyBonusTimer').innerHTML = `${h}h ${m}m`;
+document.getElementById('claimBonusBtn').disabled = true;
+document.getElementById('claimBonusBtn').classList.add('disabled');
+}
+}
+updateDailyBonusTimer();
+setInterval(updateDailyBonusTimer, 60000);
+
 // Navigation
 document.querySelectorAll('.menu-item').forEach(item => {
 item.addEventListener('click', () => {
@@ -1047,7 +991,6 @@ if (section === 'history') loadTransactionHistory();
 });
 });
 
-// Stake adjustments
 function adjustStake(c) { let ns = currentStake + c; if (ns >= 5 && ns <= 10000) { currentStake = ns; document.getElementById('stakeAmount').innerText = `$${currentStake}`; } }
 function adjustLottoStake(c) { let ns = currentLottoStake + c; if (ns >= 5 && ns <= 10000) { currentLottoStake = ns; document.getElementById('lottoStakeAmount').innerText = `$${currentLottoStake}`; } }
 function adjustDepositAmount(c) { let na = currentDepositAmount + c; if (na >= 10 && na <= 10000) { currentDepositAmount = na; document.getElementById('depositAmount').innerText = `$${currentDepositAmount}`; } }
@@ -1087,14 +1030,22 @@ document.getElementById('vipTier').innerText = user.vipTier || 'Bronze';
 }
 
 async function claimDailyBonus() {
+const now = Date.now();
+const lastClaim = parseInt(localStorage.getItem('lastClaimTime') || '0');
+if ((now - lastClaim) < 24 * 60 * 60 * 1000) {
+showToast('You already claimed your daily bonus! Come back tomorrow.', 'lose');
+return;
+}
 try {
 const res = await fetch(`${API_URL}/api/claim-daily-reward`, {
 method: 'POST', headers: { 'Authorization': token }
 });
 const data = await res.json();
 if (res.ok) {
+localStorage.setItem('lastClaimTime', now.toString());
 showToast(`🎁 ${data.message}`, 'win');
 loadUserData();
+updateDailyBonusTimer();
 } else {
 showToast(data.error, 'lose');
 }
@@ -1122,16 +1073,19 @@ body: JSON.stringify({ stake: currentStake })
 });
 const data = await res.json();
 setTimeout(() => {
-dice1El.innerHTML = data.dice1;
-dice2El.innerHTML = data.dice2;
+const diceFaces = {1:'⚀',2:'⚁',3:'⚂',4:'⚃',5:'⚄',6:'⚅'};
+dice1El.innerHTML = diceFaces[data.dice1] || '🎲';
+dice2El.innerHTML = diceFaces[data.dice2] || '🎲';
 dice1El.classList.remove('rolling');
 dice2El.classList.remove('rolling');
 
 if (data.win) {
 playSound(winSound);
+document.getElementById('slotResult').innerHTML = `<div class="result-win">🎉 ${data.message} 🎉</div>`;
 showToast(data.message, 'win');
 } else {
 playSound(loseSound);
+document.getElementById('slotResult').innerHTML = `<div class="result-lose">❌ ${data.message}</div>`;
 showToast(data.message, 'lose');
 }
 
@@ -1164,9 +1118,11 @@ body: JSON.stringify({ code, stake })
 const data = await res.json();
 if (data.win) {
 playSound(winSound);
+document.getElementById('lottoResult').innerHTML = `<div class="result-win">🎉 ${data.message} 🎉</div>`;
 showToast(data.message, 'win');
 } else {
 playSound(loseSound);
+document.getElementById('lottoResult').innerHTML = `<div class="result-lose">❌ ${data.message}</div>`;
 showToast(data.message, 'lose');
 }
 currentBalance = data.newBalance;
@@ -1205,7 +1161,7 @@ let rankClass = '';
 if (i === 0) rankClass = 'rank-1';
 else if (i === 1) rankClass = 'rank-2';
 else if (i === 2) rankClass = 'rank-3';
-body.innerHTML += `<tr class="${rankClass}"><td>${i + 1}</td><td>${u.name || u.username}</td><td>${u.totalWins}</td><td>$${u.balance.toFixed(2)}</td></tr>`;
+body.innerHTML += `<tr class="${rankClass}"><td>${i + 1}<td>${u.name || u.username}<td>${u.totalWins}<td>$${u.balance.toFixed(2)}</tr>`;
 });
 } catch(e) { console.error(e); }
 }
@@ -1235,14 +1191,50 @@ try {
 const res = await fetch(`${API_URL}/api/achievements`, { headers: { 'Authorization': token } });
 const achievements = await res.json();
 const container = document.getElementById('achievementsList');
-if (!achievements.length) { container.innerHTML = '<div>No achievements yet. Keep playing!</div>'; return; }
+if (!achievements || !achievements.length) {
+container.innerHTML = '<div>No achievements yet. Keep playing to earn badges!</div>';
+return;
+}
 container.innerHTML = achievements.map(a => `<div class="badge earned">🏆 ${a.name}</div>`).join('');
-} catch(e) { console.error(e); }
+} catch(e) {
+console.error(e);
+document.getElementById('achievementsList').innerHTML = '<div>Loading achievements...</div>';
+}
 }
 
 async function requestDeposit() {
-if (!selectedDepositMethod) { document.getElementById('depositResult').innerHTML = '<span class="error-message">Select payment method</span>'; return; }
+if (!selectedDepositMethod) {
+document.getElementById('depositResult').innerHTML = '<span class="error-message">Select payment method</span>';
+return;
+}
 try {
+const settingsRes = await fetch(`${API_URL}/api/payment-settings-public`);
+const settings = await settingsRes.json();
+
+let instructions = '';
+if (selectedDepositMethod === 'crypto_usdt') {
+instructions = `<strong>🪙 USDT (TRC20) Payment Instructions:</strong><br><br>
+Send <strong>$${currentDepositAmount} USDT</strong> to:<br>
+<code style="background:rgba(0,0,0,0.5); padding:8px; display:block; border-radius:8px; word-break:break-all;">${settings.cryptoWallets?.usdt || 'TX7hH3kL9mN4pQ2rS5tU6vW7xY8zA9bC0dE1fG'}</code><br>
+<small>Include your username: ${currentUser?.username}</small>`;
+} else if (selectedDepositMethod === 'crypto_btc') {
+instructions = `<strong>₿ Bitcoin (BTC) Payment Instructions:</strong><br><br>
+Send <strong>$${currentDepositAmount} BTC</strong> to:<br>
+<code style="background:rgba(0,0,0,0.5); padding:8px; display:block; border-radius:8px; word-break:break-all;">${settings.cryptoWallets?.btc || '1A2b3C4d5E6f7G8h9I0jK1lL2mM3nN4oO5pP'}</code>`;
+} else {
+instructions = `<strong>🏦 Bank Transfer Instructions:</strong><br><br>
+Transfer <strong>$${currentDepositAmount}</strong> to:<br>
+Bank: ${settings.bankDetails?.bankName || 'Global Bank'}<br>
+Account Name: ${settings.bankDetails?.accountName || 'LottoMaster Gaming'}<br>
+Account Number: ${settings.bankDetails?.accountNumber || '1234567890'}<br>
+Routing Number: ${settings.bankDetails?.routingNumber || '987654321'}<br>
+SWIFT: ${settings.bankDetails?.swiftCode || 'GLBANK22'}<br>
+<small>Reference: ${currentUser?.username}</small>`;
+}
+
+document.getElementById('depositInstructions').innerHTML = instructions;
+document.getElementById('depositInstructions').style.display = 'block';
+
 const res = await fetch(`${API_URL}/api/request-deposit`, {
 method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
 body: JSON.stringify({ amount: currentDepositAmount, method: selectedDepositMethod })
@@ -1258,10 +1250,19 @@ document.getElementById('depositResult').innerHTML = `<span class="error-message
 }
 
 async function requestWithdraw() {
-if (!selectedWithdrawMethod) { document.getElementById('withdrawResult').innerHTML = '<span class="error-message">Select method</span>'; return; }
+if (!selectedWithdrawMethod) {
+document.getElementById('withdrawResult').innerHTML = '<span class="error-message">Select method</span>';
+return;
+}
 const address = document.getElementById('walletAddress').value;
-if (!address) { document.getElementById('withdrawResult').innerHTML = '<span class="error-message">Enter address</span>'; return; }
-if (currentWithdrawAmount > currentBalance) { document.getElementById('withdrawResult').innerHTML = '<span class="error-message">Insufficient balance</span>'; return; }
+if (!address) {
+document.getElementById('withdrawResult').innerHTML = '<span class="error-message">Enter address</span>';
+return;
+}
+if (currentWithdrawAmount > currentBalance) {
+document.getElementById('withdrawResult').innerHTML = '<span class="error-message">Insufficient balance</span>';
+return;
+}
 try {
 const res = await fetch(`${API_URL}/api/withdraw`, {
 method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
@@ -1272,6 +1273,7 @@ if (res.ok) {
 showToast(data.message, 'win');
 document.getElementById('withdrawResult').innerHTML = '<span class="success-message">✅ Withdrawal request submitted!</span>';
 loadUserData();
+loadTransactionHistory();
 } else {
 document.getElementById('withdrawResult').innerHTML = `<span class="error-message">❌ ${data.error}</span>`;
 }
