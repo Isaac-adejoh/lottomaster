@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>LottoMaster - Login & Win Big</title>
 <style>
+/* ============ RESET & BASE ============ */
 * {
 margin: 0;
 padding: 0;
@@ -17,10 +18,9 @@ background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
 min-height: 100vh;
 color: white;
 overflow-x: hidden;
-position: relative;
 }
 
-/* Animated Background Particles */
+/* ============ ANIMATED BACKGROUND ============ */
 .particles {
 position: fixed;
 top: 0;
@@ -44,12 +44,8 @@ animation: floatParticle linear infinite;
 transform: translateY(100vh) rotate(0deg);
 opacity: 0;
 }
-10% {
-opacity: 1;
-}
-90% {
-opacity: 1;
-}
+10% { opacity: 1; }
+90% { opacity: 1; }
 100% {
 transform: translateY(-100vh) rotate(360deg);
 opacity: 0;
@@ -70,7 +66,7 @@ animation: floatDice 8s ease-in-out infinite;
 50% { transform: translateY(-30px) rotate(180deg); }
 }
 
-/* Main Container */
+/* ============ MAIN CONTAINER ============ */
 .login-container {
 position: relative;
 z-index: 1;
@@ -78,7 +74,7 @@ min-height: 100vh;
 display: flex;
 align-items: center;
 justify-content: center;
-padding: 40px 20px;
+padding: 20px;
 }
 
 .login-wrapper {
@@ -87,19 +83,22 @@ width: 100%;
 margin: 0 auto;
 }
 
-/* Header Stats */
-.stats-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-flex-wrap: wrap;
-gap: 20px;
+/* ============ HEADER SECTION ============ */
+.main-header {
 margin-bottom: 40px;
 padding: 20px 30px;
 background: rgba(255, 255, 255, 0.03);
 backdrop-filter: blur(10px);
 border-radius: 20px;
 border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.header-content {
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 20px;
 }
 
 .logo-area h1 {
@@ -137,15 +136,15 @@ font-size: 12px;
 opacity: 0.7;
 }
 
-/* Main Content Grid */
-.main-grid {
+/* ============ MAIN CONTENT SECTION ============ */
+.main-content {
 display: grid;
 grid-template-columns: 1fr 1fr;
 gap: 40px;
-align-items: start;
+margin-bottom: 40px;
 }
 
-/* Login Card */
+/* ============ LOGIN CARD SECTION ============ */
 .login-card {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
@@ -176,7 +175,7 @@ opacity: 0.6;
 font-size: 14px;
 }
 
-/* Animated Dice on Card */
+/* Animated Dice */
 .dice-animation {
 display: flex;
 justify-content: center;
@@ -241,13 +240,15 @@ box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
 color: rgba(255, 255, 255, 0.4);
 }
 
-/* Remember Me & Forgot Password */
+/* Form Options */
 .form-options {
 display: flex;
 justify-content: space-between;
 align-items: center;
 margin-bottom: 25px;
 font-size: 14px;
+flex-wrap: wrap;
+gap: 10px;
 }
 
 .checkbox {
@@ -298,7 +299,24 @@ box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.5);
 transform: scale(0.98);
 }
 
-/* Divider */
+.create-btn {
+width: 100%;
+padding: 15px;
+background: transparent;
+border: 2px solid rgba(245, 158, 11, 0.5);
+border-radius: 15px;
+color: #F59E0B;
+font-size: 16px;
+font-weight: bold;
+cursor: pointer;
+transition: all 0.3s;
+}
+
+.create-btn:hover {
+background: rgba(245, 158, 11, 0.1);
+border-color: #F59E0B;
+}
+
 .divider {
 text-align: center;
 margin: 25px 0;
@@ -325,25 +343,6 @@ font-size: 12px;
 opacity: 0.6;
 }
 
-/* Create Account Button */
-.create-btn {
-width: 100%;
-padding: 15px;
-background: transparent;
-border: 2px solid rgba(245, 158, 11, 0.5);
-border-radius: 15px;
-color: #F59E0B;
-font-size: 16px;
-font-weight: bold;
-cursor: pointer;
-transition: all 0.3s;
-}
-
-.create-btn:hover {
-background: rgba(245, 158, 11, 0.1);
-border-color: #F59E0B;
-}
-
 /* Security Badges */
 .security-badges {
 display: flex;
@@ -363,14 +362,54 @@ align-items: center;
 gap: 5px;
 }
 
-/* Right Side - Testimonials & Recent Wins */
+/* ============ RIGHT SIDE SECTION ============ */
 .right-side {
 display: flex;
 flex-direction: column;
 gap: 30px;
 }
 
-/* Recent Wins Feed */
+/* Daily Bonus Banner */
+.daily-bonus {
+background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.05));
+border-radius: 20px;
+padding: 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 15px;
+border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.bonus-info {
+display: flex;
+align-items: center;
+gap: 15px;
+}
+
+.bonus-icon {
+font-size: 40px;
+}
+
+.bonus-text h4 {
+font-size: 16px;
+margin-bottom: 5px;
+}
+
+.bonus-text p {
+font-size: 12px;
+opacity: 0.7;
+}
+
+.bonus-timer {
+font-size: 24px;
+font-weight: bold;
+color: #F59E0B;
+font-family: monospace;
+}
+
+/* Recent Wins Section */
 .recent-wins {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
@@ -393,7 +432,7 @@ font-size: 18px;
 }
 
 .wins-feed {
-max-height: 200px;
+max-height: 250px;
 overflow-y: auto;
 }
 
@@ -426,14 +465,14 @@ gap: 10px;
 }
 
 .win-avatar {
-width: 35px;
-height: 35px;
+width: 40px;
+height: 40px;
 background: linear-gradient(135deg, #F59E0B, #D97706);
 border-radius: 50%;
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: 14px;
+font-size: 18px;
 }
 
 .win-name {
@@ -452,7 +491,7 @@ font-weight: bold;
 font-size: 16px;
 }
 
-/* Testimonials Carousel */
+/* Testimonials Section */
 .testimonials {
 background: rgba(255, 255, 255, 0.05);
 backdrop-filter: blur(20px);
@@ -464,6 +503,7 @@ border: 1px solid rgba(245, 158, 11, 0.2);
 .testimonials-carousel {
 position: relative;
 overflow: hidden;
+min-height: 200px;
 }
 
 .testimonial-slide {
@@ -494,14 +534,14 @@ gap: 12px;
 }
 
 .author-avatar {
-width: 45px;
-height: 45px;
+width: 50px;
+height: 50px;
 background: linear-gradient(135deg, #F59E0B, #D97706);
 border-radius: 50%;
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: 18px;
+font-size: 24px;
 }
 
 .author-info h4 {
@@ -536,65 +576,64 @@ background: #F59E0B;
 border-radius: 10px;
 }
 
-/* Daily Bonus Banner */
-.daily-bonus {
-background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.05));
-border-radius: 20px;
-padding: 15px 20px;
+/* ============ FOOTER SECTION ============ */
+.main-footer {
+margin-top: 40px;
+padding: 20px;
+text-align: center;
+border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-content {
 display: flex;
 justify-content: space-between;
 align-items: center;
 flex-wrap: wrap;
 gap: 15px;
-border: 1px solid rgba(245, 158, 11, 0.3);
-margin-top: 20px;
-}
-
-.bonus-info {
-display: flex;
-align-items: center;
-gap: 10px;
-}
-
-.bonus-icon {
-font-size: 30px;
-}
-
-.bonus-text h4 {
-font-size: 14px;
-margin-bottom: 3px;
-}
-
-.bonus-text p {
-font-size: 11px;
-opacity: 0.6;
-}
-
-.bonus-timer {
-font-size: 20px;
-font-weight: bold;
-color: #F59E0B;
-font-family: monospace;
-}
-
-/* Footer */
-.footer {
-margin-top: 40px;
-text-align: center;
-padding: 20px;
-border-top: 1px solid rgba(255, 255, 255, 0.1);
 font-size: 12px;
 opacity: 0.6;
 }
 
-/* Responsive Design */
+.footer-links {
+display: flex;
+gap: 20px;
+flex-wrap: wrap;
+}
+
+.footer-links a {
+color: white;
+text-decoration: none;
+transition: color 0.3s;
+}
+
+.footer-links a:hover {
+color: #F59E0B;
+}
+
+/* ============ ERROR/SUCCESS MESSAGES ============ */
+.error-message {
+color: #ef4444;
+font-size: 13px;
+margin-top: 10px;
+text-align: center;
+}
+
+.success-message {
+color: #10b981;
+font-size: 13px;
+margin-top: 10px;
+text-align: center;
+}
+
+/* ============ RESPONSIVE DESIGN ============ */
+/* Tablet (768px - 1024px) */
 @media (max-width: 1024px) {
-.main-grid {
+.main-content {
 grid-template-columns: 1fr;
 gap: 30px;
 }
 
-.stats-header {
+.header-content {
 flex-direction: column;
 text-align: center;
 }
@@ -602,19 +641,38 @@ text-align: center;
 .live-stats {
 justify-content: center;
 }
+
+.footer-content {
+flex-direction: column;
+text-align: center;
+}
 }
 
+/* Mobile (481px - 767px) */
 @media (max-width: 768px) {
+.login-container {
+padding: 15px;
+}
+
+.main-header {
+padding: 15px 20px;
+margin-bottom: 30px;
+}
+
+.logo-area h1 {
+font-size: 24px;
+}
+
+.stat-value {
+font-size: 20px;
+}
+
 .login-card {
 padding: 25px;
 }
 
 .card-header h2 {
 font-size: 24px;
-}
-
-.stat-value {
-font-size: 22px;
 }
 
 .animated-dice {
@@ -627,11 +685,14 @@ font-size: 22px;
 flex-direction: column;
 text-align: center;
 }
+
+.bonus-info {
+flex-direction: column;
+text-align: center;
 }
 
-@media (max-width: 480px) {
-.login-card {
-padding: 20px;
+.bonus-timer {
+font-size: 20px;
 }
 
 .security-badges {
@@ -641,6 +702,50 @@ gap: 8px;
 .badge {
 font-size: 9px;
 padding: 4px 8px;
+}
+}
+
+/* Small Mobile (up to 480px) */
+@media (max-width: 480px) {
+.login-card {
+padding: 20px;
+}
+
+.input-group input {
+padding: 12px 15px;
+font-size: 14px;
+}
+
+.login-btn, .create-btn {
+padding: 12px;
+font-size: 16px;
+}
+
+.form-options {
+flex-direction: column;
+align-items: flex-start;
+}
+
+.live-stats {
+gap: 15px;
+}
+
+.stat-value {
+font-size: 18px;
+}
+
+.stat-label {
+font-size: 10px;
+}
+
+.win-item {
+flex-direction: column;
+text-align: center;
+gap: 8px;
+}
+
+.win-user {
+flex-direction: column;
 }
 }
 
@@ -658,25 +763,10 @@ border-radius: 10px;
 background: #F59E0B;
 border-radius: 10px;
 }
-
-/* Error/Success Messages */
-.error-message {
-color: #ef4444;
-font-size: 13px;
-margin-top: 8px;
-text-align: center;
-}
-
-.success-message {
-color: #10b981;
-font-size: 13px;
-margin-top: 8px;
-text-align: center;
-}
 </style>
 </head>
 <body>
-<!-- Animated Particles Background -->
+<!-- Animated Background Particles -->
 <div class="particles" id="particles"></div>
 
 <!-- Floating Dice -->
@@ -686,10 +776,13 @@ text-align: center;
 <div class="floating-dice" style="top: 80%; left: 10%; animation-delay: 1s;">🎲</div>
 <div class="floating-dice" style="top: 20%; left: 92%; animation-delay: 3s;">🎯</div>
 
+<!-- Main Container -->
 <div class="login-container">
 <div class="login-wrapper">
-<!-- Header Stats -->
-<div class="stats-header">
+
+<!-- ============ HEADER SECTION ============ -->
+<header class="main-header">
+<div class="header-content">
 <div class="logo-area">
 <h1>🎲 LottoMaster</h1>
 <p>WIN BIG • PLAY SMART • LIVE BETTER</p>
@@ -709,11 +802,13 @@ text-align: center;
 </div>
 </div>
 </div>
+</header>
 
-<!-- Main Content Grid -->
-<div class="main-grid">
-<!-- Left: Login Form -->
-<div class="login-card">
+<!-- ============ MAIN CONTENT SECTION ============ -->
+<main class="main-content">
+
+<!-- LEFT: LOGIN CARD SECTION -->
+<section class="login-card">
 <div class="dice-animation">
 <div class="animated-dice" id="dice1">🎲</div>
 <div class="animated-dice" id="dice2">🎲</div>
@@ -724,7 +819,7 @@ text-align: center;
 <p>Enter your credentials to access your account</p>
 </div>
 
-<!-- Login Form -->
+<!-- Login Form Section -->
 <div id="loginSection">
 <div class="input-group">
 <label>👤 Username</label>
@@ -753,7 +848,7 @@ text-align: center;
 <div id="loginError" class="error-message"></div>
 </div>
 
-<!-- Signup Form (Hidden initially) -->
+<!-- Signup Form Section (Hidden) -->
 <div id="signupSection" style="display: none;">
 <div class="input-group">
 <label>👤 Full Name</label>
@@ -791,10 +886,11 @@ text-align: center;
 <div class="badge">🎲 Provably Fair</div>
 <div class="badge">🛡️ 24/7 Support</div>
 </div>
-</div>
+</section>
 
-<!-- Right Side: Testimonials & Recent Wins -->
-<div class="right-side">
+<!-- RIGHT SIDE SECTION -->
+<aside class="right-side">
+
 <!-- Daily Bonus Banner -->
 <div class="daily-bonus">
 <div class="bonus-info">
@@ -807,8 +903,8 @@ text-align: center;
 <div class="bonus-timer" id="countdownTimer">24:00:00</div>
 </div>
 
-<!-- Recent Wins Feed -->
-<div class="recent-wins">
+<!-- Recent Wins Section -->
+<section class="recent-wins">
 <div class="section-header">
 <span>🔥</span>
 <h3>Recent Big Wins</h3>
@@ -817,27 +913,38 @@ text-align: center;
 <div class="wins-feed" id="winsFeed">
 <!-- Dynamic wins will be inserted here -->
 </div>
-</div>
+</section>
 
-<!-- Testimonials Carousel -->
-<div class="testimonials">
+<!-- Testimonials Section -->
+<section class="testimonials">
 <div class="section-header">
 <span>⭐</span>
 <h3>What Our Players Say</h3>
 <span style="margin-left: auto; font-size: 11px;">30+ reviews</span>
 </div>
-<div class="testimonials-carousel" id="testimonialCarousel">
-<!-- Testimonials will be inserted dynamically -->
-</div>
+<div class="testimonials-carousel" id="testimonialCarousel"></div>
 <div class="carousel-dots" id="carouselDots"></div>
-</div>
-</div>
-</div>
+</section>
+</aside>
+</main>
 
-<!-- Footer -->
-<div class="footer">
-<p>© 2024 LottoMaster. All rights reserved. | Licensed and Regulated | 18+ Only | Play Responsibly</p>
+<!-- ============ FOOTER SECTION ============ -->
+<footer class="main-footer">
+<div class="footer-content">
+<div class="copyright">
+© 2024 LottoMaster. All rights reserved.
 </div>
+<div class="footer-links">
+<a href="#">Terms of Service</a>
+<a href="#">Privacy Policy</a>
+<a href="#">Responsible Gambling</a>
+<a href="#">Contact Us</a>
+</div>
+<div class="footer-badge">
+18+ | Licensed and Regulated
+</div>
+</div>
+</footer>
 </div>
 </div>
 
