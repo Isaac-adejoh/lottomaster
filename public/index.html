@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+ <title>LottoMaster - Play & Win</title>
+ <style>
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
+
+ body {
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+ min-height: 100vh;
+ color: white;
+ }
+
+ .main-header {
+ background: rgba(0, 0, 0, 0.3);
+ backdrop-filter: blur(10px);
+ padding: 15px 30px;
+ border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ }
+
+ .header-content {
+ max-width: 1400px;
+ margin: 0 auto;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ flex-wrap: wrap;
+ gap: 15px;
+ }
+
+ .logo h1 {
+ font-size: 24px;
+ background: linear-gradient(90deg, #f7971e, #ffd200);
+ -webkit-background-clip: text;
+ background-clip: text;
+ color: transparent;
+ }
+
+ .nav-links {
+ display: flex;
+ gap: 10px;
+ align-items: center;
+ flex-wrap: wrap;
+ }
+
+ .nav-links a {
+ color: white;
+ text-decoration: none;
+ padding: 8px 15px;
+ border-radius: 8px;
+ cursor: pointer;
+ transition: background 0.3s;
+ font-size: 14px;
+ }
+
+ .nav-links a:hover {
+ background: rgba(255, 255, 255, 0.1);
+ }
+
+ .logout-btn {
+ background: #e74c3c;
+ padding: 8px 16px;
+ border: none;
+ border-radius: 8px;
+ color: white;
+ cursor: pointer;
+ }
+
+ .container {
+ max-width: 1400px;
+ margin: 0 auto;
+ padding: 20px;
+ }
+
+ .dashboard-header {
+ background: rgba(255, 255, 255, 0.1);
+ backdrop-filter: blur(10px);
+ border-radius: 15px;
+ padding: 15px 20px;
+ margin-bottom: 20px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ flex-wrap: wrap;
+ gap: 15px;
+ }
+
+ .user-stats {
+ display: flex;
+ gap: 15px;
+ flex-wrap: wrap;
+ }
+
+ .stat-card {
+ background: rgba(0, 0, 0, 0.3);
+ padding: 8px 15px;
+ border-radius: 10px;
+ text-align: center;
+ }
+
+ .stat-card .label {
+ font-size: 11px;
+ opacity: 0.7;
+ }
+
+ .stat-card .value {
+ font-size: 20px;
+ font-weight: bold;
+ color: #f7971e;
+ }
+
+ .announcements-banner {
+ background: linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(52, 152, 219, 0.1));
+ border-radius: 15px;
+ padding: 15px 20px;
+ margin-bottom: 20px;
+ border: 1px solid rgba(46, 204, 113, 0.3);
+ cursor: pointer;
+ }
+
+ .announcements-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ flex-wrap: wrap;
+ }
+
+ .announcements-header h3 {
+ color: #2ecc71;
+ }
+
+ .announcement-item {
+ padding: 10px;
+ margin: 8px 0;
+ background: rgba(0, 0, 0, 0.3);
+ border-radius: 10px;
+ border-left: 3px solid #2ecc71;
+ }
+
+ .dashboard-main {
+ display: flex;
+ gap: 20px;
+ flex-wrap: wrap;
+ }
+
+ .sidebar {
+ flex: 1;
+ min-width: 260px;
+ }
+
+ .main-content {
+ flex: 3;
+ min-width: 300px;
+ }
+
+ .menu-card {
+ background: rgba(255, 255, 255, 0.1);
+ backdrop-filter: blur(10px);
+ border-radius: 15px;
+ padding: 15px;
+ margin-bottom: 20px;
+ }
+
+ .menu-item {
+ padding: 12px;
+ margin: 5px 0;
+ cursor: pointer;
+ border-radius: 10px;
+ transition: background 0.3s;
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ }
+
+ .menu-item:hover {
+ background: rgba(255, 255, 255, 0.1);
+ }
+
+ .menu-item.active {
+ background: linear-gradient(90deg, #f7971e, #ffd200);
+ color: #333;
+ }
+
+ .content-panel {
+ display: none;
+ background: rgba(255, 255, 255, 0.1);
+ backdrop-filter: blur(10px);
+ border-radius: 15px;
+ padding: 20px;
+ margin-bottom: 20px;
+ }
+
+ .content-panel.active {
+ display: block;
+ }
+
+ .panel-header {
+ border-bottom: 2px solid #f7971e;
+ padding-bottom: 10px;
+ margin-bottom: 15px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ flex-wrap: wrap;
+ }
+
+ .dice-container {
+ display: flex;
+ justify-content: center;
+ gap: 40px;
+ margin: 30px 0;
+ flex-wrap: wrap;
+ }
+
+ .dice {
+ width: 120px;
+ height: 120px;
+ background: white;
+ border-radius: 20px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 48px;
+ font-weight: bold;
+ box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+ color: #333;
+ }
+
+ .dice.rolling {
+ animation: rollDice 0.5s ease-in-out;
+ }
+
+ @keyframes rollDice {
+ 0% { transform: rotate(0deg); }
+ 25% { transform: rotate(90deg); }
+ 50% { transform: rotate(180deg); }
+ 75% { transform: rotate(270deg); }
+ 100% { transform: rotate(360deg); }
+ }
+
+ .stake-controls {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 20px;
+ margin: 20px 0;
+ }
+
+ .stake-btn {
+ width: 45px;
+ height: 45px;
+ border-radius: 25px;
+ background: #f7971e;
+ border: none;
+ font-size: 20px;
+ font-weight: bold;
+ cursor: pointer;
+ }
+
+ .stake-amount {
+ font-size: 24px;
+ font-weight: bold;
+ min-width: 120px;
+ text-align: center;
+ }
+
+ .roll-btn, .play-btn {
+ background: linear-gradient(90deg, #f7971e, #ffd200);
+ color: #333;
+ padding: 12px 40px;
+ font-size: 18px;
+ font-weight: bold;
+ border: none;
+ border-radius: 30px;
+ cursor: pointer;
+ margin: 10px 0;
+ }
+
+ .code-input {
+ font-size: 36px;
+ text-align: center;
+ letter-spacing: 10px;
+ padding: 15px;
+ width: 100%;
+ max-width: 350px;
+ margin: 15px auto;
+ display: block;
+ border: 2px solid #f7971e;
+ border-radius: 15px;
+ background: rgba(0, 0, 0, 0.7);
+ color: #ffd200;
+ font-weight: bold;
+ font-family: monospace;
+ }
+
+ .info-box {
+ background: rgba(0, 0, 0, 0.3);
+ border-radius: 12px;
+ padding: 15px;
+ margin-top: 15px;
+ text-align: center;
+ font-size: 14px;
+ line-height: 1.6;
+ }
+
+ .info-box p {
+ margin: 5px 0;
+ }
+
+ .info-box .highlight {
+ color: #f7971e;
+ font-weight: bold;
+ }
+
+ .game-result {
+ margin-top: 15px;
+ padding: 12px;
+ border-radius: 10px;
+ font-weight: bold;
+ }
+
+ .result-win {
+ background: rgba(46, 204, 113, 0.3);
+ color: #2ecc71;
+ }
+
+ .result-lose {
+ background: rgba(231, 76, 60, 0.3);
+ color: #e74c3c;
+ }
+
+ .transaction-item {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 10px;
+ border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+ flex-wrap: wrap;
+ gap: 8px;
+ }
+
+ .transaction-type.win { color: #2ecc71; }
+ .transaction-type.lose { color: #e74c3c; }
+ .transaction-type.deposit { color: #3498db; }
+ .transaction-type.withdraw { color: #f39c12; }
+
+ table {
+ width: 100%;
+ border-collapse: collapse;
+ }
+
+ th, td {
+ padding: 10px;
+ text-align: left;
+ border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+ }
+
+ th {
+ color: #f7971e;
+ }
+
+ .badge {
+ background: rgba(0, 0, 0, 0.4);
+ padding: 8px 12px;
+ border-radius: 20px;
+ font-size: 12px;
+ display: inline-block;
+ margin: 5px;
+ }
+
+ .badge.earned {
+ background: linear-gradient(135deg, #f7971e, #ffd200);
+ color: #333;
+ }
+
+ .success { color: #2ecc71; }
+ .error { color: #e74c3c; }
+
+ input, textarea {
+ border-radius: 8px;
+ border: none;
+ padding: 10px;
+ }
+
+ .referral-box {
+ background: rgba(0, 0, 0, 0.3);
+ padding: 15px;
+ border-radius: 10px;
+ margin: 15px 0;
+ }
+
+ .payment-method {
+ background: rgba(0, 0, 0, 0.3);
+ border-radius: 12px;
+ padding: 15px;
+ margin: 10px 0;
+ cursor: pointer;
+ border: 2px solid transparent;
+ }
+
+ .payment-method.selected {
+ border-color: #f7971e;
+ background: rgba(247, 151, 30, 0.2);
+ }
+
+ .withdraw-speed {
+ display: flex;
+ gap: 10px;
+ margin: 15px 0;
+ flex-wrap: wrap;
+ }
+
+ .speed-option {
+ flex: 1;
+ padding: 10px;
+ background: rgba(0, 0, 0, 0.3);
+ border-radius: 10px;
+ text-align: center;
+ cursor: pointer;
+ border: 2px solid transparent;
+ }
+
+ .speed-option.selected {
+ border-color: #2ecc71;
+ }
+
+ @media (max-width: 768px) {
+ .dice {
+ width: 80px;
+ height: 80px;
+ font-size: 32px;
+ }
+ .code-input {
+ font-size: 24px;
+ letter-spacing: 5px;
+ }
+ }
+ </style>
+</head>
+<body>
+ <header class="main-header">
+ <div class="header-content">
+ <div class="logo">
+ <h1> LottoMaster</h1>
+ <p>Play. Win. Repeat.</p>
+ </div>
+ <div class="nav-links">
+ <a onclick="switchSection('slot')"> Slot Dice</a>
+ <a onclick="switchSection('lotto')"> Lotto</a>
+ <a onclick="switchSection('referral')"> Referral</a>
+ <a onclick="switchSection('achievements')"> Achievements</a>
+ <a onclick="switchSection('leaderboard')"> Leaderboard</a>
+ <a onclick="switchSection('history')"> History</a>
+ <a onclick="switchSection('deposit')"> Deposit</a>
+ <a onclick="switchSection('withdraw')"> Withdraw</a>
+ <button class="logout-btn" onclick="logout()">Logout</button>
+ </div>
+ </div>
+ </header>
+
+ <div class="container">
+ <div class="dashboard-header">
+ <div>
+ <h2>Welcome, <span id="userName">Player</span>!</h2>
+ <p id="vipBadge" style="font-size:12px; margin-top:5px">Bronze Member</p>
+ </div>
+ <div class="user-stats">
+ <div class="stat-card"><div class="label"> Balance</div><div class="value">$<span id="userBalance">0</span></div></div>
+ <div class="stat-card"><div class="label"> Wins</div><div class="value"><span id="userWins">0</span></div></div>
+ <div class="stat-card"><div class="label"> Referral</div><div class="value" style="font-size:14px" id="referralCode">-</div></div>
+ </div>
+ </div>
+
+ <!-- Announcements Banner -->
+ <div id="announcementsBanner" class="announcements-banner" onclick="toggleAnnouncements()">
+ <div class="announcements-header">
+ <h3> Announcements</h3>
+ <span id="announcementToggle">▼</span>
+ </div>
+ <div id="announcementsList"></div>
+ </div>
+
+ <div class="dashboard-main">
+ <div class="sidebar">
+ <div class="menu-card">
+ <div class="menu-item active" onclick="switchSection('slot')"> Slot Dice</div>
+ <div class="menu-item" onclick="switchSection('lotto')"> Lotto 6-Digit</div>
+ <div class="menu-item" onclick="switchSection('referral')"> Referral Program</div>
+ <div class="menu-item" onclick="switchSection('achievements')"> Achievements</div>
+ <div class="menu-item" onclick="switchSection('leaderboard')"> Leaderboard</div>
+ <div class="menu-item" onclick="switchSection('history')"> Transaction History</div>
+ <div class="menu-item" onclick="switchSection('deposit')"> Deposit</div>
+ <div class="menu-item" onclick="switchSection('withdraw')"> Withdraw</div>
+ </div>
+ </div>
+
+ <div class="main-content">
+ <!-- Slot Dice Section -->
+ <div id="slotSection" class="content-panel active">
+ <div class="panel-header"><h3> SLOT DICE</h3></div>
+ <div class="dice-container">
+ <div class="dice" id="dice1"> </div>
+ <div class="dice" id="dice2"> </div>
+ </div>
+ <div class="stake-controls">
+ <button class="stake-btn" onclick="adjustStake(-5)">-</button>
+ <span class="stake-amount" id="stakeAmount">$5</span>
+ <button class="stake-btn" onclick="adjustStake(5)">+</button>
+ </div>
+ <div style="text-align:center"><button class="roll-btn" onclick="rollDice()"> ROLL THE DICE </button></div>
+ 
+ <div class="info-box">
+ <p><span class="highlight"> Double 1</span> → 8x | <span class="highlight"> Double 2</span> → 6x | <span class="highlight"> Double 3</span> → 6x</p>
+ <p><span class="highlight"> Double 4</span> → 8x | <span class="highlight"> Double 5</span> → 10x | <span class="highlight"> Double 6</span> → 25x <span style="color:#ffd200">JACKPOT!</span></p>
+ <p><span class="highlight"> 10% Cashback</span> on losses over $100</p>
+ <p><span class="highlight"> Special Wins</span> on non-double combinations!</p>
+ </div>
+ 
+ <div id="slotResult" class="game-result"></div>
+ </div>
+
+ <!-- Lotto Section -->
+ <div id="lottoSection" class="content-panel">
+ <div class="panel-header"><h3> LOTTO 6-DIGIT</h3></div>
+ <div class="stake-controls">
+ <button class="stake-btn" onclick="adjustLottoStake(-5)">-</button>
+ <span class="stake-amount" id="lottoStakeAmount">$5</span>
+ <button class="stake-btn" onclick="adjustLottoStake(5)">+</button>
+ </div>
+ <div class="info-box">
+ <p><span class="highlight"> HIGHER STAKE = HIGHER REWARD!</span></p>
+ <p>6/6 Match → 100% of Prize Pool | 5/6 Match → 50%</p>
+ <p>4/6 Match → 20% | 3/6 Match → 5%</p>
+ </div>
+ <input type="text" id="lottoCode" class="code-input" maxlength="6" placeholder="123456">
+ <div style="text-align:center"><button class="play-btn" onclick="playLotto()"> PLAY LOTTO</button></div>
+ <div id="lottoResult" class="game-result"></div>
+ </div>
+
+ <!-- Referral Section -->
+ <div id="referralSection" class="content-panel">
+ <div class="panel-header"><h3> Referral Program</h3></div>
+ <p>Invite friends and earn <strong>5% commission</strong> on their deposits!</p>
+ <div class="referral-box">
+ <p>Your Referral Link:</p>
+ <input type="text" id="referralLink" readonly style="width:100%; padding:10px; margin-top:5px">
+ <button onclick="copyReferralLink()" style="margin-top:10px; background:#3498db; padding:8px 15px; border:none; border-radius:8px"> Copy Link</button>
+ </div>
+ <div style="display:flex; gap:15px; margin:15px 0">
+ <div class="stat-card"><div class="label"> Commission Balance</div><div class="value">$<span id="totalCommission">0</span></div></div>
+ <div class="stat-card"><div class="label"> Total Earned</div><div class="value">$<span id="totalEarned">0</span></div></div>
+ </div>
+ <div id="referralsList"></div>
+ </div>
+
+ <!-- Achievements Section -->
+ <div id="achievementsSection" class="content-panel">
+ <div class="panel-header"><h3> Your Achievements</h3></div>
+ <div id="achievementsList" style="display:flex; flex-wrap:wrap; gap:10px">Loading achievements...</div>
+ </div>
+
+ <!-- Leaderboard Section -->
+ <div id="leaderboardSection" class="content-panel">
+ <div class="panel-header"><h3> Top Winners</h3></div>
+ <table id="leaderboardTable">
+ <thead><tr><th>Rank</th><th>Player</th><th>Wins</th><th>Balance</th></tr></thead>
+ <tbody id="leaderboardBody"><tr><td colspan="4">Loading...</div></tbody>
+ </table>
+ </div>
+
+ <!-- History Section -->
+ <div id="historySection" class="content-panel">
+ <div class="panel-header"><h3> Transaction History</h3></div>
+ <div id="transactionList">Loading...</div>
+ </div>
+
+ <!-- Deposit Section -->
+ <div id="depositSection" class="content-panel">
+ <div class="panel-header"><h3> Deposit Funds</h3></div>
+ <div class="payment-method" onclick="selectDepositMethod('crypto_usdt')" id="depositMethod_usdt"><h4> USDT (TRC20)</h4></div>
+ <div class="payment-method" onclick="selectDepositMethod('crypto_btc')" id="depositMethod_btc"><h4>₿ Bitcoin (BTC)</h4></div>
+ <div class="payment-method" onclick="selectDepositMethod('bank_transfer')" id="depositMethod_bank"><h4> Bank Transfer</h4></div>
+ <div class="stake-controls">
+ <button class="stake-btn" onclick="adjustDepositAmount(-50)">-</button>
+ <span class="stake-amount" id="depositAmount">$100</span>
+ <button class="stake-btn" onclick="adjustDepositAmount(50)">+</button>
+ </div>
+ <div style="text-align:center"><button class="roll-btn" onclick="requestDeposit()"> Request Deposit</button></div>
+ <div id="depositResult" style="margin-top:15px"></div>
+ <div id="depositInstructions" style="margin-top:15px; background:rgba(0,0,0,0.3); padding:15px; border-radius:10px; display:none"></div>
+ </div>
+
+ <!-- Withdraw Section -->
+ <div id="withdrawSection" class="content-panel">
+ <div class="panel-header"><h3> Withdraw Funds</h3></div>
+ <div class="withdraw-speed">
+ <div class="speed-option" onclick="selectWithdrawSpeed('standard')" id="speed_standard"><strong>Standard</strong><br>3-5 days<br>0% fee</div>
+ <div class="speed-option" onclick="selectWithdrawSpeed('express')" id="speed_express"><strong>Express</strong><br>24 hours<br>5% fee</div>
+ <div class="speed-option" onclick="selectWithdrawSpeed('instant')" id="speed_instant"><strong>Instant</strong><br>Crypto<br>2% fee</div>
+ </div>
+ <div class="payment-method" onclick="selectWithdrawMethod('crypto_usdt')" id="withdrawMethod_usdt"><h4> USDT (TRC20)</h4></div>
+ <div class="payment-method" onclick="selectWithdrawMethod('crypto_btc')" id="withdrawMethod_btc"><h4>₿ Bitcoin (BTC)</h4></div>
+ <div class="payment-method" onclick="selectWithdrawMethod('bank_transfer')" id="withdrawMethod_bank"><h4> Bank Transfer</h4></div>
+ <div class="stake-controls">
+ <button class="stake-btn" onclick="adjustWithdrawAmount(-50)">-</button>
+ <span class="stake-amount" id="withdrawAmount">$50</span>
+ <button class="stake-btn" onclick="adjustWithdrawAmount(50)">+</button>
+ </div>
+ <div id="walletInputArea" style="display:none; margin:15px 0">
+ <input type="text" id="walletAddress" placeholder="Enter wallet address / bank details" style="width:100%; padding:12px; border-radius:8px">
+ </div>
+ <div style="text-align:center"><button onclick="requestWithdraw()" style="background:#2ecc71; padding:12px 30px; border:none; border-radius:30px; cursor:pointer">Request Withdrawal</button></div>
+ <div id="withdrawResult" style="margin-top:15px"></div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <script>
+ const API_URL = window.location.origin;
+ let token = localStorage.getItem('token');
+ let role = localStorage.getItem('role');
+ let currentBalance = 0;
+ let currentStake = 5;
+ let currentLottoStake = 5;
+ let currentDepositAmount = 100;
+ let currentWithdrawAmount = 50;
+ let selectedDepositMethod = null;
+ let selectedWithdrawMethod = null;
+ let selectedWithdrawSpeed = 'standard';
+ let isRolling = false;
+ let currentUser = null;
+ let announcementsVisible = true;
+
+ if (!token || role !== 'user') {
+ window.location.href = '/login';
+ }
+
+ // Sound effects
+ let rollSound = new Audio('https://www.soundjay.com/misc/sounds/dice-throw-01.mp3');
+ let winSound = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
+ let loseSound = new Audio('https://www.soundjay.com/misc/sounds/fail-buzzer-01.mp3');
+ 
+ function playRollSound() { rollSound.play().catch(e=>console.log); }
+ function playWinSound() { winSound.play().catch(e=>console.log); }
+ function playLoseSound() { loseSound.play().catch(e=>console.log); }
+
+ // Stake adjustments (starting from $5, no upper limit)
+ function adjustStake(c) { 
+ let ns = currentStake + c; 
+ if (ns >= 5) { 
+ currentStake = ns; 
+ document.getElementById('stakeAmount').innerText = `$${currentStake}`; 
+ } 
+ }
+ 
+ function adjustLottoStake(c) { 
+ let ns = currentLottoStake + c; 
+ if (ns >= 5) { 
+ currentLottoStake = ns; 
+ document.getElementById('lottoStakeAmount').innerText = `$${currentLottoStake}`; 
+ } 
+ }
+ 
+ function adjustDepositAmount(c) { let na=currentDepositAmount+c; if(na>=10 && na<=10000) { currentDepositAmount=na; document.getElementById('depositAmount').innerText=`$${currentDepositAmount}`; } }
+ function adjustWithdrawAmount(c) { let na=currentWithdrawAmount+c; if(na>=10 && na<=currentBalance) { currentWithdrawAmount=na; document.getElementById('withdrawAmount').innerText=`$${currentWithdrawAmount}`; } }
+
+ function selectDepositMethod(method) {
+ selectedDepositMethod = method;
+ document.querySelectorAll('#depositSection .payment-method').forEach(el=>el.classList.remove('selected'));
+ document.getElementById(`depositMethod_${method.split('_')[1]}`).classList.add('selected');
+ }
+
+ function selectWithdrawMethod(method) {
+ selectedWithdrawMethod = method;
+ document.querySelectorAll('#withdrawSection .payment-method').forEach(el=>el.classList.remove('selected'));
+ document.getElementById(`withdrawMethod_${method.split('_')[1]}`).classList.add('selected');
+ document.getElementById('walletInputArea').style.display = 'block';
+ }
+
+ function selectWithdrawSpeed(speed) {
+ selectedWithdrawSpeed = speed;
+ document.querySelectorAll('.speed-option').forEach(el=>el.classList.remove('selected'));
+ document.getElementById(`speed_${speed}`).classList.add('selected');
+ }
+
+ function toggleAnnouncements() {
+ const list = document.getElementById('announcementsList');
+ const toggle = document.getElementById('announcementToggle');
+ if (list.style.display === 'none') {
+ list.style.display = 'block';
+ toggle.innerHTML = '▼';
+ } else {
+ list.style.display = 'none';
+ toggle.innerHTML = '▲';
+ }
+ }
+
+ async function loadUserData() {
+ try {
+ const res = await fetch(`${API_URL}/api/user`, { headers: { 'Authorization': token } });
+ if (res.status === 401) { logout(); return; }
+ const user = await res.json();
+ if (user.role === 'admin') { window.location.href = '/admin'; return; }
+ currentUser = user;
+ currentBalance = user.balance;
+ document.getElementById('userName').innerText = user.name || user.username;
+ document.getElementById('userBalance').innerText = user.balance.toFixed(2);
+ document.getElementById('userWins').innerText = user.totalWins;
+ if (user.referralCode) {
+ document.getElementById('referralCode').innerText = user.referralCode;
+ document.getElementById('referralLink').value = `${window.location.origin}/signup?ref=${user.referralCode}`;
+ }
+ } catch(e) { console.error(e); }
+ }
+
+ async function loadAnnouncements() {
+ try {
+ const res = await fetch(`${API_URL}/api/announcements`, { headers: { 'Authorization': token } });
+ const announcements = await res.json();
+ const container = document.getElementById('announcementsList');
+ if (!announcements.length) {
+ container.innerHTML = '<div style="padding:10px; text-align:center">No announcements yet</div>';
+ return;
+ }
+ container.innerHTML = '';
+ announcements.forEach(a => {
+ container.innerHTML += `
+ <div class="announcement-item">
+ <div class="announcement-title"> ${a.title}</div>
+ <div class="announcement-message">${a.message}</div>
+ <div class="announcement-date">${new Date(a.createdAt).toLocaleString()}</div>
+ </div>
+ `;
+ });
+ } catch(e) { console.error(e); }
+ }
+
+ async function rollDice() {
+ if (isRolling) return;
+ if (currentBalance < currentStake) {
+ document.getElementById('slotResult').innerHTML = `<div class="result-lose"> Insufficient balance! Need $${currentStake}</div>`;
+ return;
+ }
+ isRolling = true;
+ const rollBtn = document.querySelector('#slotSection .roll-btn');
+ if(rollBtn) rollBtn.disabled = true;
+ playRollSound();
+ 
+ const dice1El = document.getElementById('dice1');
+ const dice2El = document.getElementById('dice2');
+ dice1El.classList.add('rolling');
+ dice2El.classList.add('rolling');
+ 
+ try {
+ const res = await fetch(`${API_URL}/api/play-slot`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ stake: currentStake })
+ });
+ const data = await res.json();
+ setTimeout(() => {
+ // Display actual numbers instead of dice faces
+ dice1El.innerHTML = `<span style="font-size: 48px;">${data.dice1}</span>`;
+ dice2El.innerHTML = `<span style="font-size: 48px;">${data.dice2}</span>`;
+ dice1El.classList.remove('rolling');
+ dice2El.classList.remove('rolling');
+ 
+ if (data.win) { playWinSound(); } else { playLoseSound(); }
+ document.getElementById('slotResult').innerHTML = data.win ? `<div class="result-win"> ${data.message} </div>` : `<div class="result-lose"> ${data.message}</div>`;
+ 
+ currentBalance = data.newBalance;
+ document.getElementById('userBalance').innerText = currentBalance.toFixed(2);
+ 
+ isRolling = false;
+ if(rollBtn) rollBtn.disabled = false;
+ loadLeaderboard();
+ loadTransactionHistory();
+ loadAchievements();
+ }, 500);
+ } catch(e) { console.error(e); isRolling=false; if(rollBtn) rollBtn.disabled=false; }
+ }
+
+ async function playLotto() {
+ const code = document.getElementById('lottoCode').value;
+ const stake = currentLottoStake;
+ if (!code || code.length !== 6 || !/^\d+$/.test(code)) {
+ document.getElementById('lottoResult').innerHTML = '<div class="result-lose"> Enter valid 6-digit code</div>';
+ return;
+ }
+ if (currentBalance < stake) {
+ document.getElementById('lottoResult').innerHTML = `<div class="result-lose"> Insufficient balance! Need $${stake}</div>`;
+ return;
+ }
+ try {
+ const res = await fetch(`${API_URL}/api/play`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ code, stake })
+ });
+ const data = await res.json();
+ if (data.win) { playWinSound(); } else { playLoseSound(); }
+ document.getElementById('lottoResult').innerHTML = data.win ? `<div class="result-win"> ${data.message} </div>` : `<div class="result-lose"> ${data.message}</div>`;
+ currentBalance = data.newBalance;
+ document.getElementById('userBalance').innerText = currentBalance.toFixed(2);
+ document.getElementById('lottoCode').value = '';
+ loadLeaderboard();
+ loadTransactionHistory();
+ loadAchievements();
+ } catch(e) { console.error(e); }
+ }
+
+ async function loadTransactionHistory() {
+ try {
+ const res = await fetch(`${API_URL}/api/history`, { headers: { 'Authorization': token } });
+ const history = await res.json();
+ const container = document.getElementById('transactionList');
+ if (!history.length) { container.innerHTML = '<div style="text-align:center; padding:40px;">No transactions yet</div>'; return; }
+ container.innerHTML = '';
+ history.forEach(h => {
+ let amount = h.rewardWon > 0 ? `+$${h.rewardWon.toFixed(2)}` : (h.game === 'Deposit' ? `+$${h.stake.toFixed(2)}` : `-$${h.stake.toFixed(2)}`);
+ let type = h.rewardWon > 0 ? 'win' : (h.game === 'Deposit' ? 'deposit' : (h.game === 'Withdraw' ? 'withdraw' : 'lose'));
+ container.innerHTML += `<div class="transaction-item"><div><strong> ${h.game}</strong><br><small>${new Date(h.date).toLocaleString()}</small></div><div class="transaction-type ${type}">${h.rewardWon > 0 ? 'WIN' : (h.game === 'Deposit' ? 'DEPOSIT' : (h.game === 'Withdraw' ? 'WITHDRAW' : 'LOSE'))}</div><div>${h.code || ''}</div><div>${amount}</div></div>`;
+ });
+ } catch(e) { console.error(e); }
+ }
+
+ async function loadLeaderboard() {
+ try {
+ const res = await fetch(`${API_URL}/api/leaderboard`);
+ const users = await res.json();
+ const body = document.getElementById('leaderboardBody');
+ if (!users.length) { body.innerHTML = '<tr><td colspan="4">No users yet</div>'; return; }
+ body.innerHTML = '';
+ users.forEach((u,i) => { body.innerHTML += `<tr>
+ <td>${i+1}</div>
+ <td>${u.name||u.username}</div>
+ <td>${u.totalWins}</div>
+ <td>$${u.balance.toFixed(2)}</div>
+ </table>`;
+ });
+ } catch(e) { console.error(e); }
+ }
+
+ async function loadReferralInfo() {
+ try {
+ const res = await fetch(`${API_URL}/api/referral-info`, { headers: { 'Authorization': token } });
+ const data = await res.json();
+ document.getElementById('totalCommission').innerText = data.totalCommission?.toFixed(2) || '0';
+ document.getElementById('totalEarned').innerText = data.totalEarned?.toFixed(2) || '0';
+ const listDiv = document.getElementById('referralsList');
+ if (!data.referrals?.length) { listDiv.innerHTML = '<div>No referrals yet</div>'; return; }
+ listDiv.innerHTML = '<ul>' + data.referrals.map(r => `<li>${r.username} - ${r.status} - Commission: $${r.commission?.toFixed(2) || '0'}</li>`).join('') + '</ul>';
+ } catch(e) { console.error(e); }
+ }
+ 
+ function copyReferralLink() { const inp=document.getElementById('referralLink'); inp.select(); document.execCommand('copy'); alert('Link copied!'); }
+
+ async function loadAchievements() {
+ try {
+ const res = await fetch(`${API_URL}/api/achievements`, { headers: { 'Authorization': token } });
+ const achievements = await res.json();
+ const container = document.getElementById('achievementsList');
+ if (!achievements.length) { 
+ container.innerHTML = '<div>No achievements yet. Keep playing to earn badges!</div>'; 
+ return; 
+ }
+ container.innerHTML = achievements.map(a => `<div class="badge earned"> ${a.name}</div>`).join('');
+ } catch(e) { console.error(e); }
+ }
+
+ async function requestDeposit() {
+ if (!selectedDepositMethod) { document.getElementById('depositResult').innerHTML = '<span class="error">Select payment method</span>'; return; }
+ try {
+ const res = await fetch(`${API_URL}/api/request-deposit`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ amount: currentDepositAmount, method: selectedDepositMethod })
+ });
+ const data = await res.json();
+ if (res.ok) {
+ document.getElementById('depositResult').innerHTML = `<span class="success"> ${data.message}</span>`;
+ const settingsRes = await fetch(`${API_URL}/api/payment-settings-public`);
+ const settings = await settingsRes.json();
+ let instructions = '';
+ if (selectedDepositMethod === 'crypto_usdt') {
+ instructions = `<strong> USDT (TRC20) Payment:</strong><br>Send to:<br><div style="background:rgba(0,0,0,0.5); padding:10px; border-radius:8px; font-family:monospace;">${settings.cryptoWallets?.usdt}</div><br>Amount: $${currentDepositAmount}<br>Include your username: ${currentUser?.username}`;
+ } else if (selectedDepositMethod === 'crypto_btc') {
+ instructions = `<strong>₿ Bitcoin Payment:</strong><br>Send to:<br><div style="background:rgba(0,0,0,0.5); padding:10px; border-radius:8px; font-family:monospace;">${settings.cryptoWallets?.btc}</div><br>Amount: $${currentDepositAmount}`;
+ } else {
+ instructions = `<strong> Bank Transfer:</strong><br>Bank: ${settings.bankDetails?.bankName}<br>Account: ${settings.bankDetails?.accountNumber}<br>Routing: ${settings.bankDetails?.routingNumber}<br>Account Name: ${settings.bankDetails?.accountName}<br>Amount: $${currentDepositAmount}<br>Reference: ${currentUser?.username}`;
+ }
+ document.getElementById('depositInstructions').innerHTML = instructions;
+ document.getElementById('depositInstructions').style.display = 'block';
+ } else { document.getElementById('depositResult').innerHTML = `<span class="error"> ${data.error}</span>`; }
+ } catch(e) { console.error(e); }
+ }
+
+ async function requestWithdraw() {
+ if (!selectedWithdrawMethod) { document.getElementById('withdrawResult').innerHTML = '<span class="error">Select method</span>'; return; }
+ const address = document.getElementById('walletAddress').value;
+ if (!address) { document.getElementById('withdrawResult').innerHTML = '<span class="error">Enter address</span>'; return; }
+ if (currentWithdrawAmount > currentBalance) { document.getElementById('withdrawResult').innerHTML = '<span class="error">Insufficient balance</span>'; return; }
+ try {
+ const res = await fetch(`${API_URL}/api/withdraw`, {
+ method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
+ body: JSON.stringify({ amount: currentWithdrawAmount, bankDetails: { method: selectedWithdrawMethod, address }, speed: selectedWithdrawSpeed })
+ });
+ const data = await res.json();
+ if (res.ok) { document.getElementById('withdrawResult').innerHTML = `<span class="success"> ${data.message}</span>`; loadUserData(); loadTransactionHistory(); }
+ else { document.getElementById('withdrawResult').innerHTML = `<span class="error"> ${data.error}</span>`; }
+ } catch(e) { console.error(e); }
+ }
+
+ function switchSection(section) {
+ document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
+ document.getElementById(`${section}Section`).classList.add('active');
+ document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+ if(event.target) event.target.classList.add('active');
+ 
+ if (section === 'history') loadTransactionHistory();
+ if (section === 'leaderboard') loadLeaderboard();
+ if (section === 'referral') loadReferralInfo();
+ if (section === 'achievements') loadAchievements();
+ }
+
+ function logout() { localStorage.clear(); window.location.href = '/login'; }
+
+ async function init() {
+ await loadUserData();
+ await loadLeaderboard();
+ await loadTransactionHistory();
+ await loadAnnouncements();
+ await loadAchievements();
+ }
+ 
+ init();
+ 
+ setInterval(() => {
+ loadAnnouncements();
+ }, 30000);
+ </script>
+</body>
+</html>

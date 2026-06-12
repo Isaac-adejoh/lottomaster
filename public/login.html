@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | LottoMaster</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .main-header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            background: linear-gradient(90deg, #f7971e, #ffd200);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo p {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .auth-section {
+            min-height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            width: 520px;
+            max-width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .auth-card h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            background: linear-gradient(90deg, #f7971e, #ffd200);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .form-group label .required {
+            color: #e74c3c;
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            color: #333;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            background: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #f7971e, #ffd200);
+            color: #333;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.02);
+        }
+
+        .link-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .link-text a {
+            color: #ffd200;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .link-text a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .success {
+            color: #2ecc71;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .info-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 5px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            margin: 15px 0 10px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #f7971e;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>🎲 LottoMaster</h1>
+                <p>Win Big, Live Better!</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="auth-section">
+        <div class="auth-card">
+            <h2 id="formTitle">Welcome Back! 👋</h2>
+            
+            <!-- Login Form -->
+            <div id="loginSection">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                <button onclick="login()">Login to Your Account</button>
+                <div id="loginError" class="error"></div>
+                <div class="link-text">
+                    Don't have an account? <a onclick="showSignup()">Create Account</a>
+                </div>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signupSection" style="display: none;">
+                <div class="form-group">
+                    <label>Username <span class="required">*</span></label>
+                    <input type="text" id="signupUsername" placeholder="Choose a username">
+                </div>
+                <div class="form-group">
+                    <label>Email Address <span class="required">*</span></label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Password <span class="required">*</span></label>
+                    <input type="password" id="signupPassword" placeholder="Create a password">
+                </div>
+                
+                <div class="section-title">📋 Identity Verification</div>
+                <div class="form-group">
+                    <label>Full Legal Name <span class="required">*</span></label>
+                    <input type="text" id="legalName" placeholder="As shown on your ID">
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth <span class="required">*</span></label>
+                    <input type="date" id="dateOfBirth">
+                    <div class="info-text">Must be 18 years or older to play</div>
+                </div>
+                <div class="form-group">
+                    <label>Home Address <span class="required">*</span></label>
+                    <textarea id="homeAddress" rows="2" placeholder="Street address, City, State, ZIP Code"></textarea>
+                </div>
+                
+                <div class="section-title">🏦 Withdrawal Information</div>
+                <div class="form-group">
+                    <label>Bank Details</label>
+                    <textarea id="bankDetails" placeholder="Bank Name, Account Name, Account Number" rows="2"></textarea>
+                    <div class="info-text">Required for withdrawing your winnings</div>
+                </div>
+                
+                <div class="info-text" style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; margin-top: 10px;">
+                    ⚠️ Note: After registration, admin will verify your identity. You may be contacted via email to submit ID proof.
+                </div>
+                
+                <button onclick="signup()">Create Account</button>
+                <div id="signupError" class="error"></div>
+                <div id="signupSuccess" class="success"></div>
+                <div class="link-text">
+                    Already have an account? <a onclick="showLogin()">Back to Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = window.location.origin;
+
+        function showSignup() {
+            document.getElementById('formTitle').innerHTML = 'Create Account 📝';
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('signupSection').style.display = 'block';
+            document.getElementById('signupError').innerHTML = '';
+            document.getElementById('signupSuccess').innerHTML = '';
+        }
+
+        function showLogin() {
+            document.getElementById('formTitle').innerHTML = 'Welcome Back! 👋';
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('signupSection').style.display = 'none';
+            document.getElementById('loginError').innerHTML = '';
+        }
+
+        function calculateAge(birthDate) {
+            const today = new Date();
+            const birth = new Date(birthDate);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        async function signup() {
+            const username = document.getElementById('signupUsername').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const legalName = document.getElementById('legalName').value;
+            const dateOfBirth = document.getElementById('dateOfBirth').value;
+            const homeAddress = document.getElementById('homeAddress').value;
+            const bankDetailsText = document.getElementById('bankDetails').value;
+            
+            if (!username || !email || !password || !legalName || !dateOfBirth || !homeAddress) {
+                document.getElementById('signupError').innerHTML = '❌ Please fill all required fields (*)';
+                return;
+            }
+            
+            const age = calculateAge(dateOfBirth);
+            if (age < 18) {
+                document.getElementById('signupError').innerHTML = '❌ You must be 18 years or older to play';
+                return;
+            }
+            
+            const bankDetails = {};
+            if (bankDetailsText) {
+                const lines = bankDetailsText.split(',');
+                bankDetails.bankName = lines[0]?.trim();
+                bankDetails.accountName = lines[1]?.trim();
+                bankDetails.accountNumber = lines[2]?.trim();
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/api/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        name: legalName,
+                        username, 
+                        email, 
+                        password,
+                        legalName,
+                        dateOfBirth,
+                        homeAddress,
+                        bankDetails 
+                    })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    document.getElementById('signupSuccess').innerHTML = '✅ Account created! Admin will review your information.';
+                    document.getElementById('signupUsername').value = '';
+                    document.getElementById('signupEmail').value = '';
+                    document.getElementById('signupPassword').value = '';
+                    document.getElementById('legalName').value = '';
+                    document.getElementById('dateOfBirth').value = '';
+                    document.getElementById('homeAddress').value = '';
+                    document.getElementById('bankDetails').value = '';
+                    document.getElementById('signupError').innerHTML = '';
+                    setTimeout(() => {
+                        showLogin();
+                        document.getElementById('loginUsername').value = username;
+                    }, 3000);
+                } else {
+                    document.getElementById('signupError').innerHTML = '❌ ' + data.error;
+                    document.getElementById('signupSuccess').innerHTML = '';
+                }
+            } catch (error) {
+                document.getElementById('signupError').innerHTML = '❌ Connection error. Make sure server is running.';
+            }
+        }
+
+        async function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                document.getElementById('loginError').innerHTML = '❌ Please enter username and password';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('role', data.role);
+                    if (data.role === 'admin') {
+                        window.location.href = '/admin';
+                    } else {
+                        window.location.href = '/';
+                    }
+                } else {
+                    document.getElementById('loginError').innerHTML = '❌ ' + data.error;
+                }
+            } catch (error) {
+                document.getElementById('loginError').innerHTML = '❌ Connection error. Make sure server is running.';
+            }
+        }
+
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('role');
+        if (token && role === 'user') {
+            window.location.href = '/';
+        } else if (token && role === 'admin') {
+            window.location.href = '/admin';
+        }
+
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (document.getElementById('loginSection').style.display !== 'none') {
+                    login();
+                } else {
+                    signup();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
