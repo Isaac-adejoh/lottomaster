@@ -5,18 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
 <title>LottoMaster - Play & Win</title>
 <style>
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-}
-
-html, body {
-overflow-x: hidden;
-width: 100%;
-max-width: 100%;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
 body {
 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
@@ -25,868 +15,151 @@ color: white;
 overflow-x: hidden;
 width: 100%;
 }
-
-.particles {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-z-index: 0;
-overflow: hidden;
-pointer-events: none;
-}
-
-.particle {
-position: absolute;
-background: rgba(245, 158, 11, 0.1);
-border-radius: 50%;
-pointer-events: none;
-animation: floatParticle linear infinite;
-}
-
-@keyframes floatParticle {
-0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-10% { opacity: 1; }
-90% { opacity: 1; }
-100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-}
-
-.dashboard-container {
-position: relative;
-z-index: 1;
-min-height: 100vh;
-display: flex;
-flex-direction: column;
-padding: 15px;
-width: 100%;
-max-width: 100%;
-}
-
-.dashboard-wrapper {
-width: 100%;
-max-width: 1400px;
-margin: 0 auto;
-flex: 1;
-display: flex;
-flex-direction: column;
-}
-
-/* Header */
-.main-header {
-background: rgba(255, 255, 255, 0.03);
-backdrop-filter: blur(10px);
-border-radius: 20px;
-padding: 15px 20px;
-margin-bottom: 20px;
-border: 1px solid rgba(245, 158, 11, 0.2);
-width: 100%;
-}
-
-.header-content {
-display: flex;
-justify-content: space-between;
-align-items: center;
-flex-wrap: wrap;
-gap: 15px;
-}
-
-.logo-area h1 {
-font-size: 1.5rem;
-background: linear-gradient(135deg, #FFFFFF, #F59E0B);
--webkit-background-clip: text;
-background-clip: text;
-color: transparent;
-}
-
-.logo-area p {
-font-size: 0.6rem;
-opacity: 0.6;
-}
-
-.user-stats {
-display: flex;
-gap: 20px;
-flex-wrap: wrap;
-}
-
-.stat-card {
-background: rgba(0, 0, 0, 0.3);
-padding: 8px 15px;
-border-radius: 12px;
-text-align: center;
-}
-
-.stat-card .label {
-font-size: 0.65rem;
-opacity: 0.7;
-}
-
-.stat-card .value {
-font-size: 1.2rem;
-font-weight: bold;
-color: #F59E0B;
-}
-
-.logout-btn {
-background: rgba(231, 76, 60, 0.8);
-padding: 8px 16px;
-border: none;
-border-radius: 10px;
-color: white;
-cursor: pointer;
-}
-
-/* Daily Bonus Banner */
-.daily-bonus-banner {
-background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.05));
-border-radius: 16px;
-padding: 15px 20px;
-margin-bottom: 20px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-flex-wrap: wrap;
-gap: 15px;
-border: 1px solid rgba(245, 158, 11, 0.3);
-}
-
-.bonus-info {
-display: flex;
-align-items: center;
-gap: 15px;
-}
-
-.bonus-icon {
-font-size: 2rem;
-}
-
-.bonus-text h4 {
-font-size: 1rem;
-margin-bottom: 3px;
-}
-
-.bonus-text p {
-font-size: 0.7rem;
-opacity: 0.7;
-}
-
-.claim-bonus-btn {
-background: linear-gradient(135deg, #F59E0B, #D97706);
-padding: 10px 25px;
-border: none;
-border-radius: 30px;
-color: #0F172A;
-font-weight: bold;
-cursor: pointer;
-}
-
-.claim-bonus-btn.disabled {
-opacity: 0.5;
-cursor: not-allowed;
-}
-
-.bonus-timer {
-font-size: 1.2rem;
-font-weight: bold;
-color: #F59E0B;
-font-family: monospace;
-}
-
-/* Main Layout */
-.dashboard-main {
-display: flex;
-gap: 20px;
-flex: 1;
-width: 100%;
-}
-
-.sidebar {
-width: 260px;
-flex-shrink: 0;
-background: rgba(255, 255, 255, 0.03);
-backdrop-filter: blur(10px);
-border-radius: 20px;
-padding: 15px;
-border: 1px solid rgba(245, 158, 11, 0.2);
-height: fit-content;
-}
-
-.menu-item {
-display: flex;
-align-items: center;
-gap: 12px;
-padding: 12px 15px;
-margin: 5px 0;
-border-radius: 12px;
-cursor: pointer;
-transition: all 0.3s;
-color: rgba(255, 255, 255, 0.8);
-}
-
-.menu-item:hover {
-background: rgba(245, 158, 11, 0.1);
-color: white;
-}
-
-.menu-item.active {
-background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
-border-left: 3px solid #F59E0B;
-color: #F59E0B;
-}
-
-.menu-icon {
-font-size: 1.3rem;
-}
-
-.main-content {
-flex: 1;
-display: flex;
-flex-direction: column;
-gap: 20px;
-}
-
-/* Game Cards */
-.game-card {
-background: rgba(255, 255, 255, 0.05);
-backdrop-filter: blur(20px);
-border-radius: 20px;
-padding: 25px;
-border: 1px solid rgba(245, 158, 11, 0.2);
-width: 100%;
-}
-
-.game-header {
-border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-padding-bottom: 15px;
-margin-bottom: 20px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-flex-wrap: wrap;
-}
-
-.dice-container {
-display: flex;
-justify-content: center;
-gap: 30px;
-margin: 30px 0;
-}
-
-.dice {
-width: 100px;
-height: 100px;
-background: white;
-border-radius: 20px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 3rem;
-font-weight: bold;
-color: #0F172A;
-box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
-
-.dice.rolling {
-animation: rollDice 0.5s ease-in-out;
-}
-
-@keyframes rollDice {
-0% { transform: rotate(0deg); }
-25% { transform: rotate(90deg); }
-50% { transform: rotate(180deg); }
-75% { transform: rotate(270deg); }
-100% { transform: rotate(360deg); }
-}
-
-.stake-controls {
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 20px;
-margin: 20px 0;
-}
-
-.stake-btn {
-width: 45px;
-height: 45px;
-border-radius: 25px;
-background: #F59E0B;
-border: none;
-font-size: 1.3rem;
-font-weight: bold;
-cursor: pointer;
-}
-
-.stake-amount {
-font-size: 1.5rem;
-font-weight: bold;
-min-width: 100px;
-text-align: center;
-}
-
-.roll-btn, .play-btn {
-background: linear-gradient(135deg, #F59E0B, #D97706);
-color: #0F172A;
-padding: 12px 40px;
-font-size: 1.1rem;
-font-weight: bold;
-border: none;
-border-radius: 40px;
-cursor: pointer;
-margin: 10px 0;
-}
-
-.prize-info {
-background: rgba(0, 0, 0, 0.3);
-border-radius: 12px;
-padding: 15px;
-margin-top: 20px;
-text-align: center;
-font-size: 0.8rem;
-}
-
-.prize-info .highlight {
-color: #F59E0B;
-font-weight: bold;
-}
-
-.code-input {
-width: 100%;
-max-width: 300px;
-padding: 15px;
-font-size: 1.5rem;
-text-align: center;
-letter-spacing: 8px;
-background: rgba(0, 0, 0, 0.5);
-border: 2px solid rgba(245, 158, 11, 0.5);
-border-radius: 15px;
-color: #F59E0B;
-font-weight: bold;
-margin: 20px auto;
-display: block;
-}
-
-.game-result {
-margin-top: 15px;
-padding: 12px;
-border-radius: 12px;
-text-align: center;
-font-weight: bold;
-}
-
-.result-win {
-background: rgba(46, 204, 113, 0.2);
-color: #2ecc71;
-}
-
-.result-lose {
-background: rgba(231, 76, 60, 0.2);
-color: #e74c3c;
-}
-
-/* Referral */
-.referral-box {
-background: rgba(0, 0, 0, 0.3);
-padding: 15px;
-border-radius: 12px;
-margin: 15px 0;
-}
-
-.referral-link-input {
-display: flex;
-gap: 10px;
-margin-top: 10px;
-flex-wrap: wrap;
-}
-
-.referral-link-input input {
-flex: 1;
-padding: 12px;
-border-radius: 10px;
-border: none;
-background: rgba(255, 255, 255, 0.1);
-color: white;
-}
-
-.copy-btn {
-background: #3498db;
-padding: 12px 20px;
-border: none;
-border-radius: 10px;
-color: white;
-cursor: pointer;
-}
-
-/* Achievements */
-.badges-container {
-display: flex;
-flex-wrap: wrap;
-gap: 12px;
-}
-
-.badge {
-background: rgba(0, 0, 0, 0.4);
-padding: 10px 15px;
-border-radius: 30px;
-font-size: 0.8rem;
-display: inline-flex;
-align-items: center;
-gap: 8px;
-}
-
-.badge.earned {
-background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(217, 119, 6, 0.2));
-border: 1px solid #F59E0B;
-color: #F59E0B;
-}
-
-/* Leaderboard */
-.leaderboard-table {
-width: 100%;
-border-collapse: collapse;
-}
-
-.leaderboard-table th, .leaderboard-table td {
-padding: 12px;
-text-align: left;
-border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.leaderboard-table th {
-color: #F59E0B;
-}
-
+.particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; pointer-events: none; }
+.particle { position: absolute; background: rgba(245, 158, 11, 0.1); border-radius: 50%; pointer-events: none; animation: floatParticle linear infinite; }
+@keyframes floatParticle { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; } }
+.dashboard-container { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; padding: 15px; width: 100%; max-width: 100%; }
+.dashboard-wrapper { width: 100%; max-width: 1400px; margin: 0 auto; flex: 1; display: flex; flex-direction: column; }
+.main-header { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 20px; padding: 15px 20px; margin-bottom: 20px; border: 1px solid rgba(245, 158, 11, 0.2); width: 100%; }
+.header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+.logo-area h1 { font-size: 1.5rem; background: linear-gradient(135deg, #FFFFFF, #F59E0B); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.logo-area p { font-size: 0.6rem; opacity: 0.6; }
+.user-stats { display: flex; gap: 20px; flex-wrap: wrap; }
+.stat-card { background: rgba(0, 0, 0, 0.3); padding: 8px 15px; border-radius: 12px; text-align: center; }
+.stat-card .label { font-size: 0.65rem; opacity: 0.7; }
+.stat-card .value { font-size: 1.2rem; font-weight: bold; color: #F59E0B; }
+.logout-btn { background: rgba(231, 76, 60, 0.8); padding: 8px 16px; border: none; border-radius: 10px; color: white; cursor: pointer; }
+.daily-bonus-banner { background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.05)); border-radius: 16px; padding: 15px 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border: 1px solid rgba(245, 158, 11, 0.3); }
+.bonus-info { display: flex; align-items: center; gap: 15px; }
+.bonus-icon { font-size: 2rem; }
+.bonus-text h4 { font-size: 1rem; margin-bottom: 3px; }
+.bonus-text p { font-size: 0.7rem; opacity: 0.7; }
+.claim-bonus-btn { background: linear-gradient(135deg, #F59E0B, #D97706); padding: 10px 25px; border: none; border-radius: 30px; color: #0F172A; font-weight: bold; cursor: pointer; }
+.claim-bonus-btn.disabled { opacity: 0.5; cursor: not-allowed; }
+.bonus-timer { font-size: 1.2rem; font-weight: bold; color: #F59E0B; font-family: monospace; }
+.dashboard-main { display: flex; gap: 20px; flex: 1; width: 100%; }
+.sidebar { width: 260px; flex-shrink: 0; background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 20px; padding: 15px; border: 1px solid rgba(245, 158, 11, 0.2); height: fit-content; }
+.menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; margin: 5px 0; border-radius: 12px; cursor: pointer; transition: all 0.3s; color: rgba(255, 255, 255, 0.8); }
+.menu-item:hover { background: rgba(245, 158, 11, 0.1); color: white; }
+.menu-item.active { background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1)); border-left: 3px solid #F59E0B; color: #F59E0B; }
+.menu-icon { font-size: 1.3rem; }
+.main-content { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+.game-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border-radius: 20px; padding: 25px; border: 1px solid rgba(245, 158, 11, 0.2); width: 100%; }
+.game-header { border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+.dice-container { display: flex; justify-content: center; gap: 30px; margin: 30px 0; }
+.dice { width: 100px; height: 100px; background: white; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: bold; color: #0F172A; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+.dice.rolling { animation: rollDice 0.5s ease-in-out; }
+@keyframes rollDice { 0% { transform: rotate(0deg); } 25% { transform: rotate(90deg); } 50% { transform: rotate(180deg); } 75% { transform: rotate(270deg); } 100% { transform: rotate(360deg); } }
+.stake-controls { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 0; }
+.stake-btn { width: 45px; height: 45px; border-radius: 25px; background: #F59E0B; border: none; font-size: 1.3rem; font-weight: bold; cursor: pointer; }
+.stake-amount { font-size: 1.5rem; font-weight: bold; min-width: 100px; text-align: center; }
+.roll-btn, .play-btn { background: linear-gradient(135deg, #F59E0B, #D97706); color: #0F172A; padding: 12px 40px; font-size: 1.1rem; font-weight: bold; border: none; border-radius: 40px; cursor: pointer; margin: 10px 0; }
+.prize-info { background: rgba(0, 0, 0, 0.3); border-radius: 12px; padding: 15px; margin-top: 20px; text-align: center; font-size: 0.8rem; }
+.prize-info .highlight { color: #F59E0B; font-weight: bold; }
+.code-input { width: 100%; max-width: 300px; padding: 15px; font-size: 1.5rem; text-align: center; letter-spacing: 8px; background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(245, 158, 11, 0.5); border-radius: 15px; color: #F59E0B; font-weight: bold; margin: 20px auto; display: block; }
+.game-result { margin-top: 15px; padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; }
+.result-win { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+.result-lose { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+.leaderboard-table { width: 100%; border-collapse: collapse; }
+.leaderboard-table th, .leaderboard-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+.leaderboard-table th { color: #F59E0B; }
 .rank-1 { color: #ffd700; font-weight: bold; }
 .rank-2 { color: #c0c0c0; font-weight: bold; }
 .rank-3 { color: #cd7f32; font-weight: bold; }
-
-/* Transactions */
-.transaction-item {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 12px;
-border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-flex-wrap: wrap;
-gap: 10px;
-}
-
+.transaction-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); flex-wrap: wrap; gap: 10px; }
 .transaction-win { color: #2ecc71; }
 .transaction-lose { color: #e74c3c; }
 .transaction-deposit { color: #3498db; }
-
-/* Payment Methods */
-.payment-method {
-background: rgba(0, 0, 0, 0.3);
-border-radius: 12px;
-padding: 15px;
-margin: 10px 0;
-cursor: pointer;
-border: 2px solid transparent;
-}
-
-.payment-method.selected {
-border-color: #F59E0B;
-background: rgba(245, 158, 11, 0.1);
-}
-
-.withdraw-speed {
-display: flex;
-gap: 10px;
-margin: 15px 0;
-flex-wrap: wrap;
-}
-
-.speed-option {
-flex: 1;
-padding: 10px;
-background: rgba(0, 0, 0, 0.3);
-border-radius: 10px;
-text-align: center;
-cursor: pointer;
-border: 2px solid transparent;
-}
-
-.speed-option.selected {
-border-color: #2ecc71;
-background: rgba(46, 204, 113, 0.1);
-}
-
-.quick-deposit {
-display: flex;
-gap: 10px;
-justify-content: center;
-margin: 15px 0;
-flex-wrap: wrap;
-}
-
-.quick-deposit-btn {
-background: rgba(245, 158, 11, 0.2);
-border: 1px solid rgba(245, 158, 11, 0.5);
-padding: 8px 20px;
-border-radius: 30px;
-cursor: pointer;
-}
-
-/* Deposit Instructions */
-.deposit-instructions {
-background: rgba(0, 0, 0, 0.3);
-padding: 15px;
-border-radius: 12px;
-margin-top: 15px;
-display: none;
-font-size: 0.8rem;
-word-break: break-all;
-}
-
-/* Footer */
-.main-footer {
-margin-top: 20px;
-padding: 15px 20px;
-background: rgba(255, 255, 255, 0.03);
-backdrop-filter: blur(10px);
-border-radius: 16px;
-border: 1px solid rgba(255, 255, 255, 0.1);
-text-align: center;
-font-size: 0.7rem;
-}
-
-.footer-content {
-display: flex;
-justify-content: space-between;
-align-items: center;
-flex-wrap: wrap;
-gap: 15px;
-}
-
-.footer-links {
-display: flex;
-gap: 20px;
-flex-wrap: wrap;
-}
-
-.footer-links a {
-color: white;
-text-decoration: none;
-opacity: 0.6;
-}
-
-.footer-links a:hover {
-color: #F59E0B;
-}
-
-/* Toast */
-.toast {
-position: fixed;
-bottom: 20px;
-right: 20px;
-background: rgba(0, 0, 0, 0.9);
-padding: 12px 20px;
-border-radius: 10px;
-border-left: 4px solid #F59E0B;
-z-index: 1000;
-animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-from { transform: translateX(100%); opacity: 0; }
-to { transform: translateX(0); opacity: 1; }
-}
-
+.payment-method { background: rgba(0, 0, 0, 0.3); border-radius: 12px; padding: 15px; margin: 10px 0; cursor: pointer; border: 2px solid transparent; }
+.payment-method.selected { border-color: #F59E0B; background: rgba(245, 158, 11, 0.1); }
+.withdraw-speed { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; }
+.speed-option { flex: 1; padding: 10px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; text-align: center; cursor: pointer; border: 2px solid transparent; }
+.speed-option.selected { border-color: #2ecc71; background: rgba(46, 204, 113, 0.1); }
+.quick-deposit { display: flex; gap: 10px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+.quick-deposit-btn { background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.5); padding: 8px 20px; border-radius: 30px; cursor: pointer; }
+.deposit-instructions { background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 12px; margin-top: 15px; display: none; font-size: 0.8rem; word-break: break-all; }
+.main-footer { margin-top: 20px; padding: 15px 20px; background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; font-size: 0.7rem; }
+.footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a { color: white; text-decoration: none; opacity: 0.6; }
+.footer-links a:hover { color: #F59E0B; }
+.toast { position: fixed; bottom: 20px; right: 20px; background: rgba(0, 0, 0, 0.9); padding: 12px 20px; border-radius: 10px; border-left: 4px solid #F59E0B; z-index: 1000; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 .error-message { color: #e74c3c; font-size: 0.8rem; margin-top: 10px; text-align: center; }
 .success-message { color: #2ecc71; font-size: 0.8rem; margin-top: 10px; text-align: center; }
-
-@media (max-width: 1024px) {
-.dashboard-main { flex-direction: column; }
-.sidebar { width: 100%; display: flex; flex-wrap: wrap; gap: 5px; }
-.menu-item { flex: 1; min-width: 120px; justify-content: center; }
-}
-
-@media (max-width: 768px) {
-.header-content { flex-direction: column; text-align: center; }
-.user-stats { justify-content: center; }
-.daily-bonus-banner { flex-direction: column; text-align: center; }
-.bonus-info { flex-direction: column; text-align: center; }
-.dice { width: 70px; height: 70px; font-size: 2rem; }
-.code-input { font-size: 1.2rem; letter-spacing: 5px; }
-.footer-content { flex-direction: column; text-align: center; }
-}
-
-@media (max-width: 480px) {
-.dashboard-container { padding: 10px; }
-.dice { width: 60px; height: 60px; font-size: 1.5rem; }
-.stake-amount { font-size: 1.2rem; }
-.roll-btn, .play-btn { padding: 10px 25px; font-size: 1rem; }
-}
+@media (max-width: 1024px) { .dashboard-main { flex-direction: column; } .sidebar { width: 100%; display: flex; flex-wrap: wrap; gap: 5px; } .menu-item { flex: 1; min-width: 120px; justify-content: center; } }
+@media (max-width: 768px) { .header-content { flex-direction: column; text-align: center; } .user-stats { justify-content: center; } .daily-bonus-banner { flex-direction: column; text-align: center; } .bonus-info { flex-direction: column; text-align: center; } .dice { width: 70px; height: 70px; font-size: 2rem; } .code-input { font-size: 1.2rem; letter-spacing: 5px; } .footer-content { flex-direction: column; text-align: center; } }
+@media (max-width: 480px) { .dashboard-container { padding: 10px; } .dice { width: 60px; height: 60px; font-size: 1.5rem; } .stake-amount { font-size: 1.2rem; } .roll-btn, .play-btn { padding: 10px 25px; font-size: 1rem; } }
 </style>
 </head>
 <body>
 <div class="particles" id="particles"></div>
-
 <div class="dashboard-container">
 <div class="dashboard-wrapper">
-<!-- HEADER -->
 <header class="main-header">
 <div class="header-content">
 <div class="logo-area">
-<h1>🎲 LottoMaster</h1>
+<h1> LottoMaster</h1>
 <p>WIN BIG • PLAY SMART • LIVE BETTER</p>
 </div>
 <div class="user-stats">
-<div class="stat-card">
-<div class="label">💰 Balance</div>
-<div class="value">$<span id="userBalance">0</span></div>
+<div class="stat-card"><div class="label"> Balance</div><div class="value">$<span id="userBalance">0</span></div></div>
+<div class="stat-card"><div class="label"> Wins</div><div class="value"><span id="userWins">0</span></div></div>
+<div class="stat-card"><div class="label"> VIP</div><div class="value" id="vipTier">Bronze</div></div>
 </div>
-<div class="stat-card">
-<div class="label">🏆 Wins</div>
-<div class="value"><span id="userWins">0</span></div>
-</div>
-<div class="stat-card">
-<div class="label">⭐ VIP</div>
-<div class="value" id="vipTier">Bronze</div>
-</div>
-</div>
-<button class="logout-btn" onclick="logout()">🚪 Logout</button>
+<button class="logout-btn" onclick="logout()"> Logout</button>
 </div>
 </header>
 
-<!-- DAILY BONUS BANNER -->
 <div class="daily-bonus-banner">
-<div class="bonus-info">
-<div class="bonus-icon">🎁</div>
-<div class="bonus-text">
-<h4>Daily Login Bonus!</h4>
-<p>Claim your free $5 every day</p>
-</div>
-</div>
+<div class="bonus-info"><div class="bonus-icon"> </div><div class="bonus-text"><h4>Daily Login Bonus!</h4><p>Claim your free $5 every day</p></div></div>
 <div class="bonus-timer" id="dailyBonusTimer"></div>
 <button class="claim-bonus-btn" id="claimBonusBtn" onclick="claimDailyBonus()">Claim Bonus</button>
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="dashboard-main">
-<!-- SIDEBAR -->
 <aside class="sidebar">
-<div class="menu-item active" data-section="slot">
-<span class="menu-icon">🎲</span>
-<span>Slot Dice</span>
-</div>
-<div class="menu-item" data-section="lotto">
-<span class="menu-icon">🎰</span>
-<span>Lotto 6-Digit</span>
-</div>
-<div class="menu-item" data-section="referral">
-<span class="menu-icon">👥</span>
-<span>Referral</span>
-</div>
-<div class="menu-item" data-section="achievements">
-<span class="menu-icon">🏅</span>
-<span>Achievements</span>
-</div>
-<div class="menu-item" data-section="leaderboard">
-<span class="menu-icon">🏆</span>
-<span>Leaderboard</span>
-</div>
-<div class="menu-item" data-section="history">
-<span class="menu-icon">📜</span>
-<span>History</span>
-</div>
-<div class="menu-item" data-section="deposit">
-<span class="menu-icon">💰</span>
-<span>Deposit</span>
-</div>
-<div class="menu-item" data-section="withdraw">
-<span class="menu-icon">💸</span>
-<span>Withdraw</span>
-</div>
+<div class="menu-item active" data-section="slot"><span class="menu-icon"> </span><span>Slot Dice</span></div>
+<div class="menu-item" data-section="lotto"><span class="menu-icon"> </span><span>Lotto 6-Digit</span></div>
+<div class="menu-item" data-section="achievements"><span class="menu-icon"> </span><span>Achievements</span></div>
+<div class="menu-item" data-section="leaderboard"><span class="menu-icon"> </span><span>Leaderboard</span></div>
+<div class="menu-item" data-section="history"><span class="menu-icon"> </span><span>History</span></div>
+<div class="menu-item" data-section="deposit"><span class="menu-icon"> </span><span>Deposit</span></div>
+<div class="menu-item" data-section="withdraw"><span class="menu-icon"> </span><span>Withdraw</span></div>
 </aside>
 
-<!-- MAIN CONTENT AREA -->
 <div class="main-content">
-<!-- SLOT DICE SECTION -->
 <div id="slotSection" class="game-card">
-<div class="game-header">
-<h3>🎲 SLOT DICE</h3>
-<span id="soundToggle" style="cursor:pointer; font-size:1.2rem;">🔊</span>
-</div>
-<div class="dice-container">
-<div class="dice" id="dice1">🎲</div>
-<div class="dice" id="dice2">🎲</div>
-</div>
-<div class="stake-controls">
-<button class="stake-btn" onclick="adjustStake(-10)">-</button>
-<span class="stake-amount" id="stakeAmount">$10</span>
-<button class="stake-btn" onclick="adjustStake(10)">+</button>
-</div>
-<div style="text-align:center">
-<button class="roll-btn" onclick="rollDice()">🎲 ROLL THE DICE 🎲</button>
-</div>
-<div class="prize-info">
-<p><span class="highlight">🎲 Double 1</span> → 8x | <span class="highlight">🎲 Double 2</span> → 6x | <span class="highlight">🎲 Double 3</span> → 6x</p>
-<p><span class="highlight">🎲 Double 4</span> → 8x | <span class="highlight">🎲 Double 5</span> → 10x | <span class="highlight">🎲 Double 6</span> → 25x JACKPOT!</p>
-<p><span class="highlight">💰 10% Cashback</span> on losses over $100</p>
-</div>
+<div class="game-header"><h3> SLOT DICE</h3><span id="soundToggle" style="cursor:pointer; font-size:1.2rem;"> </span></div>
+<div class="dice-container"><div class="dice" id="dice1"> </div><div class="dice" id="dice2"> </div></div>
+<div class="stake-controls"><button class="stake-btn" onclick="adjustStake(-10)">-</button><span class="stake-amount" id="stakeAmount">$10</span><button class="stake-btn" onclick="adjustStake(10)">+</button></div>
+<div style="text-align:center"><button class="roll-btn" onclick="rollDice()"> ROLL THE DICE </button></div>
+<div class="prize-info"><p><span class="highlight"> Double 1</span> → 8x | <span class="highlight"> Double 2</span> → 6x | <span class="highlight"> Double 3</span> → 6x</p><p><span class="highlight"> Double 4</span> → 8x | <span class="highlight"> Double 5</span> → 10x | <span class="highlight"> Double 6</span> → 25x JACKPOT!</p><p><span class="highlight"> 10% Cashback</span> on losses over $100</p></div>
 <div id="slotResult" class="game-result"></div>
 </div>
 
-<!-- LOTTO SECTION -->
 <div id="lottoSection" class="game-card" style="display:none;">
-<div class="game-header">
-<h3>🎰 LOTTO 6-DIGIT</h3>
-</div>
-<div class="stake-controls">
-<button class="stake-btn" onclick="adjustLottoStake(-10)">-</button>
-<span class="stake-amount" id="lottoStakeAmount">$10</span>
-<button class="stake-btn" onclick="adjustLottoStake(10)">+</button>
-</div>
-<div class="prize-info">
-<p><span class="highlight">💰 HIGHER STAKE = HIGHER REWARD!</span></p>
-<p>6/6 Match → 100% | 5/6 → 50% | 4/6 → 20% | 3/6 → 5%</p>
-</div>
+<div class="game-header"><h3> LOTTO 6-DIGIT</h3></div>
+<div class="stake-controls"><button class="stake-btn" onclick="adjustLottoStake(-10)">-</button><span class="stake-amount" id="lottoStakeAmount">$10</span><button class="stake-btn" onclick="adjustLottoStake(10)">+</button></div>
+<div class="prize-info"><p><span class="highlight"> HIGHER STAKE = HIGHER REWARD!</span></p><p>6/6 Match → 100% | 5/6 → 50% | 4/6 → 20% | 3/6 → 5%</p></div>
 <input type="text" id="lottoCode" class="code-input" maxlength="6" placeholder="123456">
-<div style="text-align:center">
-<button class="play-btn" onclick="playLotto()">🎲 PLAY LOTTO</button>
-</div>
+<div style="text-align:center"><button class="play-btn" onclick="playLotto()"> PLAY LOTTO</button></div>
 <div id="lottoResult" class="game-result"></div>
 </div>
 
-<!-- REFERRAL SECTION -->
-<div id="referralSection" class="game-card" style="display:none;">
-<div class="game-header">
-<h3>👥 Referral Program</h3>
-</div>
-<p>Invite friends and earn <strong>5% commission</strong> on their deposits!</p>
-<div class="referral-box">
-<p>Your Referral Link:</p>
-<div class="referral-link-input">
-<input type="text" id="referralLink" readonly>
-<button class="copy-btn" onclick="copyReferralLink()">📋 Copy Link</button>
-</div>
-</div>
-<div class="quick-deposit">
-<div class="stat-card"><div class="label">💰 Commission Balance</div><div class="value">$<span id="commissionBalance">0</span></div></div>
-<div class="stat-card"><div class="label">🏆 Total Earned</div><div class="value">$<span id="totalEarned">0</span></div></div>
-</div>
-<div id="referralsList"></div>
-</div>
+<div id="achievementsSection" class="game-card" style="display:none;"><div class="game-header"><h3> Your Achievements</h3></div><div id="achievementsList" class="badges-container">Loading achievements...</div></div>
 
-<!-- ACHIEVEMENTS SECTION -->
-<div id="achievementsSection" class="game-card" style="display:none;">
-<div class="game-header">
-<h3>🏅 Your Achievements</h3>
-</div>
-<div id="achievementsList" class="badges-container">Loading achievements...</div>
-</div>
+<div id="leaderboardSection" class="game-card" style="display:none;"><div class="game-header"><h3> Top Winners</h3></div><div style="overflow-x: auto;"><table class="leaderboard-table"><thead><tr><th>Rank</th><th>Player</th><th>Wins</th></tr></thead><tbody id="leaderboardBody"></tbody></table></div></div>
 
-<!-- LEADERBOARD SECTION -->
-<div id="leaderboardSection" class="game-card" style="display:none;">
-<div class="game-header">
-<h3>🏆 Top Winners</h3>
-</div>
-<div style="overflow-x: auto;">
-<table class="leaderboard-table">
-<thead><tr><th>Rank</th><th>Player</th><th>Wins</th><th>Balance</th></tr></thead>
-<tbody id="leaderboardBody"></tbody>
-</table>
+<div id="historySection" class="game-card" style="display:none;"><div class="game-header"><h3> Transaction History</h3></div><div id="transactionList">Loading...</div></div>
+
+<div id="depositSection" class="game-card" style="display:none;"><div class="game-header"><h3> Deposit Funds</h3></div><div class="quick-deposit"><button class="quick-deposit-btn" onclick="setDepositAmount(50)">$50</button><button class="quick-deposit-btn" onclick="setDepositAmount(100)">$100</button><button class="quick-deposit-btn" onclick="setDepositAmount(250)">$250</button><button class="quick-deposit-btn" onclick="setDepositAmount(500)">$500</button><button class="quick-deposit-btn" onclick="setDepositAmount(1000)">$1000</button></div><div class="stake-controls"><button class="stake-btn" onclick="adjustDepositAmount(-50)">-</button><span class="stake-amount" id="depositAmount">$100</span><button class="stake-btn" onclick="adjustDepositAmount(50)">+</button></div><div class="payment-method" onclick="selectDepositMethod('crypto_usdt')" id="depositMethod_usdt"><h4> USDT (TRC20)</h4></div><div class="payment-method" onclick="selectDepositMethod('crypto_btc')" id="depositMethod_btc"><h4>₿ Bitcoin (BTC)</h4></div><div class="payment-method" onclick="selectDepositMethod('bank_transfer')" id="depositMethod_bank"><h4> Bank Transfer</h4></div><div style="text-align:center"><button class="roll-btn" onclick="requestDeposit()"> Request Deposit</button></div><div id="depositResult"></div><div id="depositInstructions" class="deposit-instructions"></div></div>
+
+<div id="withdrawSection" class="game-card" style="display:none;"><div class="game-header"><h3> Withdraw Funds</h3></div><div class="withdraw-speed"><div class="speed-option" onclick="selectWithdrawSpeed('standard')" id="speed_standard"><strong>Standard</strong><br>3-5 days<br>0% fee</div><div class="speed-option" onclick="selectWithdrawSpeed('express')" id="speed_express"><strong>Express</strong><br>24 hours<br>5% fee</div><div class="speed-option" onclick="selectWithdrawSpeed('instant')" id="speed_instant"><strong>Instant</strong><br>Crypto<br>2% fee</div></div><div class="stake-controls"><button class="stake-btn" onclick="adjustWithdrawAmount(-50)">-</button><span class="stake-amount" id="withdrawAmount">$50</span><button class="stake-btn" onclick="adjustWithdrawAmount(50)">+</button></div><div class="payment-method" onclick="selectWithdrawMethod('crypto_usdt')" id="withdrawMethod_usdt"><h4> USDT (TRC20)</h4></div><div class="payment-method" onclick="selectWithdrawMethod('crypto_btc')" id="withdrawMethod_btc"><h4>₿ Bitcoin (BTC)</h4></div><div class="payment-method" onclick="selectWithdrawMethod('bank_transfer')" id="withdrawMethod_bank"><h4> Bank Transfer</h4></div><div id="walletInputArea" style="display:none; margin:15px 0"><input type="text" id="walletAddress" placeholder="Enter wallet address / bank details" style="width:100%; padding:12px; border-radius:8px"></div><div style="text-align:center"><button onclick="requestWithdraw()" style="background:#2ecc71; padding:12px 30px; border:none; border-radius:30px; cursor:pointer">Request Withdrawal</button></div><div id="withdrawResult"></div></div>
 </div>
 </div>
 
-<!-- HISTORY SECTION -->
-<div id="historySection" class="game-card" style="display:none;">
-<div class="game-header">
-<h3>📜 Transaction History</h3>
-</div>
-<div id="transactionList">Loading...</div>
-</div>
-
-<!-- DEPOSIT SECTION -->
-<div id="depositSection" class="game-card" style="display:none;">
-<div class="game-header">
-<h3>💰 Deposit Funds</h3>
-</div>
-<div class="quick-deposit">
-<button class="quick-deposit-btn" onclick="setDepositAmount(50)">$50</button>
-<button class="quick-deposit-btn" onclick="setDepositAmount(100)">$100</button>
-<button class="quick-deposit-btn" onclick="setDepositAmount(250)">$250</button>
-<button class="quick-deposit-btn" onclick="setDepositAmount(500)">$500</button>
-<button class="quick-deposit-btn" onclick="setDepositAmount(1000)">$1000</button>
-</div>
-<div class="stake-controls">
-<button class="stake-btn" onclick="adjustDepositAmount(-50)">-</button>
-<span class="stake-amount" id="depositAmount">$100</span>
-<button class="stake-btn" onclick="adjustDepositAmount(50)">+</button>
-</div>
-<div class="payment-method" onclick="selectDepositMethod('crypto_usdt')" id="depositMethod_usdt">
-<h4>🪙 USDT (TRC20)</h4>
-</div>
-<div class="payment-method" onclick="selectDepositMethod('crypto_btc')" id="depositMethod_btc">
-<h4>₿ Bitcoin (BTC)</h4>
-</div>
-<div class="payment-method" onclick="selectDepositMethod('bank_transfer')" id="depositMethod_bank">
-<h4>🏦 Bank Transfer</h4>
-</div>
-<div style="text-align:center">
-<button class="roll-btn" onclick="requestDeposit()">💰 Request Deposit</button>
-</div>
-<div id="depositResult"></div>
-<div id="depositInstructions" class="deposit-instructions"></div>
-</div>
-
-<!-- WITHDRAW SECTION -->
-<div id="withdrawSection" class="game-card" style="display:none;">
-<div class="game-header">
-<h3>💸 Withdraw Funds</h3>
-</div>
-<div class="withdraw-speed">
-<div class="speed-option" onclick="selectWithdrawSpeed('standard')" id="speed_standard">
-<strong>Standard</strong><br>3-5 days<br>0% fee
-</div>
-<div class="speed-option" onclick="selectWithdrawSpeed('express')" id="speed_express">
-<strong>Express</strong><br>24 hours<br>5% fee
-</div>
-<div class="speed-option" onclick="selectWithdrawSpeed('instant')" id="speed_instant">
-<strong>Instant</strong><br>Crypto<br>2% fee
-</div>
-</div>
-<div class="stake-controls">
-<button class="stake-btn" onclick="adjustWithdrawAmount(-50)">-</button>
-<span class="stake-amount" id="withdrawAmount">$50</span>
-<button class="stake-btn" onclick="adjustWithdrawAmount(50)">+</button>
-</div>
-<div class="payment-method" onclick="selectWithdrawMethod('crypto_usdt')" id="withdrawMethod_usdt">
-<h4>🪙 USDT (TRC20)</h4>
-</div>
-<div class="payment-method" onclick="selectWithdrawMethod('crypto_btc')" id="withdrawMethod_btc">
-<h4>₿ Bitcoin (BTC)</h4>
-</div>
-<div class="payment-method" onclick="selectWithdrawMethod('bank_transfer')" id="withdrawMethod_bank">
-<h4>🏦 Bank Transfer</h4>
-</div>
-<div id="walletInputArea" style="display:none; margin:15px 0">
-<input type="text" id="walletAddress" placeholder="Enter wallet address / bank details" style="width:100%; padding:12px; border-radius:8px">
-</div>
-<div style="text-align:center">
-<button onclick="requestWithdraw()" style="background:#2ecc71; padding:12px 30px; border:none; border-radius:30px; cursor:pointer">Request Withdrawal</button>
-</div>
-<div id="withdrawResult"></div>
-</div>
-</div>
-</div>
-
-<!-- FOOTER -->
-<footer class="main-footer">
-<div class="footer-content">
-<div class="copyright">© 2024 LottoMaster. All rights reserved.</div>
-<div class="footer-links">
-<a href="#">Terms of Service</a>
-<a href="#">Privacy Policy</a>
-<a href="#">Responsible Gambling</a>
-<a href="#">Contact Us</a>
-</div>
-<div class="footer-badge">18+ | Licensed and Regulated</div>
-</div>
-</footer>
+<footer class="main-footer"><div class="footer-content"><div class="copyright">© 2024 LottoMaster. All rights reserved.</div><div class="footer-links"><a href="#">Terms of Service</a><a href="#">Privacy Policy</a><a href="#">Responsible Gambling</a><a href="#">Contact Us</a></div><div class="footer-badge">18+ | Licensed and Regulated</div></div></footer>
 </div>
 </div>
 
@@ -907,67 +180,36 @@ let soundEnabled = true;
 let currentUser = null;
 let lastClaimTime = localStorage.getItem('lastClaimTime') || 0;
 
-if (!token || role !== 'user') {
-window.location.href = '/login';
-}
+if (!token || role !== 'user') { window.location.href = '/login'; }
 
-// Create audio context for sounds (browser requires user interaction)
 let rollSound, winSound, loseSound;
-
 function initSounds() {
 try {
 rollSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-dice-roll-2835.mp3');
 winSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3');
 loseSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.mp3');
-rollSound.load();
-winSound.load();
-loseSound.load();
 } catch(e) { console.log('Sound init error:', e); }
 }
-
-function playSound(sound) {
-if (soundEnabled && sound) {
-sound.currentTime = 0;
-sound.play().catch(e => console.log('Sound play error:', e));
+function playSound(sound) { if (soundEnabled && sound) { sound.currentTime = 0; sound.play().catch(e => console.log); } }
+document.body.addEventListener('click', function initSoundsOnClick() { initSounds(); document.body.removeEventListener('click', initSoundsOnClick); }, { once: true });
+const soundToggle = document.getElementById('soundToggle');
+if (soundToggle) {
+soundToggle.onclick = () => { soundEnabled = !soundEnabled; soundToggle.innerHTML = soundEnabled ? ' ' : ' '; showToast(`Sound ${soundEnabled ? 'ON' : 'OFF'}`, 'info'); };
 }
-}
+function showToast(message, type) { const toast = document.createElement('div'); toast.className = 'toast'; toast.innerHTML = message; toast.style.borderLeftColor = type === 'win' ? '#2ecc71' : type === 'lose' ? '#e74c3c' : '#F59E0B'; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
 
-// Initialize sounds on first user interaction
-document.body.addEventListener('click', function initSoundsOnClick() {
-initSounds();
-document.body.removeEventListener('click', initSoundsOnClick);
-}, { once: true });
-
-// Toggle sound
-document.getElementById('soundToggle').onclick = () => {
-soundEnabled = !soundEnabled;
-document.getElementById('soundToggle').innerHTML = soundEnabled ? '🔊' : '🔇';
-showToast(`Sound ${soundEnabled ? 'ON' : 'OFF'}`, 'info');
-};
-
-function showToast(message, type) {
-const toast = document.createElement('div');
-toast.className = 'toast';
-toast.innerHTML = message;
-toast.style.borderLeftColor = type === 'win' ? '#2ecc71' : type === 'lose' ? '#e74c3c' : '#F59E0B';
-document.body.appendChild(toast);
-setTimeout(() => toast.remove(), 3000);
-}
-
-// Daily bonus timer
 function updateDailyBonusTimer() {
 const lastClaim = parseInt(localStorage.getItem('lastClaimTime') || '0');
 const now = Date.now();
-const hoursLeft = 24 - Math.floor((now - lastClaim) / (1000 * 60 * 60));
-
-if (!lastClaim || (now - lastClaim) >= 24 * 60 * 60 * 1000) {
+const timeLeft = 24 * 60 * 60 * 1000 - (now - lastClaim);
+if (!lastClaim || timeLeft <= 0) {
 document.getElementById('dailyBonusTimer').innerHTML = 'Ready to claim!';
 document.getElementById('claimBonusBtn').disabled = false;
 document.getElementById('claimBonusBtn').classList.remove('disabled');
 } else {
-const h = Math.floor(hoursLeft);
-const m = Math.floor(((hoursLeft % 1) * 60));
-document.getElementById('dailyBonusTimer').innerHTML = `${h}h ${m}m`;
+const hours = Math.floor(timeLeft / (60 * 60 * 1000));
+const minutes = Math.floor((timeLeft % (60 * 60 * 1000)) / (60 * 1000));
+document.getElementById('dailyBonusTimer').innerHTML = hours + 'h ' + minutes + 'm';
 document.getElementById('claimBonusBtn').disabled = true;
 document.getElementById('claimBonusBtn').classList.add('disabled');
 }
@@ -975,50 +217,50 @@ document.getElementById('claimBonusBtn').classList.add('disabled');
 updateDailyBonusTimer();
 setInterval(updateDailyBonusTimer, 60000);
 
-// Navigation
 document.querySelectorAll('.menu-item').forEach(item => {
 item.addEventListener('click', () => {
 document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
 item.classList.add('active');
 const section = item.dataset.section;
 document.querySelectorAll('.game-card').forEach(card => card.style.display = 'none');
-document.getElementById(`${section}Section`).style.display = 'block';
-
-if (section === 'referral') loadReferralInfo();
+const sectionElement = document.getElementById(section + 'Section');
+if (sectionElement) sectionElement.style.display = 'block';
 if (section === 'achievements') loadAchievements();
 if (section === 'leaderboard') loadLeaderboard();
 if (section === 'history') loadTransactionHistory();
 });
 });
 
-function adjustStake(c) { let ns = currentStake + c; if (ns >= 5 && ns <= 10000) { currentStake = ns; document.getElementById('stakeAmount').innerText = `$${currentStake}`; } }
-function adjustLottoStake(c) { let ns = currentLottoStake + c; if (ns >= 5 && ns <= 10000) { currentLottoStake = ns; document.getElementById('lottoStakeAmount').innerText = `$${currentLottoStake}`; } }
-function adjustDepositAmount(c) { let na = currentDepositAmount + c; if (na >= 10 && na <= 10000) { currentDepositAmount = na; document.getElementById('depositAmount').innerText = `$${currentDepositAmount}`; } }
-function setDepositAmount(amount) { currentDepositAmount = amount; document.getElementById('depositAmount').innerText = `$${currentDepositAmount}`; }
-function adjustWithdrawAmount(c) { let na = currentWithdrawAmount + c; if (na >= 10 && na <= currentBalance) { currentWithdrawAmount = na; document.getElementById('withdrawAmount').innerText = `$${currentWithdrawAmount}`; } }
+function adjustStake(c) { let ns = currentStake + c; if (ns >= 5 && ns <= 10000) { currentStake = ns; document.getElementById('stakeAmount').innerText = '$' + currentStake; } }
+function adjustLottoStake(c) { let ns = currentLottoStake + c; if (ns >= 5 && ns <= 10000) { currentLottoStake = ns; document.getElementById('lottoStakeAmount').innerText = '$' + currentLottoStake; } }
+function adjustDepositAmount(c) { let na = currentDepositAmount + c; if (na >= 10 && na <= 10000) { currentDepositAmount = na; document.getElementById('depositAmount').innerText = '$' + currentDepositAmount; } }
+function setDepositAmount(amount) { currentDepositAmount = amount; document.getElementById('depositAmount').innerText = '$' + currentDepositAmount; }
+function adjustWithdrawAmount(c) { let na = currentWithdrawAmount + c; if (na >= 10 && na <= currentBalance) { currentWithdrawAmount = na; document.getElementById('withdrawAmount').innerText = '$' + currentWithdrawAmount; } }
 
 function selectDepositMethod(method) {
 selectedDepositMethod = method;
 document.querySelectorAll('#depositSection .payment-method').forEach(el => el.classList.remove('selected'));
-document.getElementById(`depositMethod_${method.split('_')[1]}`).classList.add('selected');
+const methodElement = document.getElementById('depositMethod_' + method.split('_')[1]);
+if (methodElement) methodElement.classList.add('selected');
 }
-
 function selectWithdrawMethod(method) {
 selectedWithdrawMethod = method;
 document.querySelectorAll('#withdrawSection .payment-method').forEach(el => el.classList.remove('selected'));
-document.getElementById(`withdrawMethod_${method.split('_')[1]}`).classList.add('selected');
-document.getElementById('walletInputArea').style.display = 'block';
+const methodElement = document.getElementById('withdrawMethod_' + method.split('_')[1]);
+if (methodElement) methodElement.classList.add('selected');
+const walletArea = document.getElementById('walletInputArea');
+if (walletArea) walletArea.style.display = 'block';
 }
-
 function selectWithdrawSpeed(speed) {
 selectedWithdrawSpeed = speed;
 document.querySelectorAll('.speed-option').forEach(el => el.classList.remove('selected'));
-document.getElementById(`speed_${speed}`).classList.add('selected');
+const speedElement = document.getElementById('speed_' + speed);
+if (speedElement) speedElement.classList.add('selected');
 }
 
 async function loadUserData() {
 try {
-const res = await fetch(`${API_URL}/api/user`, { headers: { 'Authorization': token } });
+const res = await fetch(API_URL + '/api/user', { headers: { 'Authorization': token } });
 if (res.status === 401) { logout(); return; }
 const user = await res.json();
 currentUser = user;
@@ -1026,6 +268,9 @@ currentBalance = user.balance;
 document.getElementById('userBalance').innerText = user.balance.toFixed(2);
 document.getElementById('userWins').innerText = user.totalWins;
 document.getElementById('vipTier').innerText = user.vipTier || 'Bronze';
+const userName = user.name || user.username;
+const logoElement = document.querySelector('.logo-area h1');
+if (logoElement) logoElement.innerHTML = ' Welcome, ' + userName + '!';
 } catch(e) { console.error(e); }
 }
 
@@ -1037,58 +282,44 @@ showToast('You already claimed your daily bonus! Come back tomorrow.', 'lose');
 return;
 }
 try {
-const res = await fetch(`${API_URL}/api/claim-daily-reward`, {
-method: 'POST', headers: { 'Authorization': token }
-});
+const res = await fetch(API_URL + '/api/claim-daily-reward', { method: 'POST', headers: { 'Authorization': token } });
 const data = await res.json();
 if (res.ok) {
 localStorage.setItem('lastClaimTime', now.toString());
-showToast(`🎁 ${data.message}`, 'win');
+showToast(' Daily bonus claimed! +$' + (data.reward || 5) + ' added!', 'win');
 loadUserData();
 updateDailyBonusTimer();
-} else {
-showToast(data.error, 'lose');
-}
-} catch(e) { console.error(e); }
+} else { showToast(data.error || 'Failed', 'lose'); }
+} catch(e) { showToast('Error claiming bonus', 'lose'); }
 }
 
 async function rollDice() {
 if (isRolling) return;
-if (currentBalance < currentStake) {
-showToast(`Insufficient balance! Need $${currentStake}`, 'lose');
-return;
-}
+if (currentBalance < currentStake) { showToast('Insufficient balance! Need $' + currentStake, 'lose'); return; }
 isRolling = true;
 playSound(rollSound);
-
 const dice1El = document.getElementById('dice1');
 const dice2El = document.getElementById('dice2');
 dice1El.classList.add('rolling');
 dice2El.classList.add('rolling');
-
 try {
-const res = await fetch(`${API_URL}/api/play-slot`, {
-method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
-body: JSON.stringify({ stake: currentStake })
-});
+const res = await fetch(API_URL + '/api/play-slot', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ stake: currentStake }) });
 const data = await res.json();
 setTimeout(() => {
 const diceFaces = {1:'⚀',2:'⚁',3:'⚂',4:'⚃',5:'⚄',6:'⚅'};
-dice1El.innerHTML = diceFaces[data.dice1] || '🎲';
-dice2El.innerHTML = diceFaces[data.dice2] || '🎲';
+dice1El.innerHTML = diceFaces[data.dice1] || ' ';
+dice2El.innerHTML = diceFaces[data.dice2] || ' ';
 dice1El.classList.remove('rolling');
 dice2El.classList.remove('rolling');
-
 if (data.win) {
 playSound(winSound);
-document.getElementById('slotResult').innerHTML = `<div class="result-win">🎉 ${data.message} 🎉</div>`;
-showToast(data.message, 'win');
+document.getElementById('slotResult').innerHTML = '<div class="result-win"> You won $' + data.reward + '! </div>';
+showToast('You won $' + data.reward + '!', 'win');
 } else {
 playSound(loseSound);
-document.getElementById('slotResult').innerHTML = `<div class="result-lose">❌ ${data.message}</div>`;
-showToast(data.message, 'lose');
+document.getElementById('slotResult').innerHTML = '<div class="result-lose"> You lost $' + currentStake + '.</div>';
+showToast('You lost $' + currentStake + '.', 'lose');
 }
-
 currentBalance = data.newBalance;
 document.getElementById('userBalance').innerText = currentBalance.toFixed(2);
 isRolling = false;
@@ -1102,28 +333,26 @@ loadAchievements();
 async function playLotto() {
 const code = document.getElementById('lottoCode').value;
 const stake = currentLottoStake;
-if (!code || code.length !== 6 || !/^\d+$/.test(code)) {
-showToast('Enter valid 6-digit code', 'lose');
-return;
-}
-if (currentBalance < stake) {
-showToast(`Insufficient balance! Need $${stake}`, 'lose');
-return;
-}
+if (!code || code.length !== 6 || !/^\d+$/.test(code)) { showToast('Enter valid 6-digit code', 'lose'); return; }
+if (currentBalance < stake) { showToast('Insufficient balance! Need $' + stake, 'lose'); return; }
+const playBtn = document.querySelector('#lottoSection .play-btn');
+playBtn.disabled = true;
+playBtn.textContent = 'Processing...';
 try {
-const res = await fetch(`${API_URL}/api/play`, {
-method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
-body: JSON.stringify({ code, stake })
-});
+const res = await fetch(API_URL + '/api/play', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ code, stake }) });
 const data = await res.json();
-if (data.win) {
+if (data.alreadyWon) {
+playSound(loseSound);
+document.getElementById('lottoResult').innerHTML = '<div class="result-lose"> You already won with code ' + code + '! Lost $' + stake + '.</div>';
+showToast('Already won ' + code + '!', 'lose');
+} else if (data.win) {
 playSound(winSound);
-document.getElementById('lottoResult').innerHTML = `<div class="result-win">🎉 ${data.message} 🎉</div>`;
-showToast(data.message, 'win');
+document.getElementById('lottoResult').innerHTML = '<div class="result-win"> You won $' + data.reward + '! (' + data.matches + '/6 matches) </div>';
+showToast('You won $' + data.reward + '!', 'win');
 } else {
 playSound(loseSound);
-document.getElementById('lottoResult').innerHTML = `<div class="result-lose">❌ ${data.message}</div>`;
-showToast(data.message, 'lose');
+document.getElementById('lottoResult').innerHTML = '<div class="result-lose"> Wrong guess! (' + data.matches + '/6 matches) Lost $' + stake + '.</div>';
+showToast('Lost $' + stake, 'lose');
 }
 currentBalance = data.newBalance;
 document.getElementById('userBalance').innerText = currentBalance.toFixed(2);
@@ -1131,158 +360,111 @@ document.getElementById('lottoCode').value = '';
 loadLeaderboard();
 loadTransactionHistory();
 loadAchievements();
-} catch(e) { console.error(e); }
+} catch(e) { console.error(e); } finally { playBtn.disabled = false; playBtn.textContent = ' PLAY LOTTO'; }
 }
 
 async function loadTransactionHistory() {
 try {
-const res = await fetch(`${API_URL}/api/history`, { headers: { 'Authorization': token } });
+const res = await fetch(API_URL + '/api/history', { headers: { 'Authorization': token } });
 const history = await res.json();
 const container = document.getElementById('transactionList');
 if (!history.length) { container.innerHTML = '<div style="text-align:center; padding:40px;">No transactions yet</div>'; return; }
 container.innerHTML = '';
 history.forEach(h => {
-let amount = h.rewardWon > 0 ? `+$${h.rewardWon.toFixed(2)}` : `-$${h.stake.toFixed(2)}`;
+let amount = h.rewardWon > 0 ? '+$' + h.rewardWon.toFixed(2) : '-$' + h.stake.toFixed(2);
 let type = h.rewardWon > 0 ? 'transaction-win' : (h.game === 'Deposit' ? 'transaction-deposit' : 'transaction-lose');
-container.innerHTML += `<div class="transaction-item"><div><strong>${h.game}</strong><br><small>${new Date(h.date).toLocaleString()}</small></div><div class="${type}">${h.rewardWon > 0 ? 'WIN' : (h.game === 'Deposit' ? 'DEPOSIT' : 'LOSE')}</div><div>${amount}</div></div>`;
+container.innerHTML += '<div class="transaction-item"><div><strong>' + h.game + '</strong><br><small>' + new Date(h.date).toLocaleString() + '</small></div><div class="' + type + '">' + (h.rewardWon > 0 ? 'WIN' : (h.game === 'Deposit' ? 'DEPOSIT' : 'LOSE')) + '</div><div>' + (h.code || '') + ' ' + (h.matches ? '(' + h.matches + '/6 matches)' : '') + '</div><div>' + amount + '</div></div>';
 });
 } catch(e) { console.error(e); }
 }
 
 async function loadLeaderboard() {
 try {
-const res = await fetch(`${API_URL}/api/leaderboard`);
+const res = await fetch(API_URL + '/api/leaderboard');
+if (!res.ok) {
+console.error('Leaderboard fetch failed:', res.status);
+return;
+}
 const users = await res.json();
 const body = document.getElementById('leaderboardBody');
-if (!users.length) { body.innerHTML = '<tr><td colspan="4">No users yet</div>'; return; }
+if (!body) {
+console.error('Leaderboard body element not found');
+return;
+}
+if (!users || users.length === 0) { 
+body.innerHTML = '<tr><td colspan="3">No users yet</td></tr>'; 
+return; 
+}
 body.innerHTML = '';
-users.forEach((u, i) => {
+for (let i = 0; i < users.length; i++) {
+let u = users[i];
 let rankClass = '';
 if (i === 0) rankClass = 'rank-1';
 else if (i === 1) rankClass = 'rank-2';
 else if (i === 2) rankClass = 'rank-3';
-body.innerHTML += `<tr class="${rankClass}"><td>${i + 1}<td>${u.name || u.username}<td>${u.totalWins}<td>$${u.balance.toFixed(2)}</tr>`;
-});
-} catch(e) { console.error(e); }
+body.innerHTML += '<tr class="' + rankClass + '">' +
+'<td>#' + (i + 1) + '</td>' +
+'<td>' + (u.name || u.username) + '</td>' +
+'<td>' + (u.totalWins || 0) + '</td>' +
+'</tr>';
 }
-
-async function loadReferralInfo() {
-try {
-const res = await fetch(`${API_URL}/api/referral-info`, { headers: { 'Authorization': token } });
-const data = await res.json();
-document.getElementById('referralLink').value = data.referralLink || `${window.location.origin}/signup?ref=${data.referralCode}`;
-document.getElementById('commissionBalance').innerText = data.totalCommission?.toFixed(2) || '0';
-document.getElementById('totalEarned').innerText = data.totalEarned?.toFixed(2) || '0';
-const listDiv = document.getElementById('referralsList');
-if (!data.referrals?.length) { listDiv.innerHTML = '<div>No referrals yet</div>'; return; }
-listDiv.innerHTML = '<ul>' + data.referrals.map(r => `<li>${r.username} - ${r.status} - Commission: $${r.commission?.toFixed(2) || '0'}</li>`).join('') + '</ul>';
-} catch(e) { console.error(e); }
+} catch(e) { 
+console.error('Load leaderboard error:', e);
+const body = document.getElementById('leaderboardBody');
+if (body) body.innerHTML = '<tr><td colspan="3">Error loading leaderboard</td></tr>';
 }
-
-function copyReferralLink() {
-const inp = document.getElementById('referralLink');
-inp.select();
-document.execCommand('copy');
-showToast('Link copied to clipboard!', 'info');
 }
 
 async function loadAchievements() {
 try {
-const res = await fetch(`${API_URL}/api/achievements`, { headers: { 'Authorization': token } });
+const res = await fetch(API_URL + '/api/achievements', { headers: { 'Authorization': token } });
 const achievements = await res.json();
 const container = document.getElementById('achievementsList');
-if (!achievements || !achievements.length) {
-container.innerHTML = '<div>No achievements yet. Keep playing to earn badges!</div>';
-return;
+if (!achievements || !achievements.length) { container.innerHTML = '<div>No achievements yet. Keep playing!</div>'; return; }
+container.innerHTML = '';
+for (let i = 0; i < achievements.length; i++) {
+container.innerHTML += '<div class="badge earned"> ' + achievements[i].name + '</div>';
 }
-container.innerHTML = achievements.map(a => `<div class="badge earned">🏆 ${a.name}</div>`).join('');
-} catch(e) {
-console.error(e);
-document.getElementById('achievementsList').innerHTML = '<div>Loading achievements...</div>';
-}
+} catch(e) { document.getElementById('achievementsList').innerHTML = '<div>Loading...</div>'; }
 }
 
 async function requestDeposit() {
-if (!selectedDepositMethod) {
-document.getElementById('depositResult').innerHTML = '<span class="error-message">Select payment method</span>';
-return;
-}
+if (!selectedDepositMethod) { document.getElementById('depositResult').innerHTML = '<span class="error-message">Select payment method</span>'; return; }
 try {
-const settingsRes = await fetch(`${API_URL}/api/payment-settings-public`);
+const settingsRes = await fetch(API_URL + '/api/payment-settings-public');
 const settings = await settingsRes.json();
-
 let instructions = '';
 if (selectedDepositMethod === 'crypto_usdt') {
-instructions = `<strong>🪙 USDT (TRC20) Payment Instructions:</strong><br><br>
-Send <strong>$${currentDepositAmount} USDT</strong> to:<br>
-<code style="background:rgba(0,0,0,0.5); padding:8px; display:block; border-radius:8px; word-break:break-all;">${settings.cryptoWallets?.usdt || 'TX7hH3kL9mN4pQ2rS5tU6vW7xY8zA9bC0dE1fG'}</code><br>
-<small>Include your username: ${currentUser?.username}</small>`;
+instructions = '<strong> USDT (TRC20):</strong><br>Send to: <code>' + (settings.cryptoWallets?.usdt || 'TX7hH3kL9mN4pQ2rS5tU6vW7xY8zA9bC0dE1fG') + '</code><br>Amount: $' + currentDepositAmount + '<br>Include username: ' + (currentUser?.username || '');
 } else if (selectedDepositMethod === 'crypto_btc') {
-instructions = `<strong>₿ Bitcoin (BTC) Payment Instructions:</strong><br><br>
-Send <strong>$${currentDepositAmount} BTC</strong> to:<br>
-<code style="background:rgba(0,0,0,0.5); padding:8px; display:block; border-radius:8px; word-break:break-all;">${settings.cryptoWallets?.btc || '1A2b3C4d5E6f7G8h9I0jK1lL2mM3nN4oO5pP'}</code>`;
+instructions = '<strong>₿ Bitcoin:</strong><br>Send to: <code>' + (settings.cryptoWallets?.btc || '1A2b3C4d5E6f7G8h9I0jK1lL2mM3nN4oO5pP') + '</code><br>Amount: $' + currentDepositAmount;
 } else {
-instructions = `<strong>🏦 Bank Transfer Instructions:</strong><br><br>
-Transfer <strong>$${currentDepositAmount}</strong> to:<br>
-Bank: ${settings.bankDetails?.bankName || 'Global Bank'}<br>
-Account Name: ${settings.bankDetails?.accountName || 'LottoMaster Gaming'}<br>
-Account Number: ${settings.bankDetails?.accountNumber || '1234567890'}<br>
-Routing Number: ${settings.bankDetails?.routingNumber || '987654321'}<br>
-SWIFT: ${settings.bankDetails?.swiftCode || 'GLBANK22'}<br>
-<small>Reference: ${currentUser?.username}</small>`;
+instructions = '<strong> Bank Transfer:</strong><br>Bank: ' + (settings.bankDetails?.bankName || '') + '<br>Account: ' + (settings.bankDetails?.accountNumber || '') + '<br>Routing: ' + (settings.bankDetails?.routingNumber || '') + '<br>Amount: $' + currentDepositAmount + '<br>Reference: ' + (currentUser?.username || '');
 }
-
 document.getElementById('depositInstructions').innerHTML = instructions;
 document.getElementById('depositInstructions').style.display = 'block';
-
-const res = await fetch(`${API_URL}/api/request-deposit`, {
-method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
-body: JSON.stringify({ amount: currentDepositAmount, method: selectedDepositMethod })
-});
+const res = await fetch(API_URL + '/api/request-deposit', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ amount: currentDepositAmount, method: selectedDepositMethod }) });
 const data = await res.json();
-if (res.ok) {
-showToast(data.message, 'win');
-document.getElementById('depositResult').innerHTML = '<span class="success-message">✅ Deposit request submitted!</span>';
-} else {
-document.getElementById('depositResult').innerHTML = `<span class="error-message">❌ ${data.error}</span>`;
-}
+if (res.ok) { showToast(data.message, 'win'); document.getElementById('depositResult').innerHTML = '<span class="success-message"> Deposit request submitted!</span>'; }
+else { document.getElementById('depositResult').innerHTML = '<span class="error-message"> ' + data.error + '</span>'; }
 } catch(e) { console.error(e); }
 }
 
 async function requestWithdraw() {
-if (!selectedWithdrawMethod) {
-document.getElementById('withdrawResult').innerHTML = '<span class="error-message">Select method</span>';
-return;
-}
+if (!selectedWithdrawMethod) { document.getElementById('withdrawResult').innerHTML = '<span class="error-message">Select method</span>'; return; }
 const address = document.getElementById('walletAddress').value;
-if (!address) {
-document.getElementById('withdrawResult').innerHTML = '<span class="error-message">Enter address</span>';
-return;
-}
-if (currentWithdrawAmount > currentBalance) {
-document.getElementById('withdrawResult').innerHTML = '<span class="error-message">Insufficient balance</span>';
-return;
-}
+if (!address) { document.getElementById('withdrawResult').innerHTML = '<span class="error-message">Enter address</span>'; return; }
+if (currentWithdrawAmount > currentBalance) { document.getElementById('withdrawResult').innerHTML = '<span class="error-message">Insufficient balance</span>'; return; }
 try {
-const res = await fetch(`${API_URL}/api/withdraw`, {
-method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token },
-body: JSON.stringify({ amount: currentWithdrawAmount, bankDetails: { method: selectedWithdrawMethod, address }, speed: selectedWithdrawSpeed })
-});
+const res = await fetch(API_URL + '/api/withdraw', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': token }, body: JSON.stringify({ amount: currentWithdrawAmount, method: selectedWithdrawMethod, address, speed: selectedWithdrawSpeed }) });
 const data = await res.json();
-if (res.ok) {
-showToast(data.message, 'win');
-document.getElementById('withdrawResult').innerHTML = '<span class="success-message">✅ Withdrawal request submitted!</span>';
-loadUserData();
-loadTransactionHistory();
-} else {
-document.getElementById('withdrawResult').innerHTML = `<span class="error-message">❌ ${data.error}</span>`;
-}
+if (res.ok) { showToast(data.message, 'win'); document.getElementById('withdrawResult').innerHTML = '<span class="success-message"> Withdrawal request submitted!</span>'; loadUserData(); loadTransactionHistory(); }
+else { document.getElementById('withdrawResult').innerHTML = '<span class="error-message"> ' + data.error + '</span>'; }
 } catch(e) { console.error(e); }
 }
 
 function logout() { localStorage.clear(); window.location.href = '/login'; }
 
-// Initial load
 loadUserData();
 loadLeaderboard();
 loadTransactionHistory();

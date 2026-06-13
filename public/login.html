@@ -1332,8 +1332,7 @@ document.getElementById('loginError').innerHTML = '❌ Connection error';
 
 // Check if already logged in
 const token = localStorage.getItem('token');
-const role = localStorage.getItem('role');
-if (token && role === 'user') {
+const role = localStorage.getItem('role');if (token && role === 'user') {
 window.location.href = '/';
 } else if (token && role === 'admin') {
 window.location.href = '/admin';
