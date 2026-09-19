@@ -378,6 +378,11 @@ transition: all 0.3s;
 margin-bottom: 15px;
 }
 
+.login-btn:disabled {
+opacity: 0.6;
+cursor: not-allowed;
+}
+
 .create-btn {
 width: 100%;
 max-width: 100%;
@@ -754,6 +759,14 @@ color: #ef4444;
 font-size: 0.75rem;
 margin-top: 10px;
 text-align: center;
+line-height: 1.5;
+}
+
+.error-message small {
+opacity: 0.8;
+font-size: 0.65rem;
+display: block;
+margin-top: 4px;
 }
 
 .success-message {
@@ -851,7 +864,7 @@ border-radius: 10px;
 <a href="#" class="forgot-link" onclick="alert('Contact support to reset password'); return false;">Forgot password?</a>
 </div>
 
-<button class="login-btn" onclick="login()">🚀 LOGIN TO ACCOUNT</button>
+<button class="login-btn" id="loginBtn" onclick="login()">🚀 LOGIN TO ACCOUNT</button>
 
 <div class="divider">
 <span>New to LottoMaster?</span>
@@ -864,7 +877,6 @@ border-radius: 10px;
 
 <!-- Signup Form (Hidden) -->
 <div id="signupSection" style="display: none;">
-<!-- Verification Notice - Added -->
 <div class="verification-notice">
 <p><strong>📋 Important Verification Information</strong></p>
 <p>To comply with regulations and ensure a safe gaming environment, all players must complete identity verification.</p>
@@ -967,7 +979,7 @@ border-radius: 10px;
 <footer class="main-footer">
 <div class="footer-content">
 <div class="copyright">
-© 2024 LottoMaster. All rights reserved.
+©️ 2024 LottoMaster. All rights reserved.
 </div>
 <div class="footer-links">
 <a href="#">Terms of Service</a>
@@ -985,6 +997,46 @@ border-radius: 10px;
 
 <script>
 const API_URL = window.location.origin;
+
+// ============ DEVICE FINGERPRINT ============
+function getDeviceId() {
+try {
+let id = localStorage.getItem('lotto_device_id');
+if (!id) {
+const random = crypto.getRandomValues(new Uint8Array(16));
+id = Array.from(random).map(b => b.toString(16).padStart(2, '0')).join('');
+localStorage.setItem('lotto_device_id', id);
+}
+const parts = [
+id,
+navigator.userAgent || '',
+navigator.language || '',
+screen.width + 'x' + screen.height,
+screen.colorDepth || '',
+Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+navigator.hardwareConcurrency || ''
+];
+const raw = parts.join('|');
+let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+for (let i = 0; i < raw.length; i++) {
+const ch = raw.charCodeAt(i);
+h1 = Math.imul(h1 ^ ch, 2654435761);
+h2 = Math.imul(h2 ^ ch, 1597334677);
+}
+h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507);
+h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507);
+h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+return (h2 >>> 0).toString(16).padStart(8, '0') + (h1 >>> 0).toString(16).padStart(8, '0');
+} catch (e) {
+let id = localStorage.getItem('lotto_device_id');
+if (!id) {
+id = 'fb_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+localStorage.setItem('lotto_device_id', id);
+}
+return id;
+}
+}
 
 // ============ ANIMATED BACKGROUND PARTICLES ============
 function createParticles() {
@@ -1008,7 +1060,6 @@ function animateDice() {
 const dice1 = document.getElementById('dice1');
 const dice2 = document.getElementById('dice2');
 const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
-
 setInterval(() => {
 dice1.style.animation = 'none';
 dice2.style.animation = 'none';
@@ -1025,16 +1076,13 @@ animateDice();
 // ============ LIVE STATS COUNTER ============
 let activePlayers = 1238;
 let jackpotsWon = 5678;
-
 setInterval(() => {
 activePlayers += Math.floor(Math.random() * 5) - 2;
 if (activePlayers < 1000) activePlayers = 1000;
 document.getElementById('activePlayers').innerText = activePlayers.toLocaleString();
-
 if (Math.random() > 0.8) {
 jackpotsWon += 1;
 document.getElementById('jackpotsWon').innerText = jackpotsWon.toLocaleString();
-
 const newWinAmount = (Math.random() * 5000 + 500).toFixed(0);
 addWinToFeed('Player' + Math.floor(Math.random() * 999), newWinAmount, 'Slot Dice');
 }
@@ -1048,7 +1096,6 @@ const recentWins = [
 { user: 'BigWinner', amount: 800, game: 'Lotto', time: '10 mins ago' },
 { user: 'DiceMaster', amount: 3500, game: 'Slot Dice', time: '15 mins ago' }
 ];
-
 function addWinToFeed(user, amount, game) {
 const feed = document.getElementById('winsFeed');
 const winItem = document.createElement('div');
@@ -1064,11 +1111,8 @@ winItem.innerHTML = `
 <div class="win-amount">+$${parseInt(amount).toLocaleString()}</div>
 `;
 feed.insertBefore(winItem, feed.firstChild);
-if (feed.children.length > 10) {
-feed.removeChild(feed.lastChild);
+if (feed.children.length > 10) feed.removeChild(feed.lastChild);
 }
-}
-
 function loadRecentWins() {
 const feed = document.getElementById('winsFeed');
 feed.innerHTML = '';
@@ -1091,7 +1135,7 @@ feed.appendChild(winItem);
 }
 loadRecentWins();
 
-// ============ 30 USER TESTIMONIALS ============
+// ============ TESTIMONIALS ============
 const testimonials = [
 { name: 'Michael R.', location: 'New York', text: 'Best platform ever! Won $5,000 on my first week!', rating: 5, avatar: '👑' },
 { name: 'Sarah J.', location: 'London', text: 'Fast withdrawals and amazing support team. Highly recommended!', rating: 5, avatar: '⭐' },
@@ -1124,21 +1168,16 @@ const testimonials = [
 { name: 'Gregory T.', location: 'Detroit', text: 'Support helped me recover my account quickly!', rating: 5, avatar: '🆘' },
 { name: 'Tiffany L.', location: 'San Diego', text: 'Best decision I made joining LottoMaster!', rating: 5, avatar: '🎉' }
 ];
-
 let currentTestimonialIndex = 0;
-
 function loadTestimonials() {
 const container = document.getElementById('testimonialCarousel');
 const dotsContainer = document.getElementById('carouselDots');
-
 testimonials.forEach((t, index) => {
 const slide = document.createElement('div');
 slide.className = 'testimonial-slide';
 if (index === 0) slide.classList.add('active');
 slide.innerHTML = `
-<div class="testimonial-text">
-"${t.text}"
-</div>
+<div class="testimonial-text">"${t.text}"</div>
 <div class="testimonial-author">
 <div class="author-avatar">${t.avatar}</div>
 <div class="author-info">
@@ -1149,7 +1188,6 @@ slide.innerHTML = `
 <div style="margin-top: 5px;">${'⭐'.repeat(t.rating)}</div>
 `;
 container.appendChild(slide);
-
 const dot = document.createElement('div');
 dot.className = 'dot';
 if (index === 0) dot.classList.add('active');
@@ -1157,7 +1195,6 @@ dot.onclick = () => showTestimonial(index);
 dotsContainer.appendChild(dot);
 });
 }
-
 function showTestimonial(index) {
 const slides = document.querySelectorAll('.testimonial-slide');
 const dots = document.querySelectorAll('.dot');
@@ -1167,41 +1204,23 @@ slides[index].classList.add('active');
 dots[index].classList.add('active');
 currentTestimonialIndex = index;
 }
-
 function nextTestimonial() {
 currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
 showTestimonial(currentTestimonialIndex);
 }
-
 loadTestimonials();
 setInterval(nextTestimonial, 8000);
 
 // ============ COUNTDOWN TIMER ============
 function startCountdown() {
-let hours = 23;
-let minutes = 59;
-let seconds = 59;
-
+let hours = 23, minutes = 59, seconds = 59;
 setInterval(() => {
 if (seconds === 0) {
 if (minutes === 0) {
-if (hours === 0) {
-hours = 24;
-minutes = 0;
-seconds = 0;
-} else {
-hours--;
-minutes = 59;
-seconds = 59;
-}
-} else {
-minutes--;
-seconds = 59;
-}
-} else {
-seconds--;
-}
-
+if (hours === 0) { hours = 24; minutes = 0; seconds = 0; }
+else { hours--; minutes = 59; seconds = 59; }
+} else { minutes--; seconds = 59; }
+} else { seconds--; }
 const timerElement = document.getElementById('countdownTimer');
 if (timerElement) {
 timerElement.innerText = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -1210,27 +1229,23 @@ timerElement.innerText = `${hours.toString().padStart(2, '0')}:${minutes.toStrin
 }
 startCountdown();
 
-// ============ AUTHENTICATION FUNCTIONS ============
+// ============ AUTH ============
 function showSignup() {
 document.getElementById('loginSection').style.display = 'none';
 document.getElementById('signupSection').style.display = 'block';
 }
-
 function showLogin() {
 document.getElementById('loginSection').style.display = 'block';
 document.getElementById('signupSection').style.display = 'none';
 document.getElementById('signupError').innerHTML = '';
 document.getElementById('signupSuccess').innerHTML = '';
 }
-
 function calculateAge(dateOfBirth) {
 const today = new Date();
 const birthDate = new Date(dateOfBirth);
 let age = today.getFullYear() - birthDate.getFullYear();
 const monthDiff = today.getMonth() - birthDate.getMonth();
-if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-age--;
-}
+if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) age--;
 return age;
 }
 
@@ -1241,44 +1256,29 @@ const username = document.getElementById('signupUsername').value;
 const email = document.getElementById('signupEmail').value;
 const password = document.getElementById('signupPassword').value;
 const confirmPassword = document.getElementById('signupConfirmPassword').value;
-
-// Validation
 if (!name || !dob || !username || !email || !password) {
 document.getElementById('signupError').innerHTML = '❌ Please fill all required fields';
 return;
 }
-
 if (password !== confirmPassword) {
 document.getElementById('signupError').innerHTML = '❌ Passwords do not match';
 return;
 }
-
 if (password.length < 6) {
 document.getElementById('signupError').innerHTML = '❌ Password must be at least 6 characters';
 return;
 }
-
-// Check age
 const age = calculateAge(dob);
 if (age < 18) {
 document.getElementById('signupError').innerHTML = '❌ You must be 18 years or older to register';
 return;
 }
-
 try {
 const res = await fetch(`${API_URL}/api/signup`, {
 method: 'POST',
 headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({
-name,
-username,
-email,
-password,
-dateOfBirth: dob,
-legalName: name
-})
+body: JSON.stringify({ name, username, email, password, dateOfBirth: dob, legalName: name })
 });
-
 const data = await res.json();
 if (res.ok) {
 document.getElementById('signupSuccess').innerHTML = '✅ Account created! Please check your email for verification instructions.';
@@ -1300,39 +1300,57 @@ document.getElementById('signupError').innerHTML = '❌ Connection error';
 async function login() {
 const username = document.getElementById('loginUsername').value;
 const password = document.getElementById('loginPassword').value;
-
+const btn = document.getElementById('loginBtn');
 if (!username || !password) {
 document.getElementById('loginError').innerHTML = '❌ Please enter username and password';
 return;
 }
-
+const deviceId = getDeviceId();
+btn.disabled = true;
+btn.textContent = '⏳ Signing in...';
 try {
 const res = await fetch(`${API_URL}/api/login`, {
 method: 'POST',
 headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ username, password })
+body: JSON.stringify({ username, password, deviceId })
 });
-
 const data = await res.json();
 if (res.ok) {
 localStorage.setItem('token', data.token);
 localStorage.setItem('role', data.role);
 if (data.role === 'admin') {
+localStorage.setItem('admin_device_id', deviceId);
 window.location.href = '/admin';
 } else {
 window.location.href = '/';
 }
 } else {
+if (data.code === 'PENDING') {
+document.getElementById('loginError').innerHTML =
+'⏳ <strong>Awaiting admin approval</strong><br>' +
+'<small>Your IP: <code>' + (data.ip || 'unknown') + '</code><br>' +
+'An existing admin must approve this device from the Security tab.</small>';
+} else if (data.code === 'REVOKED') {
+document.getElementById('loginError').innerHTML =
+'🚫 <strong>Access revoked</strong><br>' +
+'<small>This device has been removed from the admin panel.</small>';
+} else {
 document.getElementById('loginError').innerHTML = '❌ ' + data.error;
+}
+btn.disabled = false;
+btn.textContent = '🚀 LOGIN TO ACCOUNT';
 }
 } catch (error) {
 document.getElementById('loginError').innerHTML = '❌ Connection error';
+btn.disabled = false;
+btn.textContent = '🚀 LOGIN TO ACCOUNT';
 }
 }
 
 // Check if already logged in
 const token = localStorage.getItem('token');
-const role = localStorage.getItem('role');if (token && role === 'user') {
+const role = localStorage.getItem('role');
+if (token && role === 'user') {
 window.location.href = '/';
 } else if (token && role === 'admin') {
 window.location.href = '/admin';

@@ -1,1097 +1,1441 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>LottoMaster - Admin Panel</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            min-height: 100vh;
-            color: white;
-        }
-        .header {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            border-bottom: 1px solid rgba(245, 158, 11, 0.3);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .logo h1 {
-            font-size: 24px;
-            background: linear-gradient(90deg, #f7971e, #ffd200);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .admin-badge {
-            background: rgba(247, 151, 30, 0.2);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-        .logout-btn {
-            background: #e74c3c;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-        }
-        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .stat-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-        }
-        .stat-card .value { font-size: 28px; font-weight: bold; color: #f7971e; }
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-bottom: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 12px;
-        }
-        .tab-btn {
-            padding: 10px 18px;
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        .tab-btn.active { background: #f7971e; color: #333; }
-        .tab-content {
-            display: none;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 12px;
-        }
-        .tab-content.active { display: block; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: bold; }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: white;
-        }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-        th { color: #f7971e; }
-        .btn-primary {
-            background: linear-gradient(90deg, #f7971e, #ffd200);
-            color: #333;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .btn-success { background: #2ecc71; color: white; padding: 5px 12px; border: none; border-radius: 5px; cursor: pointer; margin: 2px; }
-        .btn-danger { background: #e74c3c; color: white; padding: 5px 12px; border: none; border-radius: 5px; cursor: pointer; margin: 2px; }
-        .btn-warning { background: #f39c12; color: #333; padding: 5px 12px; border: none; border-radius: 5px; cursor: pointer; margin: 2px; }
-        .btn-info { background: #3498db; color: white; padding: 5px 12px; border: none; border-radius: 5px; cursor: pointer; margin: 2px; }
-        .rewards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 15px;
-        }
-        .reward-card {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 12px;
-        }
-        .reward-card h4 { color: #f7971e; margin-bottom: 10px; }
-        .reward-card input { width: 100px; margin-left: 10px; padding: 5px; }
-        .status-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-        .status-approved { background: #2ecc71; color: #fff; }
-        .status-pending { background: #f39c12; color: #fff; }
-        .status-rejected { background: #e74c3c; color: #fff; }
-        .status-disabled { background: #95a5a6; color: #fff; }
-        .success { color: #2ecc71; }
-        .error { color: #e74c3c; }
-        .info { color: #3498db; }
-        .table-container { overflow-x: auto; margin-top: 15px; }
-        .section-title { margin-top: 30px; margin-bottom: 10px; color: #f7971e; }
-        .txid-input { width: 140px; padding: 5px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; }
-        .empty-state { text-align: center; padding: 30px; color: rgba(255,255,255,0.5); }
-        @media (max-width: 768px) {
-            .header { flex-direction: column; text-align: center; }
-            .tabs { flex-direction: column; }
-            th, td { font-size: 12px; padding: 8px; }
-            .txid-input { width: 100px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>LottoMaster - Admin Panel</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  min-height: 100vh;
+  color: white;
+}
+.header {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo h1 {
+  font-size: 24px;
+  background: linear-gradient(90deg, #f7971e, #ffd200);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.admin-badge {
+  background: rgba(247, 151, 30, 0.2);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+.pending-badge {
+  background: #e74c3c;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-left: 6px;
+}
+.logout-btn {
+  background: #e74c3c;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+}
+.stat-card .value { font-size: 28px; font-weight: bold; color: #f7971e; }
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 12px;
+}
+.tab-btn {
+  padding: 10px 18px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 14px;
+  position: relative;
+}
+.tab-btn.active { background: #f7971e; color: #333; }
+.tab-content {
+  display: none;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 12px;
+}
+.tab-content.active { display: block; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: bold; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+}
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+th { color: #f7971e; }
+.btn-primary {
+  background: linear-gradient(90deg, #f7971e, #ffd200);
+  color: #333;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-success { background: #2ecc71; color: white; padding: 5px 12px; border: none; border-radius: 5px; cursor: pointer; margin: 2px; }
+.btn-danger { background: #e74c3c; color: white; padding: 5px 12px; border: none; border-radius: 5px; cursor: pointer; margin: 2px; }
+.btn-warning { background: #f39c12; color: #333; padding: 5px 12px; border: none; border-radius: 5px; cursor: pointer; margin: 2px; }
+.btn-info { background: #3498db; color: white; padding: 5px 12px; border: none; border-radius: 5px; cursor: pointer; margin: 2px; }
+.btn-orange { background: #d97706; color: white; padding: 5px 12px; border: none; border-radius: 5px; cursor: pointer; margin: 2px; }
+.rewards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 15px;
+}
+.reward-card {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 12px;
+}
+.reward-card h4 { color: #f7971e; margin-bottom: 10px; }
+.reward-card input { width: 100px; margin-left: 10px; padding: 5px; }
+.reward-card select { margin-left: 10px; padding: 5px; background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 5px; }
+.status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: bold;
+}
+.status-approved { background: #2ecc71; color: #fff; }
+.status-pending { background: #f39c12; color: #fff; }
+.status-rejected { background: #e74c3c; color: #fff; }
+.status-disabled { background: #95a5a6; color: #fff; }
+.status-revoked { background: #7f1d1d; color: #fff; }
+.success { color: #2ecc71; }
+.error { color: #e74c3c; }
+.info { color: #3498db; }
+.table-container { overflow-x: auto; margin-top: 15px; }
+.section-title { margin-top: 30px; margin-bottom: 10px; color: #f7971e; }
+.txid-input { width: 140px; padding: 5px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white; }
+.empty-state { text-align: center; padding: 30px; color: rgba(255,255,255,0.5); }
+.wheel-input {
+  width: 90px; padding: 5px; background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.2); border-radius: 5px; color: white;
+}
+.device-ua { font-size: 11px; opacity: 0.65; max-width: 380px; word-break: break-word; }
+.device-id { font-family: monospace; font-size: 11px; opacity: 0.7; }
+.ip-chip {
+  display: inline-block;
+  background: rgba(52, 152, 219, 0.25);
+  color: #93c5fd;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-family: monospace;
+  font-size: 12px;
+}
+@media (max-width: 768px) {
+  .header { flex-direction: column; text-align: center; }
+  .tabs { flex-direction: column; }
+  th, td { font-size: 12px; padding: 8px; }
+  .txid-input { width: 100px; }
+}
+</style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo"><h1>🎲 LottoMaster Admin</h1></div>
-        <div class="admin-badge">🔐 Administrator</div>
-        <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+<div class="header">
+  <div class="logo"><h1>🎲 LottoMaster Admin</h1></div>
+  <div class="admin-badge">🔐 Administrator <span id="pendingDeviceBadge" class="pending-badge" style="display:none">0 pending</span></div>
+  <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+</div>
+
+<div class="container">
+  <div class="stats-grid">
+    <div class="stat-card"><div class="value" id="totalUsers">0</div><div>Total Users</div></div>
+    <div class="stat-card"><div class="value" id="totalDeposits">$0</div><div>Total Deposits</div></div>
+    <div class="stat-card"><div class="value" id="totalWithdrawals">$0</div><div>Total Withdrawals</div></div>
+    <div class="stat-card"><div class="value" id="netRevenue">$0</div><div>Net Revenue</div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="users">👥 Users</button>
+    <button class="tab-btn" data-tab="pending">⏳ Pending</button>
+    <button class="tab-btn" data-tab="codes">🎯 Winning Codes</button>
+    <button class="tab-btn" data-tab="game">🎮 Game Controls</button>
+    <button class="tab-btn" data-tab="payment">🏦 Payment Settings</button>
+    <button class="tab-btn" data-tab="deposits">💰 Deposits</button>
+    <button class="tab-btn" data-tab="withdrawals">💸 Withdrawals</button>
+    <button class="tab-btn" data-tab="announcements">📢 Announcements</button>
+    <button class="tab-btn" data-tab="security">🔐 Security<span id="tabPendingBadge" class="pending-badge" style="display:none">0</span></button>
+  </div>
+
+  <!-- Users Tab -->
+  <div id="usersTab" class="tab-content active">
+    <h3>👥 All Users</h3>
+    <div class="table-container">
+      <table id="usersTable">
+        <thead><tr><th>Username</th><th>Email</th><th>Balance</th><th>Wins</th><th>Status</th><th>Verified</th><th>Actions</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pending Users Tab -->
+  <div id="pendingTab" class="tab-content">
+    <h3>⏳ Pending Approval</h3>
+    <div class="table-container">
+      <table id="pendingTable">
+        <thead><tr><th>Username</th><th>Email</th><th>Legal Name</th><th>Age</th><th>Action</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <h3 class="section-title">📋 Unverified Users</h3>
+    <div class="table-container">
+      <table id="unverifiedTable">
+        <thead><tr><th>Username</th><th>Email</th><th>Legal Name</th><th>Action</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Winning Codes Tab -->
+  <div id="codesTab" class="tab-content">
+    <h3>➕ Add Winning Code</h3>
+    <div class="form-group"><label>6-Digit Code</label><input type="text" id="code" maxlength="6" placeholder="123456"></div>
+    <div class="form-group"><label>Reward ($)</label><input type="number" id="reward" placeholder="100"></div>
+    <div class="form-group"><label>Expiry (days)</label><input type="number" id="expiryDays" placeholder="30"></div>
+    <button class="btn-primary" onclick="addWinningCode()">Add Code</button>
+    <div id="codeMsg" style="margin-top:10px"></div>
+    <h3 class="section-title">🎯 Active Codes</h3>
+    <div class="table-container">
+      <table id="codesTable">
+        <thead><tr><th>Code</th><th>Reward</th><th>Expiry</th><th>Action</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Game Controls Tab -->
+  <div id="gameTab" class="tab-content">
+    <h3>🎮 Random Roll Rewards (Non-Doubles)</h3>
+    <div class="rewards-grid">
+      <div class="reward-card">
+        <h4>Sum-Based Rewards</h4>
+        <div>Sum 3-4: <input type="number" id="sumSmall" step="0.5" value="1.5"></div>
+        <div>Sum 5-6: <input type="number" id="sumMid" step="0.5" value="2"></div>
+        <div>Sum 7-8: <input type="number" id="sumLarge" step="0.5" value="2.5"></div>
+        <div>Sum 9-11: <input type="number" id="sumJack" step="0.5" value="3"></div>
+      </div>
+      <div class="reward-card">
+        <h4>Special Combinations</h4>
+        <div>Consecutive: <input type="number" id="consecutive" step="0.5" value="2"></div>
+        <div>Same Parity: <input type="number" id="parity" step="0.5" value="1.5"></div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="saveGameControls()">Save Controls</button>
+    <div id="gameMsg" style="margin-top:10px"></div>
+
+    <h3 class="section-title">🎁 Bonus Settings (Doubles)</h3>
+    <div class="rewards-grid">
+      <div class="reward-card">
+        <h4>Rolls Required</h4>
+        <div>Double 1: <input type="number" id="roll1" value="30"></div>
+        <div>Double 2: <input type="number" id="roll2" value="25"></div>
+        <div>Double 3: <input type="number" id="roll3" value="25"></div>
+        <div>Double 4: <input type="number" id="roll4" value="20"></div>
+        <div>Double 5: <input type="number" id="roll5" value="15"></div>
+        <div>Double 6: <input type="number" id="roll6" value="50"></div>
+      </div>
+      <div class="reward-card">
+        <h4>Multipliers</h4>
+        <div>Double 1: <input type="number" id="mult1" step="0.5" value="8"></div>
+        <div>Double 2: <input type="number" id="mult2" step="0.5" value="6"></div>
+        <div>Double 3: <input type="number" id="mult3" step="0.5" value="6"></div>
+        <div>Double 4: <input type="number" id="mult4" step="0.5" value="8"></div>
+        <div>Double 5: <input type="number" id="mult5" step="0.5" value="10"></div>
+        <div>Double 6: <input type="number" id="mult6" step="0.5" value="25"></div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="saveBonusSettings()">Save Bonuses</button>
+    <div id="bonusMsg" style="margin-top:10px"></div>
+
+    <h3 class="section-title">🎰 New Games Control (Spin / Coin / Card / Box)</h3>
+    <div id="managedGamesContainer" class="rewards-grid">
+      <div class="reward-card">
+        <h4>🎡 Spin Wheel</h4>
+        <div>Enabled: <input type="checkbox" id="spin_enabled" checked></div>
+        <div>Win %: <input type="number" id="spin_prob" min="0" max="100" value="30"></div>
+        <div>Multiplier: <input type="number" id="spin_mult" step="0.5" value="3"></div>
+        <div>Force:
+          <select id="spin_force">
+            <option value="auto">Auto (probability)</option>
+            <option value="win">Force WIN</option>
+            <option value="lose">Force LOSE</option>
+          </select>
+        </div>
+      </div>
+      <div class="reward-card">
+        <h4>🪙 Coin Flip</h4>
+        <div>Enabled: <input type="checkbox" id="coin_enabled" checked></div>
+        <div>Win %: <input type="number" id="coin_prob" min="0" max="100" value="50"></div>
+        <div>Multiplier: <input type="number" id="coin_mult" step="0.5" value="2"></div>
+        <div>Force:
+          <select id="coin_force">
+            <option value="auto">Auto (probability)</option>
+            <option value="win">Force WIN</option>
+            <option value="lose">Force LOSE</option>
+          </select>
+        </div>
+      </div>
+      <div class="reward-card">
+        <h4>🃏 Pick a Card</h4>
+        <div>Enabled: <input type="checkbox" id="card_enabled" checked></div>
+        <div>Win %: <input type="number" id="card_prob" min="0" max="100" value="25"></div>
+        <div>Multiplier: <input type="number" id="card_mult" step="0.5" value="4"></div>
+        <div>Force:
+          <select id="card_force">
+            <option value="auto">Auto (probability)</option>
+            <option value="win">Force WIN</option>
+            <option value="lose">Force LOSE</option>
+          </select>
+        </div>
+      </div>
+      <div class="reward-card">
+        <h4>🎁 Pick a Box</h4>
+        <div>Enabled: <input type="checkbox" id="box_enabled" checked></div>
+        <div>Win %: <input type="number" id="box_prob" min="0" max="100" value="20"></div>
+        <div>Multiplier: <input type="number" id="box_mult" step="0.5" value="5"></div>
+        <div>Force:
+          <select id="box_force">
+            <option value="auto">Auto (probability)</option>
+            <option value="win">Force WIN</option>
+            <option value="lose">Force LOSE</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="saveManagedGames()">Save New Game Settings</button>
+    <div id="managedMsg" style="margin-top:10px"></div>
+
+    <h3 class="section-title">🎡 Spin Wheel Segments (10 segments)</h3>
+    <p style="font-size:12px; opacity:0.7; margin-bottom:10px;">Each winning segment has a multiplier and a "rolls required" cooldown.</p>
+    <div class="table-container">
+      <table id="wheelSegmentsTable">
+        <thead>
+          <tr><th>#</th><th>Label</th><th>Multiplier</th><th>Rolls Required</th><th>Is Loss ($0)</th></tr>
+        </thead>
+        <tbody id="wheelSegmentsBody"></tbody>
+      </table>
+    </div>
+    <button class="btn-primary" style="margin-top:12px" onclick="saveWheelSettings()">Save Wheel Settings</button>
+    <div id="wheelMsg" style="margin-top:10px"></div>
+
+    <h3 class="section-title">🪙 Coin Sides (2 sides)</h3>
+    <div class="table-container">
+      <table id="coinSidesTable">
+        <thead>
+          <tr><th>#</th><th>Label</th><th>Multiplier</th><th>Rolls Required</th><th>Is Loss</th></tr>
+        </thead>
+        <tbody id="coinSidesBody"></tbody>
+      </table>
+    </div>
+    <button class="btn-primary" style="margin-top:12px" onclick="saveCoinSettings()">Save Coin Settings</button>
+    <div id="coinMsg" style="margin-top:10px"></div>
+
+    <h3 class="section-title">🃏 Pick a Card (4 cards)</h3>
+    <div class="table-container">
+      <table id="cardSettingsTable">
+        <thead>
+          <tr><th>#</th><th>Label</th><th>Rank</th><th>Suit</th><th>Multiplier</th><th>Rolls Required</th><th>Is Loss</th></tr>
+        </thead>
+        <tbody id="cardSettingsBody"></tbody>
+      </table>
+    </div>
+    <button class="btn-primary" style="margin-top:12px" onclick="saveCardSettings()">Save Card Settings</button>
+    <div id="cardMsg" style="margin-top:10px"></div>
+
+    <h3 class="section-title">🎁 Pick a Box (4 boxes)</h3>
+    <div class="table-container">
+      <table id="boxSettingsTable">
+        <thead>
+          <tr><th>#</th><th>Label</th><th>Multiplier</th><th>Rolls Required</th><th>Is Loss</th></tr>
+        </thead>
+        <tbody id="boxSettingsBody"></tbody>
+      </table>
+    </div>
+    <button class="btn-primary" style="margin-top:12px" onclick="saveBoxSettings()">Save Box Settings</button>
+    <div id="boxMsg" style="margin-top:10px"></div>
+  </div>
+
+  <!-- Payment Settings Tab -->
+  <div id="paymentTab" class="tab-content">
+    <h3>🏦 Crypto Wallets</h3>
+    <div class="form-group"><label>USDT Wallet</label><input type="text" id="usdtWallet" placeholder="USDT wallet address"></div>
+    <div class="form-group"><label>BTC Wallet</label><input type="text" id="btcWallet" placeholder="BTC wallet address"></div>
+    <h3 class="section-title">🏦 Bank Details</h3>
+    <div class="form-group"><label>Bank Name</label><input type="text" id="bankName" placeholder="Bank Name"></div>
+    <div class="form-group"><label>Account Name</label><input type="text" id="accountName" placeholder="Account Name"></div>
+    <div class="form-group"><label>Account Number</label><input type="text" id="accountNumber" placeholder="Account Number"></div>
+    <div class="form-group"><label>Routing/SWIFT</label><input type="text" id="routingNumber" placeholder="Routing Number / SWIFT"></div>
+    <button class="btn-primary" onclick="savePaymentSettings()">Save Settings</button>
+    <div id="paymentMsg" style="margin-top:10px"></div>
+  </div>
+
+  <!-- DEPOSITS TAB -->
+  <div id="depositsTab" class="tab-content">
+    <h3>💰 Pending Deposits</h3>
+    <div class="table-container">
+      <table id="pendingDepositsTable">
+        <thead>
+          <tr><th>#</th><th>User</th><th>Amount</th><th>Method</th><th>Date</th><th>Transaction ID</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="pendingDepositsBody">
+          <tr><td colspan="7" class="empty-state">Loading pending deposits...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3 class="section-title">📋 All Deposits</h3>
+    <div class="table-container">
+      <table id="allDepositsTable">
+        <thead>
+          <tr><th>#</th><th>User</th><th>Amount</th><th>Method</th><th>Status</th><th>TxID</th><th>Date</th></tr>
+        </thead>
+        <tbody id="allDepositsBody">
+          <tr><td colspan="7" class="empty-state">Loading deposits...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- WITHDRAWALS TAB -->
+  <div id="withdrawalsTab" class="tab-content">
+    <h3>💸 Pending Withdrawals</h3>
+    <div class="table-container">
+      <table id="pendingWithdrawalsTable">
+        <thead>
+          <tr><th>#</th><th>User</th><th>Amount</th><th>Fee</th><th>Net Amount</th><th>Method</th><th>Speed</th><th>Date</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="pendingWithdrawalsBody">
+          <tr><td colspan="9" class="empty-state">Loading pending withdrawals...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3 class="section-title">📋 All Withdrawals</h3>
+    <div class="table-container">
+      <table id="allWithdrawalsTable">
+        <thead>
+          <tr><th>#</th><th>User</th><th>Amount</th><th>Fee</th><th>Net Amount</th><th>Method</th><th>Status</th><th>Date</th></tr>
+        </thead>
+        <tbody id="allWithdrawalsBody">
+          <tr><td colspan="8" class="empty-state">Loading withdrawals...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Announcements Tab -->
+  <div id="announcementsTab" class="tab-content">
+    <h3>📢 Send Announcement</h3>
+    <div class="form-group"><label>Title</label><input type="text" id="annTitle"></div>
+    <div class="form-group"><label>Message</label><textarea id="annMsg" rows="3"></textarea></div>
+    <button class="btn-primary" onclick="sendAnnouncement()">Send</button>
+    <div id="announceMsg" style="margin-top:10px"></div>
+  </div>
+
+  <!-- Security Tab -->
+  <div id="securityTab" class="tab-content">
+    <h3>🔑 Change Admin Password</h3>
+    <div class="rewards-grid">
+      <div class="reward-card">
+        <div class="form-group"><label>Current Password</label><input type="password" id="curPw"></div>
+        <div class="form-group"><label>New Password (min 6)</label><input type="password" id="newPw"></div>
+        <div class="form-group"><label>Confirm New Password</label><input type="password" id="newPw2"></div>
+        <button class="btn-primary" onclick="changeAdminPassword()">Change Password</button>
+        <div id="pwMsg" style="margin-top:10px"></div>
+      </div>
     </div>
 
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-card"><div class="value" id="totalUsers">0</div><div>Total Users</div></div>
-            <div class="stat-card"><div class="value" id="totalDeposits">$0</div><div>Total Deposits</div></div>
-            <div class="stat-card"><div class="value" id="totalWithdrawals">$0</div><div>Total Withdrawals</div></div>
-            <div class="stat-card"><div class="value" id="netRevenue">$0</div><div>Net Revenue</div></div>
-        </div>
-
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="users">👥 Users</button>
-            <button class="tab-btn" data-tab="pending">⏳ Pending</button>
-            <button class="tab-btn" data-tab="codes">🎯 Winning Codes</button>
-            <button class="tab-btn" data-tab="game">🎮 Game Controls</button>
-            <button class="tab-btn" data-tab="payment">🏦 Payment Settings</button>
-            <button class="tab-btn" data-tab="deposits">💰 Deposits</button>
-            <button class="tab-btn" data-tab="withdrawals">💸 Withdrawals</button>
-            <button class="tab-btn" data-tab="announcements">📢 Announcements</button>
-        </div>
-
-        <!-- Users Tab -->
-        <div id="usersTab" class="tab-content active">
-            <h3>👥 All Users</h3>
-            <div class="table-container">
-                <table id="usersTable">
-                    <thead><tr><th>Username</th><th>Email</th><th>Balance</th><th>Wins</th><th>Status</th><th>Verified</th><th>Actions</th></tr></thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Pending Users Tab -->
-        <div id="pendingTab" class="tab-content">
-            <h3>⏳ Pending Approval</h3>
-            <div class="table-container">
-                <table id="pendingTable">
-                    <thead><tr><th>Username</th><th>Email</th><th>Legal Name</th><th>Age</th><th>Action</th></tr></thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-            <h3 class="section-title">📋 Unverified Users</h3>
-            <div class="table-container">
-                <table id="unverifiedTable">
-                    <thead><tr><th>Username</th><th>Email</th><th>Legal Name</th><th>Action</th></tr></thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Winning Codes Tab -->
-        <div id="codesTab" class="tab-content">
-            <h3>➕ Add Winning Code</h3>
-            <div class="form-group"><label>6-Digit Code</label><input type="text" id="code" maxlength="6" placeholder="123456"></div>
-            <div class="form-group"><label>Reward ($)</label><input type="number" id="reward" placeholder="100"></div>
-            <div class="form-group"><label>Expiry (days)</label><input type="number" id="expiryDays" placeholder="30"></div>
-            <button class="btn-primary" onclick="addWinningCode()">Add Code</button>
-            <div id="codeMsg" style="margin-top:10px"></div>
-            <h3 class="section-title">🎯 Active Codes</h3>
-            <div class="table-container">
-                <table id="codesTable">
-                    <thead><tr><th>Code</th><th>Reward</th><th>Expiry</th><th>Action</th></tr></thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Game Controls Tab -->
-        <div id="gameTab" class="tab-content">
-            <h3>🎮 Random Roll Rewards (Non-Doubles)</h3>
-            <div class="rewards-grid">
-                <div class="reward-card">
-                    <h4>Sum-Based Rewards</h4>
-                    <div>Sum 3-4: <input type="number" id="sumSmall" step="0.5" value="1.5"></div>
-                    <div>Sum 5-6: <input type="number" id="sumMid" step="0.5" value="2"></div>
-                    <div>Sum 7-8: <input type="number" id="sumLarge" step="0.5" value="2.5"></div>
-                    <div>Sum 9-11: <input type="number" id="sumJack" step="0.5" value="3"></div>
-                </div>
-                <div class="reward-card">
-                    <h4>Special Combinations</h4>
-                    <div>Consecutive: <input type="number" id="consecutive" step="0.5" value="2"></div>
-                    <div>Same Parity: <input type="number" id="parity" step="0.5" value="1.5"></div>
-                </div>
-            </div>
-            <button class="btn-primary" onclick="saveGameControls()">Save Controls</button>
-            <div id="gameMsg" style="margin-top:10px"></div>
-
-            <h3 class="section-title">🎁 Bonus Settings (Doubles)</h3>
-            <div class="rewards-grid">
-                <div class="reward-card">
-                    <h4>Rolls Required</h4>
-                    <div>Double 1: <input type="number" id="roll1" value="30"></div>
-                    <div>Double 2: <input type="number" id="roll2" value="25"></div>
-                    <div>Double 3: <input type="number" id="roll3" value="25"></div>
-                    <div>Double 4: <input type="number" id="roll4" value="20"></div>
-                    <div>Double 5: <input type="number" id="roll5" value="15"></div>
-                    <div>Double 6: <input type="number" id="roll6" value="50"></div>
-                </div>
-                <div class="reward-card">
-                    <h4>Multipliers</h4>
-                    <div>Double 1: <input type="number" id="mult1" step="0.5" value="8"></div>
-                    <div>Double 2: <input type="number" id="mult2" step="0.5" value="6"></div>
-                    <div>Double 3: <input type="number" id="mult3" step="0.5" value="6"></div>
-                    <div>Double 4: <input type="number" id="mult4" step="0.5" value="8"></div>
-                    <div>Double 5: <input type="number" id="mult5" step="0.5" value="10"></div>
-                    <div>Double 6: <input type="number" id="mult6" step="0.5" value="25"></div>
-                </div>
-            </div>
-            <button class="btn-primary" onclick="saveBonusSettings()">Save Bonuses</button>
-            <div id="bonusMsg" style="margin-top:10px"></div>
-        </div>
-
-        <!-- Payment Settings Tab -->
-        <div id="paymentTab" class="tab-content">
-            <h3>🏦 Crypto Wallets</h3>
-            <div class="form-group"><label>USDT Wallet</label><input type="text" id="usdtWallet" placeholder="USDT wallet address"></div>
-            <div class="form-group"><label>BTC Wallet</label><input type="text" id="btcWallet" placeholder="BTC wallet address"></div>
-            <h3 class="section-title">🏦 Bank Details</h3>
-            <div class="form-group"><label>Bank Name</label><input type="text" id="bankName" placeholder="Bank Name"></div>
-            <div class="form-group"><label>Account Name</label><input type="text" id="accountName" placeholder="Account Name"></div>
-            <div class="form-group"><label>Account Number</label><input type="text" id="accountNumber" placeholder="Account Number"></div>
-            <div class="form-group"><label>Routing/SWIFT</label><input type="text" id="routingNumber" placeholder="Routing Number / SWIFT"></div>
-            <button class="btn-primary" onclick="savePaymentSettings()">Save Settings</button>
-            <div id="paymentMsg" style="margin-top:10px"></div>
-        </div>
-
-        <!-- DEPOSITS TAB - FIXED -->
-        <div id="depositsTab" class="tab-content">
-            <h3>💰 Pending Deposits</h3>
-            <div class="table-container">
-                <table id="pendingDepositsTable">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>User</th>
-                            <th>Amount</th>
-                            <th>Method</th>
-                            <th>Date</th>
-                            <th>Transaction ID</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pendingDepositsBody">
-                        <tr><td colspan="7" class="empty-state">Loading pending deposits...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3 class="section-title">📋 All Deposits</h3>
-            <div class="table-container">
-                <table id="allDepositsTable">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>User</th>
-                            <th>Amount</th>
-                            <th>Method</th>
-                            <th>Status</th>
-                            <th>TxID</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="allDepositsBody">
-                        <tr><td colspan="7" class="empty-state">Loading deposits...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- WITHDRAWALS TAB - FIXED -->
-        <div id="withdrawalsTab" class="tab-content">
-            <h3>💸 Pending Withdrawals</h3>
-            <div class="table-container">
-                <table id="pendingWithdrawalsTable">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>User</th>
-                            <th>Amount</th>
-                            <th>Fee</th>
-                            <th>Net Amount</th>
-                            <th>Method</th>
-                            <th>Speed</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pendingWithdrawalsBody">
-                        <tr><td colspan="9" class="empty-state">Loading pending withdrawals...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3 class="section-title">📋 All Withdrawals</h3>
-            <div class="table-container">
-                <table id="allWithdrawalsTable">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>User</th>
-                            <th>Amount</th>
-                            <th>Fee</th>
-                            <th>Net Amount</th>
-                            <th>Method</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="allWithdrawalsBody">
-                        <tr><td colspan="8" class="empty-state">Loading withdrawals...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Announcements Tab -->
-        <div id="announcementsTab" class="tab-content">
-            <h3>📢 Send Announcement</h3>
-            <div class="form-group"><label>Title</label><input type="text" id="annTitle"></div>
-            <div class="form-group"><label>Message</label><textarea id="annMsg" rows="3"></textarea></div>
-            <button class="btn-primary" onclick="sendAnnouncement()">Send</button>
-            <div id="announceMsg" style="margin-top:10px"></div>
-        </div>
+    <h3 class="section-title">⏳ Pending Device Approvals</h3>
+    <p style="font-size:12px; opacity:0.7; margin-bottom:10px;">New admin logins from unrecognized devices appear here. Approving a 3rd device will auto-revoke the oldest approved device.</p>
+    <div class="table-container">
+      <table id="pendingDevicesTable">
+        <thead>
+          <tr><th>IP Address</th><th>Device ID</th><th>User Agent</th><th>First Seen</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="pendingDevicesBody">
+          <tr><td colspan="5" class="empty-state">No pending devices</td></tr>
+        </tbody>
+      </table>
     </div>
 
-    <script>
-        const API_URL = window.location.origin;
-        let token = localStorage.getItem('token');
-        let role = localStorage.getItem('role');
+    <h3 class="section-title">✅ Approved Devices (max 2)</h3>
+    <div class="table-container">
+      <table id="approvedDevicesTable">
+        <thead>
+          <tr><th>IP Address</th><th>Device ID</th><th>User Agent</th><th>Approved At</th><th>Last Seen</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="approvedDevicesBody">
+          <tr><td colspan="6" class="empty-state">No approved devices</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-        if (!token || role !== 'admin') {
-            window.location.href = '/login';
-        }
+    <h3 class="section-title">🚫 Revoked Devices</h3>
+    <div class="table-container">
+      <table id="revokedDevicesTable">
+        <thead>
+          <tr><th>IP Address</th><th>Device ID</th><th>User Agent</th><th>First Seen</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="revokedDevicesBody">
+          <tr><td colspan="5" class="empty-state">No revoked devices</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-        // Tab switching
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const tabId = this.getAttribute('data-tab');
-                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                document.getElementById(`${tabId}Tab`).classList.add('active');
-                
-                if (tabId === 'users') loadUsers();
-                if (tabId === 'pending') { loadPendingUsers(); loadUnverifiedUsers(); }
-                if (tabId === 'codes') loadWinningCodes();
-                if (tabId === 'game') { loadGameControls(); loadBonusSettings(); }
-                if (tabId === 'payment') loadPaymentSettings();
-                if (tabId === 'deposits') { loadPendingDeposits(); loadAllDeposits(); }
-                if (tabId === 'withdrawals') { loadPendingWithdrawals(); loadAllWithdrawals(); }
-            });
-        });
+<script>
+const API_URL = window.location.origin;
+let token = localStorage.getItem('token');
+let role = localStorage.getItem('role');
 
-        async function apiCall(url, options = {}) {
-            try {
-                const res = await fetch(`${API_URL}${url}`, {
-                    ...options,
-                    headers: { 'Content-Type': 'application/json', 'Authorization': token, ...options.headers }
-                });
-                if (!res.ok) {
-                    const error = await res.json();
-                    throw new Error(error.error || 'Request failed');
-                }
-                return await res.json();
-            } catch (err) {
-                console.error('API Error:', err);
-                throw err;
-            }
-        }
+if (!token || role !== 'admin') {
+  window.location.href = '/login';
+}
 
-        // ============ USERS ============
-        async function loadUsers() {
-            try {
-                const users = await apiCall('/api/admin/users');
-                document.getElementById('totalUsers').innerText = users.length;
-                const tbody = document.querySelector('#usersTable tbody');
-                tbody.innerHTML = '';
-                users.forEach(u => {
-                    if (u.username !== 'admin') {
-                        tbody.innerHTML += `
-                            <tr>
-                                <td>${u.username}</td>
-                                <td>${u.email || '-'}</td>
-                                <td>$${(u.balance || 0).toFixed(2)}</td>
-                                <td>${u.totalWins || 0}</td>
-                                <td><span class="status-badge status-${u.status === 'approved' ? 'approved' : 'pending'}">${u.status || 'pending'}</span></td>
-                                <td>${u.verified ? '✅' : '❌'}</td>
-                                <td>
-                                    <button class="btn-success" onclick="boostBalance('${u._id}')">💰 Add</button>
-                                    ${u.status !== 'disabled' ? `<button class="btn-danger" onclick="disableUser('${u._id}')">🔒 Disable</button>` : `<button class="btn-success" onclick="enableUser('${u._id}')">🔓 Enable</button>`}
-                                    ${!u.verified ? `<button class="btn-info" onclick="verifyUserNow('${u._id}')">✅ Verify</button>` : ''}
-                                </td>
-                            </tr>
-                        `;
-                    }
-                });
-            } catch (err) {
-                console.error('Load users error:', err);
-            }
-        }
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const tabId = this.getAttribute('data-tab');
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById(`${tabId}Tab`).classList.add('active');
 
-        async function boostBalance(userId) {
-            const amount = prompt('Enter amount to add:');
-            if (!amount) return;
-            try {
-                const result = await apiCall('/api/admin/boost-balance', {
-                    method: 'POST',
-                    body: JSON.stringify({ userId, amount: parseFloat(amount) })
-                });
-                if (result.success) {
-                    alert('Balance updated!');
-                    loadUsers();
-                }
-            } catch (err) {
-                alert('Error: ' + err.message);
-            }
-        }
+    if (tabId === 'users') loadUsers();
+    if (tabId === 'pending') { loadPendingUsers(); loadUnverifiedUsers(); }
+    if (tabId === 'codes') loadWinningCodes();
+    if (tabId === 'game') { loadGameControls(); loadBonusSettings(); loadManagedGames(); loadWheelSettings(); loadCoinSettings(); loadCardSettings(); loadBoxSettings(); }
+    if (tabId === 'payment') loadPaymentSettings();
+    if (tabId === 'deposits') { loadPendingDeposits(); loadAllDeposits(); }
+    if (tabId === 'withdrawals') { loadPendingWithdrawals(); loadAllWithdrawals(); }
+    if (tabId === 'security') { loadDevices(); }
+  });
+});
 
-        async function disableUser(userId) {
-            if (!confirm('Disable this user?')) return;
-            try {
-                const result = await apiCall('/api/admin/disable-user', {
-                    method: 'POST',
-                    body: JSON.stringify({ userId, disabled: true })
-                });
-                if (result.success) {
-                    alert('User disabled');
-                    loadUsers();
-                }
-            } catch (err) {
-                alert('Error: ' + err.message);
-            }
-        }
+async function apiCall(url, options = {}) {
+  try {
+    const res = await fetch(`${API_URL}${url}`, {
+      ...options,
+      headers: { 'Content-Type': 'application/json', 'Authorization': token, ...options.headers }
+    });
+    if (res.status === 401) {
+      alert('Session expired or device revoked. Please log in again.');
+      localStorage.clear();
+      window.location.href = '/login';
+      throw new Error('Unauthorized');
+    }
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.error || 'Request failed');
+    }
+    return await res.json();
+  } catch (err) {
+    console.error('API Error:', err);
+    throw err;
+  }
+}
 
-        async function enableUser(userId) {
-            try {
-                const result = await apiCall('/api/admin/disable-user', {
-                    method: 'POST',
-                    body: JSON.stringify({ userId, disabled: false })
-                });
-                if (result.success) {
-                    alert('User enabled');
-                    loadUsers();
-                }
-            } catch (err) {
-                alert('Error: ' + err.message);
-            }
-        }
+// ============ USERS ============
+async function loadUsers() {
+  try {
+    const users = await apiCall('/api/admin/users');
+    document.getElementById('totalUsers').innerText = users.length;
+    const tbody = document.querySelector('#usersTable tbody');
+    tbody.innerHTML = '';
+    users.forEach(u => {
+      if (u.username !== 'admin') {
+        tbody.innerHTML += `
+          <tr>
+            <td>${u.username}</td>
+            <td>${u.email || '-'}</td>
+            <td>$${(u.balance || 0).toFixed(2)}</td>
+            <td>${u.totalWins || 0}</td>
+            <td><span class="status-badge status-${u.status === 'approved' ? 'approved' : 'pending'}">${u.status || 'pending'}</span></td>
+            <td>${u.verified ? '✅' : '❌'}</td>
+            <td>
+              <button class="btn-success" onclick="boostBalance('${u._id}')">💰 Add</button>
+              <button class="btn-warning" onclick="reduceBalance('${u._id}')">➖ Reduce</button>
+              ${u.status !== 'disabled' ? `<button class="btn-danger" onclick="disableUser('${u._id}')">🔒 Disable</button>` : `<button class="btn-success" onclick="enableUser('${u._id}')">🔓 Enable</button>`}
+              ${!u.verified ? `<button class="btn-info" onclick="verifyUserNow('${u._id}')">✅ Verify</button>` : ''}
+            </td>
+          </tr>
+        `;
+      }
+    });
+  } catch (err) { console.error('Load users error:', err); }
+}
 
-        async function verifyUserNow(userId) {
-            try {
-                const result = await apiCall('/api/admin/verify-user', {
-                    method: 'POST',
-                    body: JSON.stringify({ userId })
-                });
-                if (result.success) {
-                    alert('User verified!');
-                    loadUsers();
-                    loadUnverifiedUsers();
-                }
-            } catch (err) {
-                alert('Error: ' + err.message);
-            }
-        }
+async function boostBalance(userId) {
+  const amount = prompt('Enter amount to ADD:');
+  if (!amount) return;
+  try {
+    const result = await apiCall('/api/admin/boost-balance', { method: 'POST', body: JSON.stringify({ userId, amount: parseFloat(amount) }) });
+    if (result.success) { alert('Balance updated!'); loadUsers(); }
+  } catch (err) { alert('Error: ' + err.message); }
+}
 
-        // ============ PENDING USERS ============
-        async function loadPendingUsers() {
-            try {
-                const users = await apiCall('/api/admin/pending-users');
-                const tbody = document.querySelector('#pendingTable tbody');
-                tbody.innerHTML = '';
-                users.forEach(u => {
-                    tbody.innerHTML += `
-                        <tr>
-                            <td>${u.username}</td>
-                            <td>${u.email || '-'}</td>
-                            <td>${u.legalName || '-'}</td>
-                            <td>${u.age || '-'}</td>
-                            <td><button class="btn-success" onclick="approveUser('${u._id}')">Approve</button></td>
-                        </tr>
-                    `;
-                });
-            } catch (err) {
-                console.error('Load pending error:', err);
-            }
-        }
+async function reduceBalance(userId) {
+  const amount = prompt('Enter amount to REDUCE (clamped at $0):');
+  if (!amount) return;
+  try {
+    const result = await apiCall('/api/admin/reduce-balance', { method: 'POST', body: JSON.stringify({ userId, amount: parseFloat(amount) }) });
+    if (result.success) { alert('Balance reduced. New balance: $' + result.newBalance.toFixed(2)); loadUsers(); }
+  } catch (err) { alert('Error: ' + err.message); }
+}
 
-        async function loadUnverifiedUsers() {
-            try {
-                const users = await apiCall('/api/admin/unverified-users');
-                const tbody = document.querySelector('#unverifiedTable tbody');
-                tbody.innerHTML = '';
-                users.forEach(u => {
-                    tbody.innerHTML += `
-                        <tr>
-                            <td>${u.username}</td>
-                            <td>${u.email || '-'}</td>
-                            <td>${u.legalName || '-'}</td>
-                            <td><button class="btn-info" onclick="verifyUserNow('${u._id}')">Verify</button></td>
-                        </tr>
-                    `;
-                });
-            } catch (err) {
-                console.error('Load unverified error:', err);
-            }
-        }
+async function disableUser(userId) {
+  if (!confirm('Disable this user?')) return;
+  try {
+    const result = await apiCall('/api/admin/disable-user', { method: 'POST', body: JSON.stringify({ userId, disabled: true }) });
+    if (result.success) { alert('User disabled'); loadUsers(); }
+  } catch (err) { alert('Error: ' + err.message); }
+}
 
-        async function approveUser(userId) {
-            try {
-                const result = await apiCall('/api/admin/approve-user', {
-                    method: 'POST',
-                    body: JSON.stringify({ userId })
-                });
-                if (result.success) {
-                    alert('User approved! $75 bonus given.');
-                    loadPendingUsers();
-                    loadUsers();
-                }
-            } catch (err) {
-                alert('Error: ' + err.message);
-            }
-        }
+async function enableUser(userId) {
+  try {
+    const result = await apiCall('/api/admin/disable-user', { method: 'POST', body: JSON.stringify({ userId, disabled: false }) });
+    if (result.success) { alert('User enabled'); loadUsers(); }
+  } catch (err) { alert('Error: ' + err.message); }
+}
 
-        // ============ WINNING CODES ============
-        async function loadWinningCodes() {
-            try {
-                const codes = await apiCall('/api/admin/winning-codes');
-                const tbody = document.querySelector('#codesTable tbody');
-                tbody.innerHTML = '';
-                codes.forEach(code => {
-                    tbody.innerHTML += `
-                        <tr>
-                            <td><strong>${code.code}</strong></td>
-                            <td>$${code.reward}</td>
-                            <td>${code.expiry ? new Date(code.expiry).toLocaleDateString() : 'Never'}</td>
-                            <td><button class="btn-danger" onclick="deleteWinningCode('${code._id}')">Delete</button></td>
-                        </tr>
-                    `;
-                });
-            } catch (err) {
-                console.error('Load codes error:', err);
-            }
-        }
+async function verifyUserNow(userId) {
+  try {
+    const result = await apiCall('/api/admin/verify-user', { method: 'POST', body: JSON.stringify({ userId }) });
+    if (result.success) { alert('User verified!'); loadUsers(); loadUnverifiedUsers(); }
+  } catch (err) { alert('Error: ' + err.message); }
+}
 
-        async function addWinningCode() {
-            const code = document.getElementById('code').value.trim();
-            const reward = parseFloat(document.getElementById('reward').value);
-            const expiryDays = parseInt(document.getElementById('expiryDays').value) || null;
-            
-            if (!code || code.length !== 6 || isNaN(reward)) {
-                document.getElementById('codeMsg').innerHTML = '<div class="error">Enter valid 6-digit code and reward</div>';
-                return;
-            }
-            
-            try {
-                const result = await apiCall('/api/admin/set-winner', {
-                    method: 'POST',
-                    body: JSON.stringify({ code, reward, expiryDays })
-                });
-                if (result.success) {
-                    document.getElementById('codeMsg').innerHTML = '<div class="success">Code added!</div>';
-                    document.getElementById('code').value = '';
-                    document.getElementById('reward').value = '';
-                    document.getElementById('expiryDays').value = '';
-                    loadWinningCodes();
-                    setTimeout(() => document.getElementById('codeMsg').innerHTML = '', 3000);
-                }
-            } catch (err) {
-                document.getElementById('codeMsg').innerHTML = '<div class="error">' + err.message + '</div>';
-            }
-        }
+// ============ PENDING USERS ============
+async function loadPendingUsers() {
+  try {
+    const users = await apiCall('/api/admin/pending-users');
+    const tbody = document.querySelector('#pendingTable tbody');
+    tbody.innerHTML = '';
+    users.forEach(u => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${u.username}</td>
+          <td>${u.email || '-'}</td>
+          <td>${u.legalName || '-'}</td>
+          <td>${u.age || '-'}</td>
+          <td><button class="btn-success" onclick="approveUser('${u._id}')">Approve</button></td>
+        </tr>
+      `;
+    });
+  } catch (err) { console.error('Load pending error:', err); }
+}
 
-        async function deleteWinningCode(id) {
-            if (!confirm('Delete this code?')) return;
-            try {
-                const result = await apiCall(`/api/admin/winning-code/${id}`, { method: 'DELETE' });
-                if (result.success) {
-                    loadWinningCodes();
-                }
-            } catch (err) {
-                alert('Error: ' + err.message);
-            }
-        }
+async function loadUnverifiedUsers() {
+  try {
+    const users = await apiCall('/api/admin/unverified-users');
+    const tbody = document.querySelector('#unverifiedTable tbody');
+    tbody.innerHTML = '';
+    users.forEach(u => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${u.username}</td>
+          <td>${u.email || '-'}</td>
+          <td>${u.legalName || '-'}</td>
+          <td><button class="btn-info" onclick="verifyUserNow('${u._id}')">Verify</button></td>
+        </tr>
+      `;
+    });
+  } catch (err) { console.error('Load unverified error:', err); }
+}
 
-        // ============ GAME CONTROLS ============
-        async function loadGameControls() {
-            try {
-                const settings = await apiCall('/api/admin/random-roll-rewards');
-                if (settings && settings.rewards) {
-                    const r = settings.rewards;
-                    document.getElementById('sumSmall').value = r.sum3 || 1.5;
-                    document.getElementById('sumMid').value = r.sum5 || 2;
-                    document.getElementById('sumLarge').value = r.sum7 || 2.5;
-                    document.getElementById('sumJack').value = r.sum9 || 3;
-                    document.getElementById('consecutive').value = r.consecutives || 2;
-                    document.getElementById('parity').value = r.sameParity || 1.5;
-                }
-            } catch (err) {
-                console.error('Load game controls error:', err);
-            }
-        }
+async function approveUser(userId) {
+  try {
+    const result = await apiCall('/api/admin/approve-user', { method: 'POST', body: JSON.stringify({ userId }) });
+    if (result.success) { alert('User approved! $75 bonus given.'); loadPendingUsers(); loadUsers(); }
+  } catch (err) { alert('Error: ' + err.message); }
+}
 
-        async function saveGameControls() {
-            const rewards = {
-                sum3: parseFloat(document.getElementById('sumSmall').value) || 1.5,
-                sum4: parseFloat(document.getElementById('sumSmall').value) || 1.5,
-                sum5: parseFloat(document.getElementById('sumMid').value) || 2,
-                sum6: parseFloat(document.getElementById('sumMid').value) || 2,
-                sum7: parseFloat(document.getElementById('sumLarge').value) || 2.5,
-                sum8: parseFloat(document.getElementById('sumLarge').value) || 2.5,
-                sum9: parseFloat(document.getElementById('sumJack').value) || 3,
-                sum10: parseFloat(document.getElementById('sumJack').value) || 3,
-                sum11: parseFloat(document.getElementById('sumJack').value) || 3.5,
-                consecutives: parseFloat(document.getElementById('consecutive').value) || 2,
-                sameParity: parseFloat(document.getElementById('parity').value) || 1.5
-            };
-            
-            try {
-                const result = await apiCall('/api/admin/update-random-roll-rewards', {
-                    method: 'POST',
-                    body: JSON.stringify({ rewards, enabled: true })
-                });
-                if (result.success) {
-                    document.getElementById('gameMsg').innerHTML = '<div class="success">Game controls saved!</div>';
-                    setTimeout(() => document.getElementById('gameMsg').innerHTML = '', 3000);
-                }
-            } catch (err) {
-                document.getElementById('gameMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>';
-            }
-        }
+// ============ WINNING CODES ============
+async function loadWinningCodes() {
+  try {
+    const codes = await apiCall('/api/admin/winning-codes');
+    const tbody = document.querySelector('#codesTable tbody');
+    tbody.innerHTML = '';
+    codes.forEach(code => {
+      tbody.innerHTML += `
+        <tr>
+          <td><strong>${code.code}</strong></td>
+          <td>$${code.reward}</td>
+          <td>${code.expiry ? new Date(code.expiry).toLocaleDateString() : 'Never'}</td>
+          <td><button class="btn-danger" onclick="deleteWinningCode('${code._id}')">Delete</button></td>
+        </tr>
+      `;
+    });
+  } catch (err) { console.error('Load codes error:', err); }
+}
 
-        // ============ BONUS SETTINGS ============
-        async function loadBonusSettings() {
-            try {
-                const settings = await apiCall('/api/admin/bonus-settings');
-                if (settings) {
-                    const rr = settings.rollsRequired || {};
-                    const bm = settings.bonusMultipliers || {};
-                    document.getElementById('roll1').value = rr.double1 || 30;
-                    document.getElementById('roll2').value = rr.double2 || 25;
-                    document.getElementById('roll3').value = rr.double3 || 25;
-                    document.getElementById('roll4').value = rr.double4 || 20;
-                    document.getElementById('roll5').value = rr.double5 || 15;
-                    document.getElementById('roll6').value = rr.double6 || 50;
-                    document.getElementById('mult1').value = bm.double1 || 8;
-                    document.getElementById('mult2').value = bm.double2 || 6;
-                    document.getElementById('mult3').value = bm.double3 || 6;
-                    document.getElementById('mult4').value = bm.double4 || 8;
-                    document.getElementById('mult5').value = bm.double5 || 10;
-                    document.getElementById('mult6').value = bm.double6 || 25;
-                }
-            } catch (err) {
-                console.error('Load bonus settings error:', err);
-            }
-        }
+async function addWinningCode() {
+  const code = document.getElementById('code').value.trim();
+  const reward = parseFloat(document.getElementById('reward').value);
+  const expiryDays = parseInt(document.getElementById('expiryDays').value) || null;
+  if (!code || code.length !== 6 || isNaN(reward)) {
+    document.getElementById('codeMsg').innerHTML = '<div class="error">Enter valid 6-digit code and reward</div>';
+    return;
+  }
+  try {
+    const result = await apiCall('/api/admin/set-winner', { method: 'POST', body: JSON.stringify({ code, reward, expiryDays }) });
+    if (result.success) {
+      document.getElementById('codeMsg').innerHTML = '<div class="success">Code added!</div>';
+      document.getElementById('code').value = '';
+      document.getElementById('reward').value = '';
+      document.getElementById('expiryDays').value = '';
+      loadWinningCodes();
+      setTimeout(() => document.getElementById('codeMsg').innerHTML = '', 3000);
+    }
+  } catch (err) { document.getElementById('codeMsg').innerHTML = '<div class="error">' + err.message + '</div>'; }
+}
 
-        async function saveBonusSettings() {
-            const rollsRequired = {
-                double1: parseInt(document.getElementById('roll1').value) || 30,
-                double2: parseInt(document.getElementById('roll2').value) || 25,
-                double3: parseInt(document.getElementById('roll3').value) || 25,
-                double4: parseInt(document.getElementById('roll4').value) || 20,
-                double5: parseInt(document.getElementById('roll5').value) || 15,
-                double6: parseInt(document.getElementById('roll6').value) || 50
-            };
-            const bonusMultipliers = {
-                double1: parseFloat(document.getElementById('mult1').value) || 8,
-                double2: parseFloat(document.getElementById('mult2').value) || 6,
-                double3: parseFloat(document.getElementById('mult3').value) || 6,
-                double4: parseFloat(document.getElementById('mult4').value) || 8,
-                double5: parseFloat(document.getElementById('mult5').value) || 10,
-                double6: parseFloat(document.getElementById('mult6').value) || 25
-            };
-            
-            try {
-                const result = await apiCall('/api/admin/update-bonus-settings', {
-                    method: 'POST',
-                    body: JSON.stringify({ rollsRequired, bonusMultipliers })
-                });
-                if (result.success) {
-                    document.getElementById('bonusMsg').innerHTML = '<div class="success">Bonus settings saved!</div>';
-                    setTimeout(() => document.getElementById('bonusMsg').innerHTML = '', 3000);
-                }
-            } catch (err) {
-                document.getElementById('bonusMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>';
-            }
-        }
+async function deleteWinningCode(id) {
+  if (!confirm('Delete this code?')) return;
+  try {
+    const result = await apiCall(`/api/admin/winning-code/${id}`, { method: 'DELETE' });
+    if (result.success) loadWinningCodes();
+  } catch (err) { alert('Error: ' + err.message); }
+}
 
-        // ============ PAYMENT SETTINGS ============
-        async function loadPaymentSettings() {
-            try {
-                const settings = await apiCall('/api/admin/payment-settings');
-                if (settings) {
-                    document.getElementById('usdtWallet').value = settings.cryptoWallets?.usdt || '';
-                    document.getElementById('btcWallet').value = settings.cryptoWallets?.btc || '';
-                    document.getElementById('bankName').value = settings.bankDetails?.bankName || '';
-                    document.getElementById('accountName').value = settings.bankDetails?.accountName || '';
-                    document.getElementById('accountNumber').value = settings.bankDetails?.accountNumber || '';
-                    document.getElementById('routingNumber').value = settings.bankDetails?.routingNumber || '';
-                }
-            } catch (err) {
-                console.error('Load payment settings error:', err);
-            }
-        }
+// ============ GAME CONTROLS ============
+async function loadGameControls() {
+  try {
+    const settings = await apiCall('/api/admin/random-roll-rewards');
+    if (settings && settings.rewards) {
+      const r = settings.rewards;
+      document.getElementById('sumSmall').value = r.sum3 || 1.5;
+      document.getElementById('sumMid').value = r.sum5 || 2;
+      document.getElementById('sumLarge').value = r.sum7 || 2.5;
+      document.getElementById('sumJack').value = r.sum9 || 3;
+      document.getElementById('consecutive').value = r.consecutives || 2;
+      document.getElementById('parity').value = r.sameParity || 1.5;
+    }
+  } catch (err) { console.error('Load game controls error:', err); }
+}
 
-        async function savePaymentSettings() {
-            const cryptoWallets = {
-                usdt: document.getElementById('usdtWallet').value,
-                btc: document.getElementById('btcWallet').value
-            };
-            const bankDetails = {
-                bankName: document.getElementById('bankName').value,
-                accountName: document.getElementById('accountName').value,
-                accountNumber: document.getElementById('accountNumber').value,
-                routingNumber: document.getElementById('routingNumber').value
-            };
-            
-            try {
-                const result = await apiCall('/api/admin/update-payment-settings', {
-                    method: 'POST',
-                    body: JSON.stringify({ cryptoWallets, bankDetails })
-                });
-                if (result.success) {
-                    document.getElementById('paymentMsg').innerHTML = '<div class="success">Payment settings saved!</div>';
-                    setTimeout(() => document.getElementById('paymentMsg').innerHTML = '', 3000);
-                }
-            } catch (err) {
-                document.getElementById('paymentMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>';
-            }
-        }
+async function saveGameControls() {
+  const rewards = {
+    sum3: parseFloat(document.getElementById('sumSmall').value) || 1.5,
+    sum4: parseFloat(document.getElementById('sumSmall').value) || 1.5,
+    sum5: parseFloat(document.getElementById('sumMid').value) || 2,
+    sum6: parseFloat(document.getElementById('sumMid').value) || 2,
+    sum7: parseFloat(document.getElementById('sumLarge').value) || 2.5,
+    sum8: parseFloat(document.getElementById('sumLarge').value) || 2.5,
+    sum9: parseFloat(document.getElementById('sumJack').value) || 3,
+    sum10: parseFloat(document.getElementById('sumJack').value) || 3,
+    sum11: parseFloat(document.getElementById('sumJack').value) || 3.5,
+    consecutives: parseFloat(document.getElementById('consecutive').value) || 2,
+    sameParity: parseFloat(document.getElementById('parity').value) || 1.5
+  };
+  try {
+    const result = await apiCall('/api/admin/update-random-roll-rewards', { method: 'POST', body: JSON.stringify({ rewards, enabled: true }) });
+    if (result.success) {
+      document.getElementById('gameMsg').innerHTML = '<div class="success">Game controls saved!</div>';
+      setTimeout(() => document.getElementById('gameMsg').innerHTML = '', 3000);
+    }
+  } catch (err) { document.getElementById('gameMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>'; }
+}
 
-        // ============ DEPOSITS - FIXED ============
-        let depositCounter = 0;
+// ============ BONUS SETTINGS ============
+async function loadBonusSettings() {
+  try {
+    const settings = await apiCall('/api/admin/bonus-settings');
+    if (settings) {
+      const rr = settings.rollsRequired || {};
+      const bm = settings.bonusMultipliers || {};
+      document.getElementById('roll1').value = rr.double1 || 30;
+      document.getElementById('roll2').value = rr.double2 || 25;
+      document.getElementById('roll3').value = rr.double3 || 25;
+      document.getElementById('roll4').value = rr.double4 || 20;
+      document.getElementById('roll5').value = rr.double5 || 15;
+      document.getElementById('roll6').value = rr.double6 || 50;
+      document.getElementById('mult1').value = bm.double1 || 8;
+      document.getElementById('mult2').value = bm.double2 || 6;
+      document.getElementById('mult3').value = bm.double3 || 6;
+      document.getElementById('mult4').value = bm.double4 || 8;
+      document.getElementById('mult5').value = bm.double5 || 10;
+      document.getElementById('mult6').value = bm.double6 || 25;
+    }
+  } catch (err) { console.error('Load bonus settings error:', err); }
+}
 
-        async function loadPendingDeposits() {
-            try {
-                const deposits = await apiCall('/api/admin/pending-deposits');
-                const tbody = document.getElementById('pendingDepositsBody');
-                
-                if (!deposits || deposits.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No pending deposits</td></tr>';
-                    return;
-                }
-                
-                tbody.innerHTML = '';
-                depositCounter = 0;
-                
-                deposits.forEach(d => {
-                    depositCounter++;
-                    const date = new Date(d.requestedAt);
-                    const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-                    
-                    tbody.innerHTML += `
-                        <tr>
-                            <td>${depositCounter}</td>
-                            <td><strong>${d.username}</strong></td>
-                            <td>$${parseFloat(d.amount).toFixed(2)}</td>
-                            <td>${d.method || 'Manual'}</td>
-                            <td>${formattedDate}</td>
-                            <td><input type="text" id="txid_${d._id}" class="txid-input" placeholder="Enter TxID"></td>
-                            <td>
-                                <button class="btn-success" onclick="approveDeposit('${d._id}')">Approve</button>
-                                <button class="btn-danger" onclick="rejectDeposit('${d._id}')">Reject</button>
-                            </td>
-                        </tr>
-                    `;
-                });
-            } catch (err) {
-                console.error('Load pending deposits error:', err);
-                document.getElementById('pendingDepositsBody').innerHTML = '<tr><td colspan="7" class="error">Error loading deposits</td></tr>';
-            }
-        }
+async function saveBonusSettings() {
+  const rollsRequired = {
+    double1: parseInt(document.getElementById('roll1').value) || 30,
+    double2: parseInt(document.getElementById('roll2').value) || 25,
+    double3: parseInt(document.getElementById('roll3').value) || 25,
+    double4: parseInt(document.getElementById('roll4').value) || 20,
+    double5: parseInt(document.getElementById('roll5').value) || 15,
+    double6: parseInt(document.getElementById('roll6').value) || 50
+  };
+  const bonusMultipliers = {
+    double1: parseFloat(document.getElementById('mult1').value) || 8,
+    double2: parseFloat(document.getElementById('mult2').value) || 6,
+    double3: parseFloat(document.getElementById('mult3').value) || 6,
+    double4: parseFloat(document.getElementById('mult4').value) || 8,
+    double5: parseFloat(document.getElementById('mult5').value) || 10,
+    double6: parseFloat(document.getElementById('mult6').value) || 25
+  };
+  try {
+    const result = await apiCall('/api/admin/update-bonus-settings', { method: 'POST', body: JSON.stringify({ rollsRequired, bonusMultipliers }) });
+    if (result.success) {
+      document.getElementById('bonusMsg').innerHTML = '<div class="success">Bonus settings saved!</div>';
+      setTimeout(() => document.getElementById('bonusMsg').innerHTML = '', 3000);
+    }
+  } catch (err) { document.getElementById('bonusMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>'; }
+}
 
-        async function loadAllDeposits() {
-            try {
-                const deposits = await apiCall('/api/admin/all-deposits');
-                const tbody = document.getElementById('allDepositsBody');
-                
-                if (!deposits || deposits.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No deposits found</td></tr>';
-                    return;
-                }
-                
-                tbody.innerHTML = '';
-                let counter = 0;
-                let total = 0;
-                
-                deposits.forEach(d => {
-                    counter++;
-                    if (d.status === 'approved') total += parseFloat(d.amount);
-                    
-                    const date = new Date(d.requestedAt);
-                    const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-                    
-                    let statusClass = 'status-' + d.status;
-                    if (d.status === 'approved') statusClass = 'status-approved';
-                    else if (d.status === 'pending') statusClass = 'status-pending';
-                    else if (d.status === 'rejected') statusClass = 'status-rejected';
-                    
-                    tbody.innerHTML += `
-                        <tr>
-                            <td>${counter}</td>
-                            <td><strong>${d.username}</strong></td>
-                            <td>$${parseFloat(d.amount).toFixed(2)}</td>
-                            <td>${d.method || 'Manual'}</td>
-                            <td><span class="status-badge ${statusClass}">${d.status}</span></td>
-                            <td>${d.transactionId || '-'}</td>
-                            <td>${formattedDate}</td>
-                        </tr>
-                    `;
-                });
-                
-                document.getElementById('totalDeposits').innerText = `$${total.toFixed(2)}`;
-                updateNetRevenue();
-            } catch (err) {
-                console.error('Load all deposits error:', err);
-                document.getElementById('allDepositsBody').innerHTML = '<tr><td colspan="7" class="error">Error loading deposits</td></tr>';
-            }
-        }
+// ============ NEW MANAGED GAMES ============
+async function loadManagedGames() {
+  try {
+    const s = await apiCall('/api/admin/game-settings');
+    const map = [['spin', 'spinWheel'], ['coin', 'coinFlip'], ['card', 'pickCard'], ['box', 'pickBox']];
+    for (const [prefix, key] of map) {
+      const cfg = s[key] || {};
+      document.getElementById(prefix + '_enabled').checked = cfg.enabled !== false;
+      document.getElementById(prefix + '_prob').value = cfg.winProbability ?? 30;
+      document.getElementById(prefix + '_mult').value = cfg.payoutMultiplier ?? 3;
+      document.getElementById(prefix + '_force').value = cfg.forceOutcome || 'auto';
+    }
+  } catch (err) { console.error('Load managed games error:', err); }
+}
 
-        async function approveDeposit(depositId) {
-            const transactionId = document.getElementById(`txid_${depositId}`)?.value || '';
-            if (!transactionId) {
-                if (!confirm('No transaction ID entered. Continue without TxID?')) return;
-            }
-            
-            try {
-                const result = await apiCall('/api/admin/approve-deposit', {
-                    method: 'POST',
-                    body: JSON.stringify({ depositId, transactionId })
-                });
-                if (result.success) {
-                    alert('✅ Deposit approved!');
-                    loadPendingDeposits();
-                    loadAllDeposits();
-                    loadUsers();
-                }
-            } catch (err) {
-                alert('Error: ' + err.message);
-            }
-        }
+async function saveManagedGames() {
+  const payload = {
+    spinWheel: { enabled: document.getElementById('spin_enabled').checked, winProbability: parseFloat(document.getElementById('spin_prob').value) || 0, payoutMultiplier: parseFloat(document.getElementById('spin_mult').value) || 1, forceOutcome: document.getElementById('spin_force').value },
+    coinFlip: { enabled: document.getElementById('coin_enabled').checked, winProbability: parseFloat(document.getElementById('coin_prob').value) || 0, payoutMultiplier: parseFloat(document.getElementById('coin_mult').value) || 1, forceOutcome: document.getElementById('coin_force').value },
+    pickCard: { enabled: document.getElementById('card_enabled').checked, winProbability: parseFloat(document.getElementById('card_prob').value) || 0, payoutMultiplier: parseFloat(document.getElementById('card_mult').value) || 1, forceOutcome: document.getElementById('card_force').value },
+    pickBox: { enabled: document.getElementById('box_enabled').checked, winProbability: parseFloat(document.getElementById('box_prob').value) || 0, payoutMultiplier: parseFloat(document.getElementById('box_mult').value) || 1, forceOutcome: document.getElementById('box_force').value }
+  };
+  try {
+    const res = await apiCall('/api/admin/update-game-settings', { method: 'POST', body: JSON.stringify(payload) });
+    if (res.success) {
+      document.getElementById('managedMsg').innerHTML = '<div class="success">New game settings saved!</div>';
+      setTimeout(() => document.getElementById('managedMsg').innerHTML = '', 3000);
+    }
+  } catch (err) { document.getElementById('managedMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>'; }
+}
 
-        async function rejectDeposit(depositId) {
-            if (!confirm('Reject this deposit?')) return;
-            try {
-                const result = await apiCall('/api/admin/reject-deposit', {
-                    method: 'POST',
-                    body: JSON.stringify({ depositId })
-                });
-                if (result.success) {
-                    alert('Deposit rejected');
-                    loadPendingDeposits();
-                    loadAllDeposits();
-                }
-            } catch (err) {
-                alert('Error: ' + err.message);
-            }
-        }
+// ============ SPIN WHEEL SEGMENTS ============
+async function loadWheelSettings() {
+  try {
+    const s = await apiCall('/api/admin/wheel-settings');
+    const segs = (s.segments && s.segments.length) ? s.segments : [];
+    const tbody = document.getElementById('wheelSegmentsBody');
+    tbody.innerHTML = '';
+    for (let i = 0; i < 10; i++) {
+      const seg = segs[i] || { label: '$0', multiplier: 0, rollsRequired: 0, isLoss: true };
+      tbody.innerHTML += `
+        <tr>
+          <td>${i + 1}</td>
+          <td><input type="text" id="ws_label_${i}" class="wheel-input" value="${seg.label}"></td>
+          <td><input type="number" step="0.1" id="ws_mult_${i}" class="wheel-input" value="${seg.multiplier}"></td>
+          <td><input type="number" id="ws_rolls_${i}" class="wheel-input" value="${seg.rollsRequired}"></td>
+          <td><input type="checkbox" id="ws_loss_${i}" ${seg.isLoss ? 'checked' : ''}></td>
+        </tr>
+      `;
+    }
+  } catch (err) { console.error('Load wheel settings error:', err); }
+}
 
-        // ============ WITHDRAWALS - FIXED ============
-        let withdrawalCounter = 0;
+async function saveWheelSettings() {
+  const segments = [];
+  for (let i = 0; i < 10; i++) {
+    segments.push({
+      label: document.getElementById('ws_label_' + i).value || '$0',
+      multiplier: parseFloat(document.getElementById('ws_mult_' + i).value) || 0,
+      rollsRequired: parseInt(document.getElementById('ws_rolls_' + i).value) || 0,
+      isLoss: document.getElementById('ws_loss_' + i).checked
+    });
+  }
+  try {
+    const res = await apiCall('/api/admin/update-wheel-settings', { method: 'POST', body: JSON.stringify({ segments }) });
+    if (res.success) {
+      document.getElementById('wheelMsg').innerHTML = '<div class="success">Wheel settings saved!</div>';
+      setTimeout(() => document.getElementById('wheelMsg').innerHTML = '', 3000);
+    }
+  } catch (err) { document.getElementById('wheelMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>'; }
+}
 
-        async function loadPendingWithdrawals() {
-            try {
-                const withdrawals = await apiCall('/api/admin/withdrawals');
-                const pending = withdrawals.filter(w => w.status === 'pending');
-                const tbody = document.getElementById('pendingWithdrawalsBody');
-                
-                if (!pending || pending.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="9" class="empty-state">No pending withdrawals</td></tr>';
-                    return;
-                }
-                
-                tbody.innerHTML = '';
-                withdrawalCounter = 0;
-                
-                pending.forEach(w => {
-                    withdrawalCounter++;
-                    const date = new Date(w.requestedAt);
-                    const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-                    const netAmount = parseFloat(w.amount) - parseFloat(w.fee || 0);
-                    
-                    tbody.innerHTML += `
-                        <tr>
-                            <td>${withdrawalCounter}</td>
-                            <td><strong>${w.username}</strong></td>
-                            <td>$${parseFloat(w.amount).toFixed(2)}</td>
-                            <td>$${parseFloat(w.fee || 0).toFixed(2)}</td>
-                            <td>$${netAmount.toFixed(2)}</td>
-                            <td>${w.method || 'Manual'}</td>
-                            <td>${w.speed || 'Standard'}</td>
-                            <td>${formattedDate}</td>
-                            <td>
-                                <button class="btn-success" onclick="approveWithdrawal('${w._id}')">Approve</button>
-                                <button class="btn-danger" onclick="rejectWithdrawal('${w._id}')">Reject</button>
-                            </td>
-                        </tr>
-                    `;
-                });
-            } catch (err) {
-                console.error('Load pending withdrawals error:', err);
-                document.getElementById('pendingWithdrawalsBody').innerHTML = '<tr><td colspan="9" class="error">Error loading withdrawals</td></tr>';
-            }
-        }
+// ============ COIN SETTINGS ============
+async function loadCoinSettings() {
+  try {
+    const s = await apiCall('/api/admin/coin-settings');
+    const sides = (s.sides && s.sides.length) ? s.sides : [];
+    const tbody = document.getElementById('coinSidesBody');
+    tbody.innerHTML = '';
+    for (let i = 0; i < 2; i++) {
+      const side = sides[i] || { label: i === 0 ? 'Heads' : 'Tails', multiplier: 0, rollsRequired: 0, isLoss: i === 1 };
+      tbody.innerHTML += `
+        <tr>
+          <td>${i + 1}</td>
+          <td><input type="text" id="cs_label_${i}" class="wheel-input" value="${side.label}"></td>
+          <td><input type="number" step="0.1" id="cs_mult_${i}" class="wheel-input" value="${side.multiplier}"></td>
+          <td><input type="number" id="cs_rolls_${i}" class="wheel-input" value="${side.rollsRequired}"></td>
+          <td><input type="checkbox" id="cs_loss_${i}" ${side.isLoss ? 'checked' : ''}></td>
+        </tr>
+      `;
+    }
+  } catch (err) { console.error('Load coin settings error:', err); }
+}
 
-        async function loadAllWithdrawals() {
-            try {
-                const withdrawals = await apiCall('/api/admin/withdrawals');
-                const tbody = document.getElementById('allWithdrawalsBody');
-                
-                if (!withdrawals || withdrawals.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No withdrawals found</td></tr>';
-                    return;
-                }
-                
-                tbody.innerHTML = '';
-                let counter = 0;
-                let total = 0;
-                
-                withdrawals.forEach(w => {
-                    counter++;
-                    if (w.status === 'approved') total += parseFloat(w.amount);
-                    
-                    const date = new Date(w.requestedAt);
-                    const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-                    const netAmount = parseFloat(w.amount) - parseFloat(w.fee || 0);
-                    
-                    let statusClass = 'status-' + w.status;
-                    if (w.status === 'approved') statusClass = 'status-approved';
-                    else if (w.status === 'pending') statusClass = 'status-pending';
-                    else if (w.status === 'rejected') statusClass = 'status-rejected';
-                    
-                    tbody.innerHTML += `
-                        <tr>
-                            <td>${counter}</td>
-                            <td><strong>${w.username}</strong></td>
-                            <td>$${parseFloat(w.amount).toFixed(2)}</td>
-                            <td>$${parseFloat(w.fee || 0).toFixed(2)}</td>
-                            <td>$${netAmount.toFixed(2)}</td>
-                            <td>${w.method || 'Manual'}</td>
-                            <td><span class="status-badge ${statusClass}">${w.status}</span></td>
-                            <td>${formattedDate}</td>
-                        </tr>
-                    `;
-                });
-                
-                document.getElementById('totalWithdrawals').innerText = `$${total.toFixed(2)}`;
-                updateNetRevenue();
-            } catch (err) {
-                console.error('Load all withdrawals error:', err);
-                document.getElementById('allWithdrawalsBody').innerHTML = '<tr><td colspan="8" class="error">Error loading withdrawals</td></tr>';
-            }
-        }
+async function saveCoinSettings() {
+  const sides = [];
+  for (let i = 0; i < 2; i++) {
+    sides.push({
+      label: document.getElementById('cs_label_' + i).value || (i === 0 ? 'Heads' : 'Tails'),
+      multiplier: parseFloat(document.getElementById('cs_mult_' + i).value) || 0,
+      rollsRequired: parseInt(document.getElementById('cs_rolls_' + i).value) || 0,
+      isLoss: document.getElementById('cs_loss_' + i).checked
+    });
+  }
+  try {
+    const res = await apiCall('/api/admin/update-coin-settings', { method: 'POST', body: JSON.stringify({ sides }) });
+    if (res.success) {
+      document.getElementById('coinMsg').innerHTML = '<div class="success">Coin settings saved!</div>';
+      setTimeout(() => document.getElementById('coinMsg').innerHTML = '', 3000);
+    }
+  } catch (err) { document.getElementById('coinMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>'; }
+}
 
-        async function approveWithdrawal(withdrawalId) {
-            if (!confirm('Approve this withdrawal?')) return;
-            try {
-                const result = await apiCall('/api/admin/approve-withdrawal', {
-                    method: 'POST',
-                    body: JSON.stringify({ withdrawalId })
-                });
-                if (result.success) {
-                    alert('✅ Withdrawal approved!');
-                    loadPendingWithdrawals();
-                    loadAllWithdrawals();
-                    loadUsers();
-                }
-            } catch (err) {
-                alert('Error: ' + err.message);
-            }
-        }
+// ============ CARD SETTINGS ============
+async function loadCardSettings() {
+  try {
+    const s = await apiCall('/api/admin/card-settings');
+    const cards = (s.cards && s.cards.length) ? s.cards : [];
+    const tbody = document.getElementById('cardSettingsBody');
+    tbody.innerHTML = '';
+    const suits = ['♠','♥','♦','♣'];
+    const ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+    for (let i = 0; i < 4; i++) {
+      const c = cards[i] || { label: `Card ${i+1}`, rank: 'A', suit: '♠', multiplier: 0, rollsRequired: 0, isLoss: false };
+      const rankOpts = ranks.map(r => `<option value="${r}" ${c.rank === r ? 'selected' : ''}>${r}</option>`).join('');
+      const suitOpts = suits.map(su => `<option value="${su}" ${c.suit === su ? 'selected' : ''}>${su}</option>`).join('');
+      tbody.innerHTML += `
+        <tr>
+          <td>${i + 1}</td>
+          <td><input type="text" id="cd_label_${i}" class="wheel-input" value="${c.label}"></td>
+          <td><select id="cd_rank_${i}" class="wheel-input">${rankOpts}</select></td>
+          <td><select id="cd_suit_${i}" class="wheel-input">${suitOpts}</select></td>
+          <td><input type="number" step="0.1" id="cd_mult_${i}" class="wheel-input" value="${c.multiplier}"></td>
+          <td><input type="number" id="cd_rolls_${i}" class="wheel-input" value="${c.rollsRequired}"></td>
+          <td><input type="checkbox" id="cd_loss_${i}" ${c.isLoss ? 'checked' : ''}></td>
+        </tr>
+      `;
+    }
+  } catch (err) { console.error('Load card settings error:', err); }
+}
 
-        async function rejectWithdrawal(withdrawalId) {
-            if (!confirm('Reject this withdrawal?')) return;
-            try {
-                const result = await apiCall('/api/admin/reject-withdrawal', {
-                    method: 'POST',
-                    body: JSON.stringify({ withdrawalId })
-                });
-                if (result.success) {
-                    alert('Withdrawal rejected');
-                    loadPendingWithdrawals();
-                    loadAllWithdrawals();
-                }
-            } catch (err) {
-                alert('Error: ' + err.message);
-            }
-        }
+async function saveCardSettings() {
+  const cards = [];
+  for (let i = 0; i < 4; i++) {
+    cards.push({
+      label: document.getElementById('cd_label_' + i).value || `Card ${i+1}`,
+      rank: document.getElementById('cd_rank_' + i).value || 'A',
+      suit: document.getElementById('cd_suit_' + i).value || '♠',
+      multiplier: parseFloat(document.getElementById('cd_mult_' + i).value) || 0,
+      rollsRequired: parseInt(document.getElementById('cd_rolls_' + i).value) || 0,
+      isLoss: document.getElementById('cd_loss_' + i).checked
+    });
+  }
+  try {
+    const res = await apiCall('/api/admin/update-card-settings', { method: 'POST', body: JSON.stringify({ cards }) });
+    if (res.success) {
+      document.getElementById('cardMsg').innerHTML = '<div class="success">Card settings saved!</div>';
+      setTimeout(() => document.getElementById('cardMsg').innerHTML = '', 3000);
+    }
+  } catch (err) { document.getElementById('cardMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>'; }
+}
 
-        async function updateNetRevenue() {
-            const totalDeposits = parseFloat(document.getElementById('totalDeposits').innerText.replace('$', '')) || 0;
-            const totalWithdrawals = parseFloat(document.getElementById('totalWithdrawals').innerText.replace('$', '')) || 0;
-            document.getElementById('netRevenue').innerText = `$${(totalDeposits - totalWithdrawals).toFixed(2)}`;
-        }
+// ============ BOX SETTINGS ============
+async function loadBoxSettings() {
+  try {
+    const s = await apiCall('/api/admin/box-settings');
+    const boxes = (s.boxes && s.boxes.length) ? s.boxes : [];
+    const tbody = document.getElementById('boxSettingsBody');
+    tbody.innerHTML = '';
+    for (let i = 0; i < 4; i++) {
+      const b = boxes[i] || { label: `Box ${i+1}`, multiplier: 0, rollsRequired: 0, isLoss: false };
+      tbody.innerHTML += `
+        <tr>
+          <td>${i + 1}</td>
+          <td><input type="text" id="bs_label_${i}" class="wheel-input" value="${b.label}"></td>
+          <td><input type="number" step="0.1" id="bs_mult_${i}" class="wheel-input" value="${b.multiplier}"></td>
+          <td><input type="number" id="bs_rolls_${i}" class="wheel-input" value="${b.rollsRequired}"></td>
+          <td><input type="checkbox" id="bs_loss_${i}" ${b.isLoss ? 'checked' : ''}></td>
+        </tr>
+      `;
+    }
+  } catch (err) { console.error('Load box settings error:', err); }
+}
 
-        // ============ ANNOUNCEMENTS ============
-        async function sendAnnouncement() {
-            const title = document.getElementById('annTitle').value.trim();
-            const message = document.getElementById('annMsg').value.trim();
-            
-            if (!title || !message) {
-                document.getElementById('announceMsg').innerHTML = '<div class="error">Enter title and message</div>';
-                return;
-            }
-            
-            try {
-                const result = await apiCall('/api/admin/send-announcement', {
-                    method: 'POST',
-                    body: JSON.stringify({ title, message })
-                });
-                if (result.success) {
-                    document.getElementById('announceMsg').innerHTML = '<div class="success">Announcement sent!</div>';
-                    document.getElementById('annTitle').value = '';
-                    document.getElementById('annMsg').value = '';
-                    setTimeout(() => document.getElementById('announceMsg').innerHTML = '', 3000);
-                }
-            } catch (err) {
-                document.getElementById('announceMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>';
-            }
-        }
+async function saveBoxSettings() {
+  const boxes = [];
+  for (let i = 0; i < 4; i++) {
+    boxes.push({
+      label: document.getElementById('bs_label_' + i).value || `Box ${i+1}`,
+      multiplier: parseFloat(document.getElementById('bs_mult_' + i).value) || 0,
+      rollsRequired: parseInt(document.getElementById('bs_rolls_' + i).value) || 0,
+      isLoss: document.getElementById('bs_loss_' + i).checked
+    });
+  }
+  try {
+    const res = await apiCall('/api/admin/update-box-settings', { method: 'POST', body: JSON.stringify({ boxes }) });
+    if (res.success) {
+      document.getElementById('boxMsg').innerHTML = '<div class="success">Box settings saved!</div>';
+      setTimeout(() => document.getElementById('boxMsg').innerHTML = '', 3000);
+    }
+  } catch (err) { document.getElementById('boxMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>'; }
+}
 
-        function logout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('role');
-            window.location.href = '/login';
-        }
+// ============ SECURITY: CHANGE PASSWORD ============
+async function changeAdminPassword() {
+  const cur = document.getElementById('curPw').value;
+  const n1 = document.getElementById('newPw').value;
+  const n2 = document.getElementById('newPw2').value;
+  if (!cur || !n1) { document.getElementById('pwMsg').innerHTML = '<div class="error">Fill all fields</div>'; return; }
+  if (n1 !== n2) { document.getElementById('pwMsg').innerHTML = '<div class="error">New passwords do not match</div>'; return; }
+  if (n1.length < 6) { document.getElementById('pwMsg').innerHTML = '<div class="error">Password must be at least 6 characters</div>'; return; }
+  try {
+    const res = await apiCall('/api/admin/change-password', { method: 'POST', body: JSON.stringify({ currentPassword: cur, newPassword: n1 }) });
+    if (res.success) {
+      document.getElementById('pwMsg').innerHTML = '<div class="success">✅ Password changed!</div>';
+      document.getElementById('curPw').value = '';
+      document.getElementById('newPw').value = '';
+      document.getElementById('newPw2').value = '';
+      setTimeout(() => document.getElementById('pwMsg').innerHTML = '', 4000);
+    }
+  } catch (err) {
+    document.getElementById('pwMsg').innerHTML = '<div class="error">❌ ' + err.message + '</div>';
+  }
+}
 
-        // Initial loads
-        loadUsers();
-        loadPendingDeposits();
-        loadAllDeposits();
-        loadPendingWithdrawals();
-        loadAllWithdrawals();
-    </script>
+// ============ SECURITY: DEVICES ============
+async function loadDevices() {
+  try {
+    const all = await apiCall('/api/admin/devices');
+    const pending = all.filter(d => d.status === 'pending');
+    const approved = all.filter(d => d.status === 'approved');
+    const revoked = all.filter(d => d.status === 'revoked');
+
+    const badge1 = document.getElementById('pendingDeviceBadge');
+    const badge2 = document.getElementById('tabPendingBadge');
+    if (pending.length > 0) {
+      badge1.style.display = 'inline-block';
+      badge2.style.display = 'inline-block';
+      badge1.innerText = pending.length + ' pending';
+      badge2.innerText = pending.length;
+    } else {
+      badge1.style.display = 'none';
+      badge2.style.display = 'none';
+    }
+
+    renderDeviceRows('pendingDevicesBody', pending, 'pending');
+    renderDeviceRows('approvedDevicesBody', approved, 'approved');
+    renderDeviceRows('revokedDevicesBody', revoked, 'revoked');
+  } catch (err) {
+    console.error('Load devices error:', err);
+  }
+}
+
+function renderDeviceRows(tbodyId, devices, kind) {
+  const tbody = document.getElementById(tbodyId);
+  const colspan = (kind === 'approved') ? 6 : 5;
+  if (!devices.length) {
+    tbody.innerHTML = `<tr><td colspan="${colspan}" class="empty-state">No ${kind} devices</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = '';
+  devices.forEach(d => {
+    const ip = `<span class="ip-chip">${d.ip || 'unknown'}</span>`;
+    const id = `<span class="device-id">${(d.deviceId || '').substring(0, 16)}…</span>`;
+    const ua = `<div class="device-ua">${(d.userAgent || '').substring(0, 120)}${(d.userAgent || '').length > 120 ? '…' : ''}</div>`;
+
+    let row = `<tr><td>${ip}</td><td>${id}</td><td>${ua}</td>`;
+
+    if (kind === 'approved') {
+      row += `<td>${d.approvedAt ? new Date(d.approvedAt).toLocaleString() : '-'}</td>`;
+      row += `<td>${d.lastSeen ? new Date(d.lastSeen).toLocaleString() : '-'}</td>`;
+      row += `<td>
+        <button class="btn-danger" onclick="revokeDevice('${d.deviceId}')">🚫 Revoke</button>
+        <button class="btn-orange" onclick="deleteDevice('${d.deviceId}')">🗑 Delete</button>
+      </td>`;
+    } else if (kind === 'pending') {
+      row += `<td>${d.firstSeen ? new Date(d.firstSeen).toLocaleString() : '-'}</td>`;
+      row += `<td>
+        <button class="btn-success" onclick="approveDevice('${d.deviceId}')">✅ Approve</button>
+        <button class="btn-danger" onclick="revokeDevice('${d.deviceId}')">🚫 Reject</button>
+      </td>`;
+    } else {
+      row += `<td>${d.firstSeen ? new Date(d.firstSeen).toLocaleString() : '-'}</td>`;
+      row += `<td>
+        <button class="btn-success" onclick="approveDevice('${d.deviceId}')">✅ Re-approve</button>
+        <button class="btn-orange" onclick="deleteDevice('${d.deviceId}')">🗑 Delete</button>
+      </td>`;
+    }
+    row += `</tr>`;
+    tbody.innerHTML += row;
+  });
+}
+
+async function approveDevice(deviceId) {
+  const label = prompt('Optional label for this device (e.g. "My laptop"):', '');
+  try {
+    const res = await apiCall('/api/admin/approve-device', { method: 'POST', body: JSON.stringify({ deviceId, label }) });
+    if (res.success) {
+      alert('✅ Device approved. If you already had 2 devices, the oldest was auto-revoked.');
+      loadDevices();
+    }
+  } catch (err) { alert('Error: ' + err.message); }
+}
+
+async function revokeDevice(deviceId) {
+  if (!confirm('Revoke this device? Any active session will be kicked out immediately.')) return;
+  try {
+    const res = await apiCall('/api/admin/revoke-device', { method: 'POST', body: JSON.stringify({ deviceId }) });
+    if (res.success) { alert('Device revoked.'); loadDevices(); }
+  } catch (err) { alert('Error: ' + err.message); }
+}
+
+async function deleteDevice(deviceId) {
+  if (!confirm('Delete this device record permanently?')) return;
+  try {
+    const res = await apiCall('/api/admin/delete-device', { method: 'POST', body: JSON.stringify({ deviceId }) });
+    if (res.success) { alert('Device deleted.'); loadDevices(); }
+  } catch (err) { alert('Error: ' + err.message); }
+}
+
+// ============ PAYMENT SETTINGS ============
+async function loadPaymentSettings() {
+  try {
+    const settings = await apiCall('/api/admin/payment-settings');
+    if (settings) {
+      document.getElementById('usdtWallet').value = settings.cryptoWallets?.usdt || '';
+      document.getElementById('btcWallet').value = settings.cryptoWallets?.btc || '';
+      document.getElementById('bankName').value = settings.bankDetails?.bankName || '';
+      document.getElementById('accountName').value = settings.bankDetails?.accountName || '';
+      document.getElementById('accountNumber').value = settings.bankDetails?.accountNumber || '';
+      document.getElementById('routingNumber').value = settings.bankDetails?.routingNumber || '';
+    }
+  } catch (err) { console.error('Load payment settings error:', err); }
+}
+
+async function savePaymentSettings() {
+  const cryptoWallets = { usdt: document.getElementById('usdtWallet').value, btc: document.getElementById('btcWallet').value };
+  const bankDetails = {
+    bankName: document.getElementById('bankName').value,
+    accountName: document.getElementById('accountName').value,
+    accountNumber: document.getElementById('accountNumber').value,
+    routingNumber: document.getElementById('routingNumber').value
+  };
+  try {
+    const result = await apiCall('/api/admin/update-payment-settings', { method: 'POST', body: JSON.stringify({ cryptoWallets, bankDetails }) });
+    if (result.success) {
+      document.getElementById('paymentMsg').innerHTML = '<div class="success">Payment settings saved!</div>';
+      setTimeout(() => document.getElementById('paymentMsg').innerHTML = '', 3000);
+    }
+  } catch (err) { document.getElementById('paymentMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>'; }
+}
+
+// ============ DEPOSITS ============
+let depositCounter = 0;
+async function loadPendingDeposits() {
+  try {
+    const deposits = await apiCall('/api/admin/pending-deposits');
+    const tbody = document.getElementById('pendingDepositsBody');
+    if (!deposits || deposits.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No pending deposits</td></tr>';
+      return;
+    }
+    tbody.innerHTML = '';
+    depositCounter = 0;
+    deposits.forEach(d => {
+      depositCounter++;
+      const date = new Date(d.requestedAt);
+      const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+      tbody.innerHTML += `
+        <tr>
+          <td>${depositCounter}</td>
+          <td><strong>${d.username}</strong></td>
+          <td>$${parseFloat(d.amount).toFixed(2)}</td>
+          <td>${d.method || 'Manual'}</td>
+          <td>${formattedDate}</td>
+          <td><input type="text" id="txid_${d._id}" class="txid-input" placeholder="Enter TxID"></td>
+          <td>
+            <button class="btn-success" onclick="approveDeposit('${d._id}')">Approve</button>
+            <button class="btn-danger" onclick="rejectDeposit('${d._id}')">Reject</button>
+          </td>
+        </tr>
+      `;
+    });
+  } catch (err) {
+    console.error('Load pending deposits error:', err);
+    document.getElementById('pendingDepositsBody').innerHTML = '<tr><td colspan="7" class="error">Error loading deposits</td></tr>';
+  }
+}
+
+async function loadAllDeposits() {
+  try {
+    const deposits = await apiCall('/api/admin/all-deposits');
+    const tbody = document.getElementById('allDepositsBody');
+    if (!deposits || deposits.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No deposits found</td></tr>';
+      return;
+    }
+    tbody.innerHTML = '';
+    let counter = 0, total = 0;
+    deposits.forEach(d => {
+      counter++;
+      if (d.status === 'approved') total += parseFloat(d.amount);
+      const date = new Date(d.requestedAt);
+      const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+      let statusClass = 'status-' + d.status;
+      if (d.status === 'approved') statusClass = 'status-approved';
+      else if (d.status === 'pending') statusClass = 'status-pending';
+      else if (d.status === 'rejected') statusClass = 'status-rejected';
+      tbody.innerHTML += `
+        <tr>
+          <td>${counter}</td>
+          <td><strong>${d.username}</strong></td>
+          <td>$${parseFloat(d.amount).toFixed(2)}</td>
+          <td>${d.method || 'Manual'}</td>
+          <td><span class="status-badge ${statusClass}">${d.status}</span></td>
+          <td>${d.transactionId || '-'}</td>
+          <td>${formattedDate}</td>
+        </tr>
+      `;
+    });
+    document.getElementById('totalDeposits').innerText = `$${total.toFixed(2)}`;
+    updateNetRevenue();
+  } catch (err) {
+    console.error('Load all deposits error:', err);
+    document.getElementById('allDepositsBody').innerHTML = '<tr><td colspan="7" class="error">Error loading deposits</td></tr>';
+  }
+}
+
+async function approveDeposit(depositId) {
+  const transactionId = document.getElementById(`txid_${depositId}`)?.value || '';
+  if (!transactionId) {
+    if (!confirm('No transaction ID entered. Continue without TxID?')) return;
+  }
+  try {
+    const result = await apiCall('/api/admin/approve-deposit', { method: 'POST', body: JSON.stringify({ depositId, transactionId }) });
+    if (result.success) {
+      alert('✅ Deposit approved!');
+      loadPendingDeposits(); loadAllDeposits(); loadUsers();
+    }
+  } catch (err) { alert('Error: ' + err.message); }
+}
+
+async function rejectDeposit(depositId) {
+  if (!confirm('Reject this deposit?')) return;
+  try {
+    const result = await apiCall('/api/admin/reject-deposit', { method: 'POST', body: JSON.stringify({ depositId }) });
+    if (result.success) { alert('Deposit rejected'); loadPendingDeposits(); loadAllDeposits(); }
+  } catch (err) { alert('Error: ' + err.message); }
+}
+
+// ============ WITHDRAWALS ============
+let withdrawalCounter = 0;
+async function loadPendingWithdrawals() {
+  try {
+    const withdrawals = await apiCall('/api/admin/withdrawals');
+    const pending = withdrawals.filter(w => w.status === 'pending');
+    const tbody = document.getElementById('pendingWithdrawalsBody');
+    if (!pending || pending.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="9" class="empty-state">No pending withdrawals</td></tr>';
+      return;
+    }
+    tbody.innerHTML = '';
+    withdrawalCounter = 0;
+    pending.forEach(w => {
+      withdrawalCounter++;
+      const date = new Date(w.requestedAt);
+      const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+      const netAmount = parseFloat(w.amount) - parseFloat(w.fee || 0);
+      tbody.innerHTML += `
+        <tr>
+          <td>${withdrawalCounter}</td>
+          <td><strong>${w.username}</strong></td>
+          <td>$${parseFloat(w.amount).toFixed(2)}</td>
+          <td>$${parseFloat(w.fee || 0).toFixed(2)}</td>
+          <td>$${netAmount.toFixed(2)}</td>
+          <td>${w.method || 'Manual'}</td>
+          <td>${w.speed || 'Standard'}</td>
+          <td>${formattedDate}</td>
+          <td>
+            <button class="btn-success" onclick="approveWithdrawal('${w._id}')">Approve</button>
+            <button class="btn-danger" onclick="rejectWithdrawal('${w._id}')">Reject</button>
+          </td>
+        </tr>
+      `;
+    });
+  } catch (err) {
+    console.error('Load pending withdrawals error:', err);
+    document.getElementById('pendingWithdrawalsBody').innerHTML = '<tr><td colspan="9" class="error">Error loading withdrawals</td></tr>';
+  }
+}
+
+async function loadAllWithdrawals() {
+  try {
+    const withdrawals = await apiCall('/api/admin/withdrawals');
+    const tbody = document.getElementById('allWithdrawalsBody');
+    if (!withdrawals || withdrawals.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No withdrawals found</td></tr>';
+      return;
+    }
+    tbody.innerHTML = '';
+    let counter = 0, total = 0;
+    withdrawals.forEach(w => {
+      counter++;
+      if (w.status === 'approved') total += parseFloat(w.amount);
+      const date = new Date(w.requestedAt);
+      const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+      const netAmount = parseFloat(w.amount) - parseFloat(w.fee || 0);
+      let statusClass = 'status-' + w.status;
+      if (w.status === 'approved') statusClass = 'status-approved';
+      else if (w.status === 'pending') statusClass = 'status-pending';
+      else if (w.status === 'rejected') statusClass = 'status-rejected';
+      tbody.innerHTML += `
+        <tr>
+          <td>${counter}</td>
+          <td><strong>${w.username}</strong></td>
+          <td>$${parseFloat(w.amount).toFixed(2)}</td>
+          <td>$${parseFloat(w.fee || 0).toFixed(2)}</td>
+          <td>$${netAmount.toFixed(2)}</td>
+          <td>${w.method || 'Manual'}</td>
+          <td><span class="status-badge ${statusClass}">${w.status}</span></td>
+          <td>${formattedDate}</td>
+        </tr>
+      `;
+    });
+    document.getElementById('totalWithdrawals').innerText = `$${total.toFixed(2)}`;
+    updateNetRevenue();
+  } catch (err) {
+    console.error('Load all withdrawals error:', err);
+    document.getElementById('allWithdrawalsBody').innerHTML = '<tr><td colspan="8" class="error">Error loading withdrawals</td></tr>';
+  }
+}
+
+async function approveWithdrawal(withdrawalId) {
+  if (!confirm('Approve this withdrawal?')) return;
+  try {
+    const result = await apiCall('/api/admin/approve-withdrawal', { method: 'POST', body: JSON.stringify({ withdrawalId }) });
+    if (result.success) {
+      alert('✅ Withdrawal approved!');
+      loadPendingWithdrawals(); loadAllWithdrawals(); loadUsers();
+    }
+  } catch (err) { alert('Error: ' + err.message); }
+}
+
+async function rejectWithdrawal(withdrawalId) {
+  if (!confirm('Reject this withdrawal?')) return;
+  try {
+    const result = await apiCall('/api/admin/reject-withdrawal', { method: 'POST', body: JSON.stringify({ withdrawalId }) });
+    if (result.success) { alert('Withdrawal rejected'); loadPendingWithdrawals(); loadAllWithdrawals(); }
+  } catch (err) { alert('Error: ' + err.message); }
+}
+
+// ============ NET REVENUE CALCULATOR ============
+async function updateNetRevenue() {
+  const totalDeposits = parseFloat(document.getElementById('totalDeposits').innerText.replace('$', '')) || 0;
+  const totalWithdrawals = parseFloat(document.getElementById('totalWithdrawals').innerText.replace('$', '')) || 0;
+  document.getElementById('netRevenue').innerText = `$${(totalDeposits - totalWithdrawals).toFixed(2)}`;
+}
+
+// ============ ANNOUNCEMENTS ============
+async function sendAnnouncement() {
+  const title = document.getElementById('annTitle').value.trim();
+  const message = document.getElementById('annMsg').value.trim();
+  if (!title || !message) {
+    document.getElementById('announceMsg').innerHTML = '<div class="error">Enter title and message</div>';
+    return;
+  }
+  try {
+    const result = await apiCall('/api/admin/send-announcement', { method: 'POST', body: JSON.stringify({ title, message }) });
+    if (result.success) {
+      document.getElementById('announceMsg').innerHTML = '<div class="success">Announcement sent!</div>';
+      document.getElementById('annTitle').value = '';
+      document.getElementById('annMsg').value = '';
+      setTimeout(() => document.getElementById('announceMsg').innerHTML = '', 3000);
+    }
+  } catch (err) { document.getElementById('announceMsg').innerHTML = '<div class="error">Error: ' + err.message + '</div>'; }
+}
+
+function logout() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('role');
+  window.location.href = '/login';
+}
+
+// Initial loads
+loadManagedGames();
+loadWheelSettings();
+loadCoinSettings();
+loadCardSettings();
+loadBoxSettings();
+loadUsers();
+loadPendingDeposits();
+loadAllDeposits();
+loadPendingWithdrawals();
+loadAllWithdrawals();
+
+// Poll for pending devices every 30s
+loadDevices();
+setInterval(() => {
+  if (localStorage.getItem('role') === 'admin') loadDevices();
+}, 30000);
+</script>
 </body>
 </html>
